@@ -47,9 +47,11 @@ const Index = () => {
         throw error;
       }
 
+      // Temporary: Display raw n8n response for debugging
+      const responseContent = data.output || JSON.stringify(data, null, 2);
       setMessages((prev) => [
         ...prev,
-        { role: "assistant", content: data.output || "No response" },
+        { role: "assistant", content: responseContent },
       ]);
     } catch (error) {
       console.error("Error sending message:", error);

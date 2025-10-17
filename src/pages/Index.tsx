@@ -63,8 +63,7 @@ const Index = () => {
       {/* Header */}
       <header className="flex items-center justify-between border-b px-4 py-3" style={{ borderColor: "#424242" }}>
         <div className="flex items-center gap-2">
-          <img src={logo} alt="Logo" className="h-6 w-auto" />
-          <ChevronDown className="h-4 w-4 text-gray-400" />
+          <img src={logo} alt="Logo" className="h-10 w-auto" />
         </div>
 
         <div className="flex items-center gap-2">

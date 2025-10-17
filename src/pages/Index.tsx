@@ -1,130 +1,58 @@
-import { useState, useRef, useEffect } from "react";
-import ChatMessage from "@/components/ChatMessage";
-import ChatInput from "@/components/ChatInput";
-import TypingIndicator from "@/components/TypingIndicator";
-import { toast } from "sonner";
-import { MessageSquare } from "lucide-react";
-
-interface Message {
-  id: string;
-  role: "user" | "assistant";
-  content: string;
-}
+import { MessageSquare, Sparkles, Shield, Zap } from "lucide-react";
 
 const Index = () => {
-  const [messages, setMessages] = useState<Message[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const messagesEndRef = useRef<HTMLDivElement>(null);
-  
-  // Webhook URL configured permanently
-  const webhookUrl = "https://witai.app.n8n.cloud/webhook/6f638960-e0bd-4742-a689-661b6d178b8c/chat";
-
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  };
-
-  useEffect(() => {
-    scrollToBottom();
-  }, [messages, isLoading]);
-
-  const handleSendMessage = async (content: string) => {
-    if (!webhookUrl) {
-      toast.error("Backend connection not configured");
-      return;
-    }
-
-    const userMessage: Message = {
-      id: Date.now().toString(),
-      role: "user",
-      content,
-    };
-
-    setMessages((prev) => [...prev, userMessage]);
-    setIsLoading(true);
-
-    try {
-      const response = await fetch(webhookUrl, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          message: content,
-          timestamp: new Date().toISOString(),
-          conversation_history: messages,
-        }),
-      });
-
-      if (!response.ok) {
-        throw new Error("Failed to get response from backend");
-      }
-
-      const data = await response.json();
-      
-      const assistantMessage: Message = {
-        id: (Date.now() + 1).toString(),
-        role: "assistant",
-        content: data.response || data.message || "No response received",
-      };
-
-      setMessages((prev) => [...prev, assistantMessage]);
-    } catch (error) {
-      console.error("Error sending message:", error);
-      toast.error("Failed to send message. Please try again.");
-      
-      // Remove the user message on error
-      setMessages((prev) => prev.filter((msg) => msg.id !== userMessage.id));
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
   return (
-    <div className="flex h-screen flex-col bg-gradient-to-br from-background to-muted/30">
-      {/* Header */}
-      <header className="border-b bg-card/50 backdrop-blur-sm">
-        <div className="mx-auto flex max-w-7xl items-center justify-center p-4">
-          <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-br from-primary to-accent text-white shadow-lg">
-              <MessageSquare className="h-5 w-5" />
+    <div className="min-h-screen bg-gradient-to-br from-background via-muted/30 to-background">
+      {/* Hero Section */}
+      <div className="container mx-auto px-4 py-16">
+        <div className="mx-auto max-w-4xl text-center">
+          <div className="mb-6 inline-flex items-center justify-center rounded-full bg-gradient-to-br from-primary to-accent p-4 text-white shadow-lg">
+            <MessageSquare className="h-12 w-12" />
+          </div>
+          
+          <h1 className="mb-4 text-5xl font-bold tracking-tight">
+            Company AI Assistant
+          </h1>
+          
+          <p className="mb-8 text-xl text-muted-foreground">
+            Your intelligent companion for instant answers and support.
+            Click the chat icon to get started.
+          </p>
+
+          {/* Features */}
+          <div className="mt-16 grid gap-8 md:grid-cols-3">
+            <div className="rounded-xl border bg-card p-6 shadow-sm transition-shadow hover:shadow-md">
+              <div className="mb-4 inline-flex items-center justify-center rounded-lg bg-primary/10 p-3 text-primary">
+                <Sparkles className="h-6 w-6" />
+              </div>
+              <h3 className="mb-2 text-lg font-semibold">Smart Responses</h3>
+              <p className="text-sm text-muted-foreground">
+                Get intelligent, context-aware answers to your questions instantly.
+              </p>
             </div>
-            <div>
-              <h1 className="text-xl font-semibold">Company AI Assistant</h1>
-              <p className="text-xs text-muted-foreground">How can I help you today?</p>
+
+            <div className="rounded-xl border bg-card p-6 shadow-sm transition-shadow hover:shadow-md">
+              <div className="mb-4 inline-flex items-center justify-center rounded-lg bg-accent/10 p-3 text-accent">
+                <Zap className="h-6 w-6" />
+              </div>
+              <h3 className="mb-2 text-lg font-semibold">Always Available</h3>
+              <p className="text-sm text-muted-foreground">
+                24/7 support ready to help whenever you need assistance.
+              </p>
+            </div>
+
+            <div className="rounded-xl border bg-card p-6 shadow-sm transition-shadow hover:shadow-md">
+              <div className="mb-4 inline-flex items-center justify-center rounded-lg bg-primary/10 p-3 text-primary">
+                <Shield className="h-6 w-6" />
+              </div>
+              <h3 className="mb-2 text-lg font-semibold">Secure & Private</h3>
+              <p className="text-sm text-muted-foreground">
+                Your conversations are handled with enterprise-grade security.
+              </p>
             </div>
           </div>
         </div>
-      </header>
-
-      {/* Messages */}
-      <div className="flex-1 overflow-y-auto">
-        <div className="mx-auto max-w-4xl">
-          {messages.length === 0 ? (
-            <div className="flex h-full items-center justify-center p-8">
-              <div className="text-center">
-                <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-primary to-accent text-white shadow-lg">
-                  <MessageSquare className="h-8 w-8" />
-                </div>
-                <h2 className="mb-2 text-2xl font-semibold">Welcome to Your AI Assistant</h2>
-                <p className="text-muted-foreground">
-                  Start a conversation by typing a message below.
-                </p>
-              </div>
-            </div>
-          ) : (
-            <>
-              {messages.map((message) => (
-                <ChatMessage key={message.id} {...message} />
-              ))}
-              {isLoading && <TypingIndicator />}
-            </>
-          )}
-          <div ref={messagesEndRef} />
-        </div>
       </div>
-
-      {/* Input */}
-      <ChatInput onSend={handleSendMessage} disabled={isLoading} />
     </div>
   );
 };

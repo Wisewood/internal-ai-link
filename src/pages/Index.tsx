@@ -16,8 +16,8 @@ const Index = () => {
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   
-  // Webhook URL from environment variable
-  const webhookUrl = import.meta.env.VITE_WEBHOOK_URL || "";
+  // Webhook URL configured permanently
+  const webhookUrl = "https://witai.app.n8n.cloud/webhook/6f638960-e0bd-4742-a689-661b6d178b8c/chat";
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });

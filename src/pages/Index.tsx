@@ -1,13 +1,15 @@
 import { useState, useRef, useEffect } from "react";
-import { Plus, Mic, Menu } from "lucide-react";
+import { Paperclip, Mic, Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { supabase } from "@/integrations/supabase/client";
 import logo from "@/assets/logo.png";
 
 interface Message {
   role: "user" | "bot";
   content: string;
+  imageUrl?: string;
 }
 
 const Index = () => {
@@ -15,7 +17,10 @@ const Index = () => {
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [selectedImage, setSelectedImage] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
   const chatEndRef = useRef<HTMLDivElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const sessionIdRef = useRef(crypto.randomUUID());
   const { toast } = useToast();
 
@@ -34,23 +39,87 @@ const Index = () => {
     chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
+  const handleImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file && file.type.startsWith("image/")) {
+      setSelectedImage(file);
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreview(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const uploadImage = async (file: File): Promise<string | null> => {
+    try {
+      const fileExt = file.name.split(".").pop();
+      const fileName = `${crypto.randomUUID()}.${fileExt}`;
+      const filePath = `${fileName}`;
+
+      const { error: uploadError, data } = await supabase.storage
+        .from("chat-images")
+        .upload(filePath, file);
+
+      if (uploadError) throw uploadError;
+
+      const { data: { publicUrl } } = supabase.storage
+        .from("chat-images")
+        .getPublicUrl(filePath);
+
+      return publicUrl;
+    } catch (error) {
+      console.error("Error uploading image:", error);
+      toast({
+        title: "Upload Error",
+        description: "Failed to upload image",
+        variant: "destructive",
+      });
+      return null;
+    }
+  };
+
+  const removeImage = () => {
+    setSelectedImage(null);
+    setImagePreview(null);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
+  };
+
   const sendMessage = async (e: React.FormEvent) => {
     e.preventDefault();
     const text = input.trim();
-    if (!text || isLoading) return;
+    if ((!text && !selectedImage) || isLoading) return;
 
-    setMessages(prev => [...prev, { role: "user", content: text }]);
+    let imageUrl: string | null = null;
+    
+    // Upload image if selected
+    if (selectedImage) {
+      imageUrl = await uploadImage(selectedImage);
+      if (!imageUrl) return; // Stop if upload failed
+    }
+
+    // Add user message with image
+    setMessages(prev => [...prev, { role: "user", content: text || "📷 Image", imageUrl: imageUrl || undefined }]);
     setInput("");
+    removeImage();
     setIsLoading(true);
 
     try {
+      // Prepare chat input with hidden image URL
+      let chatInput = text;
+      if (imageUrl) {
+        chatInput = text ? `${text}\n[Image: ${imageUrl}]` : `[Image: ${imageUrl}]`;
+      }
+
       const res = await fetch(API_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           sessionId: sessionIdRef.current,
           action: "sendMessage",
-          chatInput: text
+          chatInput: chatInput
         }),
       });
 
@@ -124,14 +193,22 @@ const Index = () => {
                   }}
                 >
                   <div
-                    className="whitespace-pre-wrap rounded-2xl max-w-[80%]"
+                    className="rounded-2xl max-w-[80%]"
                     style={{
                       color: msg.role === "user" ? "#4a90e2" : "#ececec",
                       background: msg.role === "user" ? "rgba(74, 144, 226, 0.15)" : "transparent",
                       padding: msg.role === "user" ? "12px 16px" : "0"
                     }}
                   >
-                    {msg.content}
+                    {msg.imageUrl && (
+                      <img 
+                        src={msg.imageUrl} 
+                        alt="Uploaded" 
+                        className="rounded-lg mb-2 max-w-full"
+                        style={{ maxHeight: "200px" }}
+                      />
+                    )}
+                    <div className="whitespace-pre-wrap">{msg.content}</div>
                   </div>
                 </div>
               ))}
@@ -150,8 +227,39 @@ const Index = () => {
         {/* Input Area */}
         <div className="px-4 pb-6">
           <form onSubmit={sendMessage} className="mx-auto max-w-3xl">
+            {imagePreview && (
+              <div className="mb-2 relative inline-block">
+                <img 
+                  src={imagePreview} 
+                  alt="Preview" 
+                  className="rounded-lg"
+                  style={{ maxHeight: "100px", maxWidth: "100px" }}
+                />
+                <button
+                  type="button"
+                  onClick={removeImage}
+                  className="absolute -top-2 -right-2 rounded-full p-1"
+                  style={{ background: "#4a90e2" }}
+                >
+                  <X className="h-4 w-4" style={{ color: "#ececec" }} />
+                </button>
+              </div>
+            )}
             <div className="flex items-center gap-3 rounded-full px-4 py-3" style={{ background: "#2f2f2f", border: "1px solid #565656" }}>
-              <Plus className="h-5 w-5 shrink-0 text-gray-400" />
+              <input
+                type="file"
+                ref={fileInputRef}
+                onChange={handleImageSelect}
+                accept="image/*"
+                className="hidden"
+              />
+              <button
+                type="button"
+                onClick={() => fileInputRef.current?.click()}
+                className="shrink-0"
+              >
+                <Paperclip className="h-5 w-5 text-gray-400" />
+              </button>
               <input
                 value={input}
                 onChange={(e) => setInput(e.target.value)}

@@ -1,8 +1,35 @@
+import { useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { ChevronDown, Plus, Mic, HelpCircle } from "lucide-react";
+import { ChevronDown, HelpCircle } from "lucide-react";
 
 const Index = () => {
+  useEffect(() => {
+    // Load n8n chat styles
+    const link = document.createElement('link');
+    link.href = 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css';
+    link.rel = 'stylesheet';
+    document.head.appendChild(link);
+
+    // Initialize n8n embedded chat
+    const initChat = async () => {
+      // @ts-ignore - Dynamic CDN import
+      const { createChat } = await import('https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js');
+      const el = document.getElementById('wit-chat');
+      
+      if (el) {
+        createChat({
+          webhookUrl: 'https://witai.app.n8n.cloud/webhook/6f638960-e0bd-4742-a689-661b6d178b8c/chat',
+          mode: 'embedded',
+          target: el,
+          showWelcomeScreen: true,
+          metadata: { source: 'lovable', page: location.pathname }
+        });
+      }
+    };
+
+    initChat();
+  }, []);
+
   return (
     <div className="flex min-h-screen flex-col bg-background text-foreground">
       {/* Header */}
@@ -30,26 +57,13 @@ const Index = () => {
         </div>
       </header>
 
-      {/* Main Content */}
-      <main className="flex flex-1 flex-col items-center justify-center px-4">
-        <div className="w-full max-w-3xl space-y-8">
-          <h1 className="text-center text-3xl font-medium text-foreground">
-            Ready when you are.
-          </h1>
-          
-          <div className="relative">
-            <div className="flex items-center gap-3 rounded-full border border-border bg-card px-4 py-3 shadow-sm transition-shadow hover:shadow-md">
-              <Plus className="h-5 w-5 shrink-0 text-muted-foreground" />
-              <Input
-                placeholder="Ask anything"
-                className="flex-1 border-0 bg-transparent p-0 text-base placeholder:text-muted-foreground focus-visible:ring-0"
-              />
-              <button className="shrink-0 rounded-full p-2 transition-colors hover:bg-muted">
-                <Mic className="h-5 w-5 text-muted-foreground" />
-              </button>
-            </div>
-          </div>
-        </div>
+      {/* Main Content - Embedded Chat */}
+      <main className="flex flex-1 items-center justify-center px-4 py-10">
+        <div 
+          id="wit-chat"
+          className="w-full max-w-3xl"
+          style={{ height: '640px' }}
+        />
       </main>
 
       {/* Footer */}

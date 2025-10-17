@@ -94,13 +94,20 @@ const Index = () => {
               {messages.map((msg, idx) => (
                 <div
                   key={idx}
-                  className="whitespace-pre-wrap"
                   style={{
-                    textAlign: msg.role === "user" ? "right" : "left",
-                    color: msg.role === "user" ? "#10a37f" : "#ececec"
+                    display: "flex",
+                    justifyContent: msg.role === "user" ? "flex-end" : "flex-start"
                   }}
                 >
-                  {msg.content}
+                  <div
+                    className="whitespace-pre-wrap px-4 py-3 rounded-2xl max-w-[80%]"
+                    style={{
+                      color: msg.role === "user" ? "#10a37f" : "#ececec",
+                      background: msg.role === "user" ? "rgba(16, 163, 127, 0.1)" : "rgba(255, 255, 255, 0.05)"
+                    }}
+                  >
+                    {msg.content}
+                  </div>
                 </div>
               ))}
               {isLoading && (

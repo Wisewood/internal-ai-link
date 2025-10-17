@@ -265,7 +265,7 @@ const Index = () => {
               <input
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                placeholder="Ask anything"
+                placeholder="Describe the product you want to source"
                 disabled={isLoading}
                 className="flex-1 border-0 bg-transparent p-0 text-base focus:outline-none"
                 style={{ color: "#ececec" }}

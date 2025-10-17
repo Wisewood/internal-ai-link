@@ -100,10 +100,11 @@ const Index = () => {
                   }}
                 >
                   <div
-                    className="whitespace-pre-wrap px-4 py-3 rounded-2xl max-w-[80%]"
+                    className="whitespace-pre-wrap rounded-2xl max-w-[80%]"
                     style={{
-                      color: msg.role === "user" ? "#10a37f" : "#ececec",
-                      background: msg.role === "user" ? "rgba(16, 163, 127, 0.1)" : "rgba(255, 255, 255, 0.05)"
+                      color: msg.role === "user" ? "#4a90e2" : "#ececec",
+                      background: msg.role === "user" ? "rgba(74, 144, 226, 0.15)" : "transparent",
+                      padding: msg.role === "user" ? "12px 16px" : "0"
                     }}
                   >
                     {msg.content}

@@ -1,8 +1,75 @@
+import { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { ChevronDown, Plus, Mic, HelpCircle } from "lucide-react";
+import { ChevronDown, Plus, Mic, HelpCircle, Send } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
+
+interface Message {
+  role: "user" | "assistant";
+  content: string;
+}
 
 const Index = () => {
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [input, setInput] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+  const { toast } = useToast();
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
+
+  const sendMessage = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!input.trim() || isLoading) return;
+
+    const userMessage = input.trim();
+    setInput("");
+    setMessages((prev) => [...prev, { role: "user", content: userMessage }]);
+    setIsLoading(true);
+
+    try {
+      const response = await fetch(
+        "https://witai.app.n8n.cloud/webhook/6f638960-e0bd-4742-a689-661b6d178b8c/chat",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            action: "sendMessage",
+            chatInput: userMessage,
+            metadata: { source: "lovable", page: location.pathname },
+          }),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to send message");
+      }
+
+      const data = await response.json();
+      setMessages((prev) => [
+        ...prev,
+        { role: "assistant", content: data.output || "No response" },
+      ]);
+    } catch (error) {
+      console.error("Error sending message:", error);
+      toast({
+        title: "Error",
+        description: "Failed to send message. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <div className="flex min-h-screen flex-col bg-background text-foreground">
       {/* Header */}
@@ -16,7 +83,7 @@ const Index = () => {
           <span className="text-sm font-medium">ChatGPT</span>
           <ChevronDown className="h-4 w-4 text-muted-foreground" />
         </div>
-        
+
         <div className="flex items-center gap-2">
           <Button variant="ghost" size="sm" className="text-sm">
             Log in
@@ -31,24 +98,79 @@ const Index = () => {
       </header>
 
       {/* Main Content */}
-      <main className="flex flex-1 flex-col items-center justify-center px-4">
-        <div className="w-full max-w-3xl space-y-8">
-          <h1 className="text-center text-3xl font-medium text-foreground">
-            Ready when you are.
-          </h1>
-          
-          <div className="relative">
+      <main className="flex flex-1 flex-col overflow-hidden">
+        {messages.length === 0 ? (
+          <div className="flex flex-1 flex-col items-center justify-center px-4">
+            <div className="w-full max-w-3xl space-y-8">
+              <h1 className="text-center text-3xl font-medium text-foreground">
+                Ready when you are.
+              </h1>
+            </div>
+          </div>
+        ) : (
+          <div className="flex-1 overflow-y-auto px-4 py-6">
+            <div className="mx-auto max-w-3xl space-y-6">
+              {messages.map((message, index) => (
+                <div
+                  key={index}
+                  className={`flex gap-4 ${
+                    message.role === "user" ? "justify-end" : "justify-start"
+                  }`}
+                >
+                  <div
+                    className={`max-w-[80%] rounded-2xl px-4 py-3 ${
+                      message.role === "user"
+                        ? "bg-primary text-primary-foreground"
+                        : "bg-muted text-foreground"
+                    }`}
+                  >
+                    <p className="text-sm">{message.content}</p>
+                  </div>
+                </div>
+              ))}
+              {isLoading && (
+                <div className="flex gap-4 justify-start">
+                  <div className="max-w-[80%] rounded-2xl bg-muted px-4 py-3">
+                    <div className="flex gap-1">
+                      <div className="h-2 w-2 animate-bounce rounded-full bg-foreground/50" />
+                      <div className="h-2 w-2 animate-bounce rounded-full bg-foreground/50 [animation-delay:0.2s]" />
+                      <div className="h-2 w-2 animate-bounce rounded-full bg-foreground/50 [animation-delay:0.4s]" />
+                    </div>
+                  </div>
+                </div>
+              )}
+              <div ref={messagesEndRef} />
+            </div>
+          </div>
+        )}
+
+        {/* Input Area */}
+        <div className="border-t border-border px-4 py-4">
+          <form onSubmit={sendMessage} className="mx-auto max-w-3xl">
             <div className="flex items-center gap-3 rounded-full border border-border bg-card px-4 py-3 shadow-sm transition-shadow hover:shadow-md">
               <Plus className="h-5 w-5 shrink-0 text-muted-foreground" />
               <Input
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
                 placeholder="Ask anything"
+                disabled={isLoading}
                 className="flex-1 border-0 bg-transparent p-0 text-base placeholder:text-muted-foreground focus-visible:ring-0"
               />
-              <button className="shrink-0 rounded-full p-2 transition-colors hover:bg-muted">
+              <button
+                type="button"
+                className="shrink-0 rounded-full p-2 transition-colors hover:bg-muted"
+              >
                 <Mic className="h-5 w-5 text-muted-foreground" />
               </button>
+              <button
+                type="submit"
+                disabled={!input.trim() || isLoading}
+                className="shrink-0 rounded-full bg-primary p-2 text-primary-foreground transition-colors hover:bg-primary/90 disabled:opacity-50"
+              >
+                <Send className="h-5 w-5" />
+              </button>
             </div>
-          </div>
+          </form>
         </div>
       </main>
 

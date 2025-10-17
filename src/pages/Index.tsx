@@ -63,8 +63,7 @@ const Index = () => {
       {/* Header */}
       <header className="flex items-center justify-between border-b px-4 py-3" style={{ borderColor: "#424242" }}>
         <div className="flex items-center gap-2">
-          <img src={logo} alt="Logo" className="h-6 w-6" />
-          <span className="text-sm font-medium">ChatGPT</span>
+          <img src={logo} alt="Logo" className="h-6 w-auto" />
           <ChevronDown className="h-4 w-4 text-gray-400" />
         </div>
 
@@ -105,8 +104,10 @@ const Index = () => {
                 </div>
               ))}
               {isLoading && (
-                <div className="text-left" style={{ color: "#ececec" }}>
-                  …
+                <div className="flex gap-1 text-left" style={{ color: "#ececec" }}>
+                  <span className="animate-bounce" style={{ animationDelay: "0ms" }}>●</span>
+                  <span className="animate-bounce" style={{ animationDelay: "150ms" }}>●</span>
+                  <span className="animate-bounce" style={{ animationDelay: "300ms" }}>●</span>
                 </div>
               )}
               <div ref={chatEndRef} />

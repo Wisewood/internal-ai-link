@@ -16,7 +16,7 @@ serve(async (req) => {
     console.log("Received request:", body);
 
     const response = await fetch(
-      "https://witai.app.n8n.cloud/webhook/73651d1c-bb2e-4c08-846b-7695629a4d29/chat",
+      "https://witai.app.n8n.cloud/webhook-test/4d18d40c-5e96-4d92-b80b-b6fa71c67045",
       {
         method: "POST",
         headers: {

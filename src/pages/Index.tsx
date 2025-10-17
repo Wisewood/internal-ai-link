@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ChevronDown, Plus, Mic, HelpCircle, Send } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 
 interface Message {
   role: "user" | "assistant";
@@ -34,26 +35,18 @@ const Index = () => {
     setIsLoading(true);
 
     try {
-      const response = await fetch(
-        "https://witai.app.n8n.cloud/webhook/6f638960-e0bd-4742-a689-661b6d178b8c/chat",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            action: "sendMessage",
-            chatInput: userMessage,
-            metadata: { source: "lovable", page: location.pathname },
-          }),
-        }
-      );
+      const { data, error } = await supabase.functions.invoke("chat-proxy", {
+        body: {
+          action: "sendMessage",
+          chatInput: userMessage,
+          metadata: { source: "lovable", page: location.pathname },
+        },
+      });
 
-      if (!response.ok) {
-        throw new Error("Failed to send message");
+      if (error) {
+        throw error;
       }
 
-      const data = await response.json();
       setMessages((prev) => [
         ...prev,
         { role: "assistant", content: data.output || "No response" },

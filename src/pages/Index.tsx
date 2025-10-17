@@ -282,7 +282,7 @@ const Index = () => {
 
       {/* Footer */}
       <footer className="border-t px-4 py-4 text-center text-xs" style={{ borderColor: "#424242", color: "#b4b4b4" }}>
-        By messaging ChatGPT, you agree to our{" "}
+        By messaging WitAI, you agree to our{" "}
         <a href="#" className="underline">
           Terms
         </a>{" "}

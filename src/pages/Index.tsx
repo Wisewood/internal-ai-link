@@ -5,6 +5,7 @@ import { useToast } from "@/hooks/use-toast";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { supabase } from "@/integrations/supabase/client";
 import logo from "@/assets/logo.png";
+import witIcon from "@/assets/wit-icon.png";
 
 interface Message {
   role: "user" | "bot";
@@ -177,8 +178,9 @@ const Index = () => {
       <main className="flex flex-1 flex-col overflow-hidden">
         {messages.length === 0 ? (
           <div className="flex flex-1 flex-col items-center justify-center px-4">
+            <img src={witIcon} alt="WitAI" className="mb-6 h-20 w-auto" />
             <h1 className="mb-8 text-2xl font-normal" style={{ color: "#ececec" }}>
-              What are you working on?
+              What are you looking for?
             </h1>
           </div>
         ) : (

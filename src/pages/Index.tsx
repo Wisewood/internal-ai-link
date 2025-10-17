@@ -2,7 +2,6 @@ import { useState, useRef, useEffect } from "react";
 import ChatMessage from "@/components/ChatMessage";
 import ChatInput from "@/components/ChatInput";
 import TypingIndicator from "@/components/TypingIndicator";
-import SettingsDialog from "@/components/SettingsDialog";
 import { toast } from "sonner";
 import { MessageSquare } from "lucide-react";
 
@@ -15,21 +14,10 @@ interface Message {
 const Index = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [webhookUrl, setWebhookUrl] = useState("");
   const messagesEndRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    // Load webhook URL from localStorage
-    const savedUrl = localStorage.getItem("n8n_webhook_url");
-    if (savedUrl) {
-      setWebhookUrl(savedUrl);
-    }
-  }, []);
-
-  const handleWebhookUrlChange = (url: string) => {
-    setWebhookUrl(url);
-    localStorage.setItem("n8n_webhook_url", url);
-  };
+  
+  // Webhook URL from environment variable
+  const webhookUrl = import.meta.env.VITE_WEBHOOK_URL || "";
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -41,7 +29,7 @@ const Index = () => {
 
   const handleSendMessage = async (content: string) => {
     if (!webhookUrl) {
-      toast.error("Please configure your n8n webhook URL in settings");
+      toast.error("Backend connection not configured");
       return;
     }
 
@@ -68,7 +56,7 @@ const Index = () => {
       });
 
       if (!response.ok) {
-        throw new Error("Failed to get response from n8n");
+        throw new Error("Failed to get response from backend");
       }
 
       const data = await response.json();
@@ -82,7 +70,7 @@ const Index = () => {
       setMessages((prev) => [...prev, assistantMessage]);
     } catch (error) {
       console.error("Error sending message:", error);
-      toast.error("Failed to send message. Please check your webhook URL and try again.");
+      toast.error("Failed to send message. Please try again.");
       
       // Remove the user message on error
       setMessages((prev) => prev.filter((msg) => msg.id !== userMessage.id));
@@ -95,20 +83,16 @@ const Index = () => {
     <div className="flex h-screen flex-col bg-gradient-to-br from-background to-muted/30">
       {/* Header */}
       <header className="border-b bg-card/50 backdrop-blur-sm">
-        <div className="mx-auto flex max-w-7xl items-center justify-between p-4">
+        <div className="mx-auto flex max-w-7xl items-center justify-center p-4">
           <div className="flex items-center gap-3">
             <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-br from-primary to-accent text-white shadow-lg">
               <MessageSquare className="h-5 w-5" />
             </div>
             <div>
               <h1 className="text-xl font-semibold">Company AI Assistant</h1>
-              <p className="text-xs text-muted-foreground">Powered by n8n</p>
+              <p className="text-xs text-muted-foreground">How can I help you today?</p>
             </div>
           </div>
-          <SettingsDialog
-            webhookUrl={webhookUrl}
-            onWebhookUrlChange={handleWebhookUrlChange}
-          />
         </div>
       </header>
 
@@ -125,11 +109,6 @@ const Index = () => {
                 <p className="text-muted-foreground">
                   Start a conversation by typing a message below.
                 </p>
-                {!webhookUrl && (
-                  <p className="mt-4 text-sm text-destructive">
-                    Please configure your n8n webhook URL in settings to get started.
-                  </p>
-                )}
               </div>
             </div>
           ) : (

@@ -295,13 +295,6 @@ const Index = () => {
                 className="flex-1 border-0 bg-transparent p-0 text-base focus:outline-none"
                 style={{ color: "#ececec" }}
               />
-              <button
-                type="button"
-                className="shrink-0 rounded-full p-2 transition-colors"
-                style={{ background: "transparent" }}
-              >
-                <Mic className="h-5 w-5 text-gray-400" />
-              </button>
             </div>
           </form>
         </div>

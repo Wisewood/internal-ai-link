@@ -1,7 +1,8 @@
 import { useState, useRef, useEffect } from "react";
-import { Plus, Mic, HelpCircle, ChevronDown } from "lucide-react";
+import { Plus, Mic, Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import logo from "@/assets/logo.png";
 
 interface Message {
@@ -13,9 +14,19 @@ const Index = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const chatEndRef = useRef<HTMLDivElement>(null);
   const sessionIdRef = useRef(crypto.randomUUID());
   const { toast } = useToast();
+
+  const menuLinks = [
+    { name: "Home", url: "https://wisewoodint.com/" },
+    { name: "Services", url: "https://wisewoodint.com/services" },
+    { name: "Brands", url: "https://wisewoodint.com/brands" },
+    { name: "Portfolio", url: "https://wisewoodint.com/portfolio" },
+    { name: "Contact", url: "https://wisewoodint.com/contact" },
+    { name: "About", url: "https://wisewoodint.com/about" },
+  ];
 
   const API_URL = "https://witai.app.n8n.cloud/webhook/242b2e77-081b-4961-ba8e-4c21bb5d1bb5/chat";
 
@@ -66,17 +77,31 @@ const Index = () => {
           <img src={logo} alt="Logo" className="h-10 w-auto" />
         </div>
 
-        <div className="flex items-center gap-2">
-          <Button variant="ghost" size="sm" className="text-sm" style={{ color: "#ececec" }}>
-            Log in
-          </Button>
-          <Button variant="outline" size="sm" className="text-sm" style={{ borderColor: "#565656", color: "#ececec" }}>
-            Sign up for free
-          </Button>
-          <Button variant="ghost" size="icon">
-            <HelpCircle className="h-5 w-5" />
-          </Button>
-        </div>
+        <Sheet open={isMenuOpen} onOpenChange={setIsMenuOpen}>
+          <SheetTrigger asChild>
+            <Button variant="ghost" size="icon">
+              <Menu className="h-6 w-6" style={{ color: "#ececec" }} />
+            </Button>
+          </SheetTrigger>
+          <SheetContent style={{ background: "#2f2f2f", borderColor: "#565656" }}>
+            <nav className="flex flex-col gap-4 mt-8">
+              {menuLinks.map((link) => (
+                <a
+                  key={link.name}
+                  href={link.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-lg px-4 py-2 rounded-lg transition-colors"
+                  style={{ color: "#ececec" }}
+                  onMouseEnter={(e) => e.currentTarget.style.background = "#424242"}
+                  onMouseLeave={(e) => e.currentTarget.style.background = "transparent"}
+                >
+                  {link.name}
+                </a>
+              ))}
+            </nav>
+          </SheetContent>
+        </Sheet>
       </header>
 
       {/* Main Content */}

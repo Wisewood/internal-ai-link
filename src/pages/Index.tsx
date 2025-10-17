@@ -149,24 +149,49 @@ const Index = () => {
 
         <Sheet open={isMenuOpen} onOpenChange={setIsMenuOpen}>
           <SheetTrigger asChild>
-            <Button variant="ghost" size="icon">
-              <Menu className="h-6 w-6" style={{ color: "#ececec" }} />
+            <Button 
+              variant="ghost" 
+              size="icon"
+              className="relative hover:bg-white/10 transition-all duration-300"
+            >
+              <Menu className="h-6 w-6 transition-transform duration-300 hover:scale-110" style={{ color: "#ececec" }} />
             </Button>
           </SheetTrigger>
-          <SheetContent style={{ background: "#2f2f2f", borderColor: "#565656" }}>
-            <nav className="flex flex-col gap-4 mt-8">
-              {menuLinks.map((link) => (
+          <SheetContent 
+            className="border-l backdrop-blur-sm"
+            style={{ 
+              background: "linear-gradient(135deg, #2a2a2a 0%, #1f1f1f 100%)", 
+              borderColor: "#3a3a3a" 
+            }}
+          >
+            <nav className="flex flex-col gap-2 mt-12">
+              {menuLinks.map((link, index) => (
                 <a
                   key={link.name}
                   href={link.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-lg px-4 py-2 rounded-lg transition-colors"
-                  style={{ color: "#ececec" }}
-                  onMouseEnter={(e) => e.currentTarget.style.background = "#424242"}
-                  onMouseLeave={(e) => e.currentTarget.style.background = "transparent"}
+                  className="group relative text-lg px-5 py-3 rounded-xl transition-all duration-300 hover:translate-x-1"
+                  style={{ 
+                    color: "#ececec",
+                    animationDelay: `${index * 50}ms`
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.background = "rgba(74, 144, 226, 0.15)";
+                    e.currentTarget.style.borderLeft = "3px solid #4a90e2";
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.background = "transparent";
+                    e.currentTarget.style.borderLeft = "3px solid transparent";
+                  }}
                 >
-                  {link.name}
+                  <span className="relative z-10">{link.name}</span>
+                  <div 
+                    className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                    style={{
+                      background: "linear-gradient(90deg, rgba(74, 144, 226, 0.1) 0%, transparent 100%)"
+                    }}
+                  />
                 </a>
               ))}
             </nav>

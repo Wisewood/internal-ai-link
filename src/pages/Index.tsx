@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { supabase } from "@/integrations/supabase/client";
+import { useIsMobile } from "@/hooks/use-mobile";
 import logo from "@/assets/logo.png";
 import witIcon from "@/assets/wit-icon.png";
 import witLogo from "@/assets/wit-logo.png";
@@ -35,6 +36,7 @@ const Index = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const sessionIdRef = useRef(crypto.randomUUID());
   const { toast } = useToast();
+  const isMobile = useIsMobile();
 
   const menuLinks = [
     { name: "Home", url: "https://wisewoodint.com/" },
@@ -227,12 +229,14 @@ const Index = () => {
   return (
     <div className="flex min-h-screen flex-col" style={{ background: "#f5f5f5", color: "#1a1a1a" }}>
       {/* Header */}
-      <header className="flex items-center px-8 relative" style={{ 
+      <header className="flex items-center relative" style={{ 
         background: messages.length > 0 
           ? "linear-gradient(to bottom, rgb(255, 255, 255) 0%, rgba(255, 255, 255, 0.9) 50%, transparent 100%)"
           : "transparent",
         paddingTop: "23px",
         paddingBottom: "20px",
+        paddingLeft: isMobile ? "16px" : "32px",
+        paddingRight: isMobile ? "16px" : "32px",
         position: messages.length > 0 ? "sticky" : "relative",
         top: messages.length > 0 ? 0 : "auto",
         zIndex: messages.length > 0 ? 50 : "auto"
@@ -241,9 +245,9 @@ const Index = () => {
           className="h-8 cursor-pointer relative"
           style={{ 
             position: "absolute",
-            left: messages.length === 0 ? "80px" : "50%",
+            left: isMobile && messages.length === 0 ? "16px" : messages.length === 0 ? "80px" : "50%",
             top: "50%",
-            transform: messages.length === 0 ? "translateY(-50%)" : "translate(-50%, -50%)",
+            transform: isMobile && messages.length === 0 ? "translateY(-50%)" : messages.length === 0 ? "translateY(-50%)" : "translate(-50%, -50%)",
             transition: "all 0.5s ease-in-out"
           }}
           onClick={() => {
@@ -259,7 +263,7 @@ const Index = () => {
             alt="WIT" 
             className="absolute top-0 left-0" 
             style={{ 
-              maxHeight: messages.length === 0 ? "42px" : "32px",
+              maxHeight: isMobile ? (messages.length === 0 ? "32px" : "24px") : (messages.length === 0 ? "42px" : "32px"),
               width: "auto",
               filter: "brightness(0)",
               opacity: messages.length === 0 ? 1 : 0,
@@ -271,7 +275,7 @@ const Index = () => {
             alt="WIT AI" 
             className="" 
             style={{ 
-              maxHeight: messages.length === 0 ? "42px" : "32px",
+              maxHeight: isMobile ? (messages.length === 0 ? "32px" : "24px") : (messages.length === 0 ? "42px" : "32px"),
               width: "auto",
               filter: "brightness(0)",
               opacity: messages.length === 0 ? 0 : 1,
@@ -279,7 +283,7 @@ const Index = () => {
             }}
           />
         </div>
-        {messages.length === 0 && (
+        {messages.length === 0 && !isMobile && (
           <div className="flex items-center gap-6 absolute left-1/2 transform -translate-x-1/2">
             <a href="https://wisewoodint.com/services" target="_blank" rel="noopener noreferrer" className="text-sm hover:underline" style={{ color: "#1a1a1a" }}>Services</a>
             <a href="https://wisewoodint.com/brands" target="_blank" rel="noopener noreferrer" className="text-sm hover:underline" style={{ color: "#1a1a1a" }}>Brands</a>
@@ -288,17 +292,48 @@ const Index = () => {
             <a href="https://wisewoodint.com/about" target="_blank" rel="noopener noreferrer" className="text-sm hover:underline" style={{ color: "#1a1a1a" }}>About</a>
           </div>
         )}
+        {messages.length === 0 && isMobile && (
+          <Sheet open={isMenuOpen} onOpenChange={setIsMenuOpen}>
+            <SheetTrigger asChild>
+              <button className="absolute right-4 top-1/2 -translate-y-1/2 p-2">
+                <Menu className="h-6 w-6" style={{ color: "#1a1a1a" }} />
+              </button>
+            </SheetTrigger>
+            <SheetContent side="right" className="w-64">
+              <nav className="flex flex-col gap-4 mt-8">
+                <a href="https://wisewoodint.com/" target="_blank" rel="noopener noreferrer" className="text-base hover:underline" style={{ color: "#1a1a1a" }}>Home</a>
+                <a href="https://wisewoodint.com/services" target="_blank" rel="noopener noreferrer" className="text-base hover:underline" style={{ color: "#1a1a1a" }}>Services</a>
+                <a href="https://wisewoodint.com/brands" target="_blank" rel="noopener noreferrer" className="text-base hover:underline" style={{ color: "#1a1a1a" }}>Brands</a>
+                <a href="https://wisewoodint.com/portfolio" target="_blank" rel="noopener noreferrer" className="text-base hover:underline" style={{ color: "#1a1a1a" }}>Portfolio</a>
+                <a href="https://wisewoodint.com/contact" target="_blank" rel="noopener noreferrer" className="text-base hover:underline" style={{ color: "#1a1a1a" }}>Contact</a>
+                <a href="https://wisewoodint.com/about" target="_blank" rel="noopener noreferrer" className="text-base hover:underline" style={{ color: "#1a1a1a" }}>About</a>
+              </nav>
+            </SheetContent>
+          </Sheet>
+        )}
       </header>
 
       {/* Main Content */}
       <main className="flex flex-1 flex-col overflow-hidden">
         {messages.length === 0 ? (
           <div className="flex flex-1 flex-col items-center justify-center px-4">
-            <img src={witIcon} alt="WitAI" className="mb-4 h-24 w-auto" />
-            <h1 className="mb-2 text-3xl font-normal" style={{ color: "#1a1a1a" }}>
+            <img 
+              src={witIcon} 
+              alt="WitAI" 
+              className="mb-4 w-auto" 
+              style={{ height: isMobile ? "64px" : "96px" }}
+            />
+            <h1 className="mb-2 font-normal" style={{ 
+              color: "#1a1a1a", 
+              fontSize: isMobile ? "24px" : "30px" 
+            }}>
               AI powered procurement platform
             </h1>
-            <p className="mb-8 text-center text-sm" style={{ color: "#666666", maxWidth: "600px" }}>
+            <p className="mb-8 text-center" style={{ 
+              color: "#666666", 
+              maxWidth: "600px",
+              fontSize: isMobile ? "13px" : "14px"
+            }}>
               Ask your quotation to 50.000+ certified suppliers and manage your entire order from 1 platform only
             </p>
             
@@ -307,8 +342,14 @@ const Index = () => {
                 <button
                   key={idx}
                   onClick={() => setInput(pill)}
-                  className="px-5 py-2.5 rounded-full text-sm transition-all hover:shadow-md"
-                  style={{ background: "#ffffff", border: "1px solid #e0e0e0", color: "#1a1a1a" }}
+                  className="rounded-full transition-all hover:shadow-md"
+                  style={{ 
+                    background: "#ffffff", 
+                    border: "1px solid #e0e0e0", 
+                    color: "#1a1a1a",
+                    padding: isMobile ? "8px 12px" : "10px 20px",
+                    fontSize: isMobile ? "12px" : "14px"
+                  }}
                 >
                   {pill}
                 </button>
@@ -316,7 +357,10 @@ const Index = () => {
             </div>
           </div>
         ) : (
-          <div className="flex-1 overflow-y-auto px-4 py-6">
+          <div 
+            className="flex-1 overflow-y-auto px-4 py-6" 
+            style={{ paddingBottom: isMobile ? "120px" : "24px" }}
+          >
             <div className="mx-auto max-w-3xl space-y-6">
               {messages.map((msg, idx) => (
                 <div key={idx}>
@@ -500,26 +544,74 @@ const Index = () => {
         {messages.length === 0 && (
           <div className="w-full px-4 pb-6">
             <div className="mx-auto max-w-5xl">
-              <h2 className="text-lg font-medium mb-4" style={{ color: "#666666" }}>Popular Requests</h2>
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
-                {popularRequests.map((request, idx) => (
-                  <button
-                    key={idx}
-                    onClick={() => setInput(`Tell me about ${request.name}`)}
-                    className="p-6 rounded-2xl text-center transition-all hover:shadow-lg"
-                    style={{ background: "#ffffff", border: "1px solid #e0e0e0" }}
-                  >
-                    <div className="text-4xl mb-3">{request.icon}</div>
-                    <div className="text-sm font-medium" style={{ color: "#1a1a1a" }}>{request.name}</div>
-                  </button>
-                ))}
-              </div>
+              <h2 className="font-medium mb-4" style={{ 
+                color: "#666666",
+                fontSize: isMobile ? "16px" : "18px"
+              }}>Popular Requests</h2>
+              {isMobile ? (
+                <div 
+                  className="flex gap-4 overflow-x-auto pb-2"
+                  style={{
+                    scrollSnapType: "x mandatory",
+                    WebkitOverflowScrolling: "touch",
+                    scrollbarWidth: "none",
+                    msOverflowStyle: "none"
+                  }}
+                >
+                  <style>{`
+                    .flex.gap-4.overflow-x-auto::-webkit-scrollbar {
+                      display: none;
+                    }
+                  `}</style>
+                  {popularRequests.map((request, idx) => (
+                    <button
+                      key={idx}
+                      onClick={() => setInput(`Tell me about ${request.name}`)}
+                      className="flex-shrink-0 p-5 rounded-2xl text-center transition-all hover:shadow-lg"
+                      style={{ 
+                        background: "#ffffff", 
+                        border: "1px solid #e0e0e0",
+                        width: "160px",
+                        scrollSnapAlign: "start"
+                      }}
+                    >
+                      <div className="text-3xl mb-2">{request.icon}</div>
+                      <div className="text-sm font-medium" style={{ color: "#1a1a1a" }}>{request.name}</div>
+                    </button>
+                  ))}
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+                  {popularRequests.map((request, idx) => (
+                    <button
+                      key={idx}
+                      onClick={() => setInput(`Tell me about ${request.name}`)}
+                      className="p-6 rounded-2xl text-center transition-all hover:shadow-lg"
+                      style={{ background: "#ffffff", border: "1px solid #e0e0e0" }}
+                    >
+                      <div className="text-4xl mb-3">{request.icon}</div>
+                      <div className="text-sm font-medium" style={{ color: "#1a1a1a" }}>{request.name}</div>
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
         )}
 
         {/* Input Area */}
-        <div className="px-4 pb-6">
+        <div 
+          className="px-4 pb-6" 
+          style={isMobile && messages.length > 0 ? {
+            position: "fixed",
+            bottom: 0,
+            left: 0,
+            right: 0,
+            zIndex: 40,
+            background: "#f5f5f5",
+            paddingTop: "12px"
+          } : {}}
+        >
           <form onSubmit={sendMessage} className="mx-auto max-w-3xl">
             {selectedFiles.length > 0 && (
               <div className="mb-2 flex flex-wrap gap-2">

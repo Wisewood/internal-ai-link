@@ -619,7 +619,7 @@ const Index = () => {
                   {popularRequests.map((request, idx) => <button key={idx} onClick={() => setInput(`Tell me about ${request.name}`)} className="flex-shrink-0 p-4 rounded-2xl transition-all hover:shadow-lg" style={{
               background: "#ffffff",
               border: "1px solid #e0e0e0",
-              width: "112px",
+              width: "134px",
               scrollSnapAlign: "start",
               textAlign: "left"
             }}>
@@ -634,7 +634,8 @@ const Index = () => {
                   {popularRequests.map((request, idx) => <button key={idx} onClick={() => setInput(`Tell me about ${request.name}`)} className="p-4 rounded-2xl transition-all hover:shadow-lg" style={{
               background: "#ffffff",
               border: "1px solid #e0e0e0",
-              textAlign: "left"
+              textAlign: "left",
+              minWidth: "180px"
             }}>
                       <request.icon className="w-6 h-6 mb-14" style={{
                 color: "#1a1a1a"

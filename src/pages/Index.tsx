@@ -340,7 +340,7 @@ const Index = () => {
                 alt="WitAI" 
                 className="relative w-auto cursor-pointer" 
                 style={{ 
-                  height: isMobile ? "83px" : "125px",
+                  height: isMobile ? "125px" : "188px",
                   transition: "transform 0.6s ease-in-out",
                   transformStyle: "preserve-3d",
                   transform: isLogoFlipped ? "rotateY(180deg)" : "rotateY(0deg)",

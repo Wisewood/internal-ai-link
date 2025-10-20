@@ -252,8 +252,9 @@ const Index = () => {
           <img 
             src={witLogo} 
             alt="WIT" 
-            className="h-8 absolute top-0 left-0" 
+            className="absolute top-0 left-0" 
             style={{ 
+              maxHeight: "32px",
               width: "auto",
               filter: "brightness(0)",
               opacity: messages.length === 0 ? 1 : 0,
@@ -263,8 +264,9 @@ const Index = () => {
           <img 
             src={witAiLogo} 
             alt="WIT AI" 
-            className="h-8" 
+            className="" 
             style={{ 
+              maxHeight: "32px",
               width: "auto",
               filter: "brightness(0)",
               opacity: messages.length === 0 ? 0 : 1,

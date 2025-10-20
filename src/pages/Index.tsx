@@ -231,10 +231,9 @@ const Index = () => {
         background: "transparent"
       }}>
         <div 
-          className="h-8 cursor-pointer relative"
+          className="h-8 cursor-pointer absolute"
           style={{ 
-            position: messages.length === 0 ? "static" : "absolute",
-            left: messages.length === 0 ? "40px" : "50%",
+            left: messages.length === 0 ? "80px" : "50%",
             transform: messages.length === 0 ? "none" : "translateX(-50%)",
             transition: "all 0.5s ease-in-out"
           }}

@@ -325,7 +325,9 @@ const Index = () => {
       <main className="flex flex-1 flex-col overflow-hidden" style={{
         paddingBottom: isMobile && messages.length === 0 ? "140px" : "0"
       }}>
-        {messages.length === 0 ? <div className="flex flex-1 flex-col items-center justify-center px-4">
+        {messages.length === 0 ? <div className="flex flex-1 flex-col items-center justify-center px-4" style={{
+          marginTop: "-20px"
+        }}>
             <div className="relative mb-2">
               <div className="absolute inset-0 rounded-full" style={{
             background: "radial-gradient(circle, #dadada 0%, rgba(218, 218, 218, 0.6) 15%, rgba(218, 218, 218, 0.3) 30%, rgba(218, 218, 218, 0.1) 50%, transparent 80%)",

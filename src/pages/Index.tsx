@@ -225,12 +225,15 @@ const Index = () => {
   return (
     <div className="flex min-h-screen flex-col" style={{ background: "#f5f5f5", color: "#1a1a1a" }}>
       {/* Header */}
-      <header className="flex items-center justify-center px-4 py-3 gap-6" style={{ background: "transparent" }}>
-        <a href="https://wisewoodint.com/services" target="_blank" rel="noopener noreferrer" className="text-sm hover:underline" style={{ color: "#1a1a1a" }}>Services</a>
-        <a href="https://wisewoodint.com/brands" target="_blank" rel="noopener noreferrer" className="text-sm hover:underline" style={{ color: "#1a1a1a" }}>Brands</a>
-        <a href="https://wisewoodint.com/portfolio" target="_blank" rel="noopener noreferrer" className="text-sm hover:underline" style={{ color: "#1a1a1a" }}>Portfolio</a>
-        <a href="https://wisewoodint.com/contact" target="_blank" rel="noopener noreferrer" className="text-sm hover:underline" style={{ color: "#1a1a1a" }}>Contact</a>
-        <a href="https://wisewoodint.com/about" target="_blank" rel="noopener noreferrer" className="text-sm hover:underline" style={{ color: "#1a1a1a" }}>About</a>
+      <header className="flex items-center justify-between px-4 py-3" style={{ background: "transparent" }}>
+        <img src={witIcon} alt="WIT" className="h-8 w-auto" />
+        <div className="flex items-center gap-6">
+          <a href="https://wisewoodint.com/services" target="_blank" rel="noopener noreferrer" className="text-sm hover:underline" style={{ color: "#1a1a1a" }}>Services</a>
+          <a href="https://wisewoodint.com/brands" target="_blank" rel="noopener noreferrer" className="text-sm hover:underline" style={{ color: "#1a1a1a" }}>Brands</a>
+          <a href="https://wisewoodint.com/portfolio" target="_blank" rel="noopener noreferrer" className="text-sm hover:underline" style={{ color: "#1a1a1a" }}>Portfolio</a>
+          <a href="https://wisewoodint.com/contact" target="_blank" rel="noopener noreferrer" className="text-sm hover:underline" style={{ color: "#1a1a1a" }}>Contact</a>
+          <a href="https://wisewoodint.com/about" target="_blank" rel="noopener noreferrer" className="text-sm hover:underline" style={{ color: "#1a1a1a" }}>About</a>
+        </div>
       </header>
 
       {/* Main Content */}

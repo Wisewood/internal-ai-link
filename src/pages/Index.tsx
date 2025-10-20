@@ -9,6 +9,7 @@ import { supabase } from "@/integrations/supabase/client";
 import logo from "@/assets/logo.png";
 import witIcon from "@/assets/wit-icon.png";
 import witLogo from "@/assets/wit-logo.png";
+import witAiLogo from "@/assets/wit-ai-logo.png";
 
 interface Message {
   role: "user" | "bot";
@@ -229,12 +230,9 @@ const Index = () => {
       <header className="flex items-center px-8 py-5 relative" style={{ 
         background: "transparent"
       }}>
-        <img 
-          src={witLogo} 
-          alt="WIT" 
-          className="h-8 w-auto cursor-pointer" 
+        <div 
+          className="h-8 cursor-pointer relative"
           style={{ 
-            filter: "brightness(0)",
             position: messages.length === 0 ? "static" : "absolute",
             left: messages.length === 0 ? "40px" : "50%",
             transform: messages.length === 0 ? "none" : "translateX(-50%)",
@@ -247,7 +245,28 @@ const Index = () => {
             setTypingMessage("");
             setIsTyping(false);
           }}
-        />
+        >
+          <img 
+            src={witLogo} 
+            alt="WIT" 
+            className="h-8 w-auto absolute top-0 left-0" 
+            style={{ 
+              filter: "brightness(0)",
+              opacity: messages.length === 0 ? 1 : 0,
+              transition: "opacity 0.5s ease-in-out"
+            }}
+          />
+          <img 
+            src={witAiLogo} 
+            alt="WIT AI" 
+            className="h-8 w-auto" 
+            style={{ 
+              filter: "brightness(0)",
+              opacity: messages.length === 0 ? 0 : 1,
+              transition: "opacity 0.5s ease-in-out"
+            }}
+          />
+        </div>
         {messages.length === 0 && (
           <div className="flex items-center gap-6 absolute left-1/2 transform -translate-x-1/2">
             <a href="https://wisewoodint.com/services" target="_blank" rel="noopener noreferrer" className="text-sm hover:underline" style={{ color: "#1a1a1a" }}>Services</a>

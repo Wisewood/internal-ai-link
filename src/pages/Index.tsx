@@ -721,7 +721,13 @@ const Index = () => {
               <input value={input} onChange={e => setInput(e.target.value)} placeholder="Ask me anything about your projects" disabled={isLoading} className="flex-1 border-0 bg-transparent p-0 text-base focus:outline-none" style={{
               color: "#1a1a1a"
             }} />
-              
+              <button type="submit" disabled={isLoading || (!input.trim() && selectedFiles.length === 0)} className="shrink-0">
+                {processedSendIcon ? (
+                  <img src={processedSendIcon} alt="Send" className="h-6 w-6" />
+                ) : (
+                  <Send className="h-5 w-5" style={{ color: "#ff8c42" }} />
+                )}
+              </button>
             </div>
           </form>
         </div>

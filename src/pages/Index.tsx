@@ -714,7 +714,7 @@ const Index = () => {
                 onClick={() => fileInputRef.current?.click()}
                 className="shrink-0"
               >
-                <Paperclip className="h-5 w-5" style={{ color: "#5271ff" }} />
+                <Paperclip className="h-5 w-5" style={{ color: "#ff8c42" }} />
               </button>
               <input
                 value={input}

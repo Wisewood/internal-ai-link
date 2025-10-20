@@ -170,42 +170,51 @@ const Index = () => {
     e.preventDefault();
     const text = input.trim();
     if (!text && selectedFiles.length === 0 || isLoading) return;
-    const attachmentUrls: string[] = [];
-
-    // Upload all files if selected
-    if (selectedFiles.length > 0) {
-      for (const filePreview of selectedFiles) {
-        const url = await uploadFile(filePreview.file);
-        if (url) {
-          attachmentUrls.push(url);
-        }
-      }
-      if (attachmentUrls.length === 0) return; // Stop if all uploads failed
-    }
-
-    // Add user message with attachments
-    setMessages(prev => [...prev, {
-      role: "user",
-      content: text || "📎 Attachments",
-      attachments: attachmentUrls.length > 0 ? attachmentUrls : undefined
-    }]);
     
-    // Clear input and files immediately
-    const currentInput = text;
+    // Capture values and clear UI immediately
+    const messagesToSend = text;
+    const filesToUpload = [...selectedFiles];
+    
     setInput("");
     setSelectedFiles([]);
     if (fileInputRef.current) {
       fileInputRef.current.value = "";
     }
+    
+    const attachmentUrls: string[] = [];
+
+    // Upload all files if selected
+    if (filesToUpload.length > 0) {
+      for (const filePreview of filesToUpload) {
+        const url = await uploadFile(filePreview.file);
+        if (url) {
+          attachmentUrls.push(url);
+        }
+      }
+      if (attachmentUrls.length === 0) {
+        // Restore input if uploads failed
+        setInput(messagesToSend);
+        setSelectedFiles(filesToUpload);
+        return;
+      }
+    }
+
+    // Add user message with attachments
+    setMessages(prev => [...prev, {
+      role: "user",
+      content: messagesToSend || "📎 Attachments",
+      attachments: attachmentUrls.length > 0 ? attachmentUrls : undefined
+    }]);
+    
     setIsLoading(true);
     try {
       // Prepare chat input with JSON formatted attachments
-      let chatInput = currentInput;
+      let chatInput = messagesToSend;
       if (attachmentUrls.length > 0) {
         const attachmentsJson = JSON.stringify({
           attachments_urls: attachmentUrls
         });
-        chatInput = text ? `${text}\n${attachmentsJson}` : attachmentsJson;
+        chatInput = messagesToSend ? `${messagesToSend}\n${attachmentsJson}` : attachmentsJson;
       }
       const res = await fetch(API_URL, {
         method: "POST",

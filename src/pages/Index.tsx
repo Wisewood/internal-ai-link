@@ -214,7 +214,7 @@ const Index = () => {
     }
   };
   const suggestionPills = ["What can you do?", "Help me with a quotation", "How many product categories do you work with?", "Suggest me gadgets for my event"];
-  const mobileSuggestionPills = ["What can you do?", "Help me with a quotation", "How many product categories do you work with?", "Suggest me gadgets for my event"];
+  const mobileSuggestionPills = ["What can you do?", "Help me with a quotation", "What products can i ask"];
   const popularRequests = [{
     name: "Retail Apparel",
     icon: Shirt
@@ -337,7 +337,7 @@ const Index = () => {
             transform: "scale(1)"
           }} />
               <img src={witIcon} alt="WitAI" className="relative w-auto cursor-pointer" style={{
-            height: isMobile ? "130px" : "194px",
+            height: isMobile ? "91px" : "136px",
             transition: "transform 0.6s ease-in-out",
             transformStyle: "preserve-3d",
             transform: isLogoFlipped ? "rotateY(180deg)" : "rotateY(0deg)",
@@ -603,7 +603,7 @@ const Index = () => {
             <div className="mx-auto max-w-5xl">
               <h2 className="font-medium mb-4" style={{
             color: "#666666",
-            fontSize: isMobile ? "16px" : "18px"
+            fontSize: isMobile ? "11px" : "13px"
           }}>Popular Requests</h2>
               {isMobile ? <div className="flex gap-4 overflow-x-auto pb-2" style={{
             scrollSnapType: "x mandatory",
@@ -616,30 +616,30 @@ const Index = () => {
                       display: none;
                     }
                   `}</style>
-                  {popularRequests.map((request, idx) => <button key={idx} onClick={() => setInput(`Tell me about ${request.name}`)} className="flex-shrink-0 p-5 rounded-2xl transition-all hover:shadow-lg" style={{
+                  {popularRequests.map((request, idx) => <button key={idx} onClick={() => setInput(`Tell me about ${request.name}`)} className="flex-shrink-0 p-4 rounded-2xl transition-all hover:shadow-lg" style={{
               background: "#ffffff",
               border: "1px solid #e0e0e0",
-              width: "160px",
+              width: "112px",
               scrollSnapAlign: "start",
               textAlign: "left"
             }}>
-                      <request.icon className="w-7 h-7 mb-16" style={{
+                      <request.icon className="w-5 h-5 mb-11" style={{
                 color: "#1a1a1a"
               }} />
-                      <div className="text-sm font-medium" style={{
+                      <div className="text-xs font-medium" style={{
                 color: "#666666"
               }}>{request.name}</div>
                     </button>)}
                 </div> : <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
-                  {popularRequests.map((request, idx) => <button key={idx} onClick={() => setInput(`Tell me about ${request.name}`)} className="p-6 rounded-2xl transition-all hover:shadow-lg" style={{
+                  {popularRequests.map((request, idx) => <button key={idx} onClick={() => setInput(`Tell me about ${request.name}`)} className="p-4 rounded-2xl transition-all hover:shadow-lg" style={{
               background: "#ffffff",
               border: "1px solid #e0e0e0",
               textAlign: "left"
             }}>
-                      <request.icon className="w-8 h-8 mb-20" style={{
+                      <request.icon className="w-6 h-6 mb-14" style={{
                 color: "#1a1a1a"
               }} />
-                      <div className="text-sm font-medium" style={{
+                      <div className="text-xs font-medium" style={{
                 color: "#666666"
               }}>{request.name}</div>
                     </button>)}

@@ -328,7 +328,7 @@ const Index = () => {
               src={witIcon} 
               alt="WitAI" 
               className="mb-2 w-auto" 
-              style={{ height: isMobile ? "64px" : "96px" }}
+              style={{ height: isMobile ? "83px" : "125px" }}
             />
             <h1 className="mb-2 font-normal" style={{ 
               color: "#1a1a1a", 

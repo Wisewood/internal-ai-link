@@ -329,9 +329,9 @@ const Index = () => {
               <div 
                 className="absolute inset-0 rounded-full"
                 style={{
-                  background: "radial-gradient(circle, rgba(211, 211, 211, 0.4) 0%, rgba(211, 211, 211, 0.2) 20%, rgba(211, 211, 211, 0.1) 40%, transparent 70%)",
+                  background: "radial-gradient(circle, #dadada 0%, rgba(218, 218, 218, 0.6) 15%, rgba(218, 218, 218, 0.3) 30%, rgba(218, 218, 218, 0.1) 50%, transparent 80%)",
                   animation: "expand-gradient 6s ease-out infinite",
-                  filter: "blur(30px)",
+                  filter: "blur(40px)",
                   transform: "scale(1)"
                 }}
               />

@@ -229,7 +229,7 @@ const Index = () => {
       {/* Header */}
       <header className="flex items-center px-8 relative" style={{ 
         background: messages.length > 0 
-          ? "linear-gradient(to bottom, hsl(var(--background)) 0%, hsl(var(--background) / 0.9) 50%, transparent 100%)"
+          ? "linear-gradient(to bottom, rgb(255, 255, 255) 0%, rgba(255, 255, 255, 0.9) 50%, transparent 100%)"
           : "transparent",
         paddingTop: "23px",
         paddingBottom: "20px",

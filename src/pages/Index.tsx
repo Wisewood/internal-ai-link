@@ -11,7 +11,6 @@ import logo from "@/assets/logo.png";
 import witIcon from "@/assets/wit-embossed.png";
 import witLogo from "@/assets/wit-logo.png";
 import witAiLogo from "@/assets/wit-ai-logo.png";
-import attachmentIcon from "@/assets/attachment-icon.png";
 
 interface Message {
   role: "user" | "bot";
@@ -715,7 +714,7 @@ const Index = () => {
                 onClick={() => fileInputRef.current?.click()}
                 className="shrink-0"
               >
-                <img src={attachmentIcon} alt="Attach" className="h-5 w-5" />
+                <Paperclip className="h-5 w-5" style={{ color: "#ff8c42" }} />
               </button>
               <input
                 value={input}

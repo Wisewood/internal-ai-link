@@ -11,6 +11,8 @@ import logo from "@/assets/logo.png";
 import witIcon from "@/assets/wit-embossed.png";
 import witLogo from "@/assets/wit-logo.png";
 import witAiLogo from "@/assets/wit-ai-logo.png";
+import sendButton from "@/assets/send-button.png";
+import { removeBackground, loadImage } from "@/utils/removeBackground";
 
 interface Message {
   role: "user" | "bot";
@@ -33,6 +35,7 @@ const Index = () => {
   const [typingMessage, setTypingMessage] = useState<string>("");
   const [isTyping, setIsTyping] = useState(false);
   const [isLogoFlipped, setIsLogoFlipped] = useState(false);
+  const [processedSendIcon, setProcessedSendIcon] = useState<string>("");
   const chatEndRef = useRef<HTMLDivElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const sessionIdRef = useRef(crypto.randomUUID());
@@ -53,6 +56,23 @@ const Index = () => {
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, typingMessage]);
+
+  useEffect(() => {
+    const processSendIcon = async () => {
+      try {
+        const response = await fetch(sendButton);
+        const blob = await response.blob();
+        const img = await loadImage(blob);
+        const processedBlob = await removeBackground(img);
+        const url = URL.createObjectURL(processedBlob);
+        setProcessedSendIcon(url);
+      } catch (error) {
+        console.error('Error processing send icon:', error);
+        setProcessedSendIcon(sendButton);
+      }
+    };
+    processSendIcon();
+  }, []);
 
   const typeMessage = (fullMessage: string) => {
     setIsTyping(true);
@@ -730,7 +750,11 @@ const Index = () => {
                 className="shrink-0 rounded-full p-2 transition-all duration-300 hover:scale-110 disabled:opacity-50 disabled:cursor-not-allowed"
                 style={{ background: "#5271ff" }}
               >
-                <Send className="h-5 w-5" style={{ color: "#5271ff" }} />
+                {processedSendIcon ? (
+                  <img src={processedSendIcon} alt="Send" className="h-5 w-5" />
+                ) : (
+                  <Send className="h-5 w-5" style={{ color: "#ffffff" }} />
+                )}
               </button>
             </div>
           </form>

@@ -31,6 +31,7 @@ const Index = () => {
   const [typingMessage, setTypingMessage] = useState<string>("");
   const [isTyping, setIsTyping] = useState(false);
   const [isLogoFlipped, setIsLogoFlipped] = useState(false);
+  const [isLandscape, setIsLandscape] = useState(false);
   const chatEndRef = useRef<HTMLDivElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const sessionIdRef = useRef(crypto.randomUUID());
@@ -63,6 +64,21 @@ const Index = () => {
       behavior: "smooth"
     });
   }, [messages, typingMessage]);
+
+  useEffect(() => {
+    const checkOrientation = () => {
+      setIsLandscape(window.innerWidth > window.innerHeight && isMobile);
+    };
+    
+    checkOrientation();
+    window.addEventListener('resize', checkOrientation);
+    window.addEventListener('orientationchange', checkOrientation);
+    
+    return () => {
+      window.removeEventListener('resize', checkOrientation);
+      window.removeEventListener('orientationchange', checkOrientation);
+    };
+  }, [isMobile]);
   const typeMessage = (fullMessage: string) => {
     setIsTyping(true);
     setTypingMessage("");
@@ -326,8 +342,8 @@ const Index = () => {
         paddingBottom: isMobile && messages.length === 0 ? "140px" : "0"
       }}>
         {messages.length === 0 ? <div className="flex flex-1 flex-col items-center justify-center px-4" style={{
-          marginTop: "-260px",
-          marginBottom: "-180px"
+          marginTop: isLandscape ? "-100px" : "-260px",
+          marginBottom: isLandscape ? "-50px" : "-180px"
         }}>
             <div className="relative mb-0">
               <div className="absolute inset-0 rounded-full" style={{
@@ -337,7 +353,7 @@ const Index = () => {
             transform: "scale(1)"
           }} />
               <img src={witIcon} alt="WitAI" className="relative w-auto cursor-pointer" style={{
-            height: isMobile ? "91px" : "136px",
+            height: isLandscape ? "60px" : isMobile ? "91px" : "136px",
             transition: "transform 0.6s ease-in-out",
             transformStyle: "preserve-3d",
             transform: isLogoFlipped ? "rotateY(180deg)" : "rotateY(0deg)",
@@ -362,24 +378,26 @@ const Index = () => {
             `}</style>
             <h1 className="mb-0.5 font-normal" style={{
           color: "#1a1a1a",
-          fontSize: isMobile ? "25px" : "32px",
+          fontSize: isLandscape ? "18px" : isMobile ? "25px" : "32px",
           textAlign: "center"
         }}>
               AI powered procurement platform
             </h1>
-            <p className="mb-3 text-center" style={{
+            {!isLandscape && <p className="mb-3 text-center" style={{
           color: "#666666",
           maxWidth: "480px",
           fontSize: isMobile ? "13px" : "14px"
-        }}>Request your quotation to suppliers selected from a list of over 50,000 and manage your entire order - all in one platform</p>
+        }}>Request your quotation to suppliers selected from a list of over 50,000 and manage your entire order - all in one platform</p>}
             
-            <div className="flex flex-wrap justify-center gap-2 max-w-3xl">
+            <div className="flex flex-wrap justify-center gap-2 max-w-3xl" style={{
+              marginTop: isLandscape ? "8px" : "0"
+            }}>
               {(isMobile ? mobileSuggestionPills : suggestionPills).map((pill, idx) => <button key={idx} onClick={() => setInput(pill)} className="rounded-full transition-all hover:shadow-md" style={{
             background: "#ffffff",
             border: "1px solid #e0e0e0",
             color: "#1a1a1a",
-            padding: isMobile ? "7px 13px" : "11px 21px",
-            fontSize: isMobile ? "13px" : "14px"
+            padding: isLandscape ? "5px 10px" : isMobile ? "7px 13px" : "11px 21px",
+            fontSize: isLandscape ? "11px" : isMobile ? "13px" : "14px"
           }}>
                   {pill}
                 </button>)}
@@ -599,7 +617,7 @@ const Index = () => {
           </div>}
 
         {/* Popular Requests - shown above input */}
-        {messages.length === 0 && <div className="w-full px-4 pb-6" style={{ marginTop: "-60px", marginBottom: "50px" }}>
+        {messages.length === 0 && !isLandscape && <div className="w-full px-4 pb-6" style={{ marginTop: "-60px", marginBottom: "50px" }}>
             <div className="mx-auto max-w-5xl">
               <h2 className="font-medium mb-4" style={{
             color: "#666666",

@@ -744,7 +744,7 @@ const Index = () => {
         background: isMobile ? "transparent" : "#ffffff",
         paddingTop: isMobile ? "8px" : "12px",
         paddingBottom: isMobile ? "8px" : "12px",
-        fontSize: isMobile ? "10px" : "11px",
+        fontSize: isMobile ? "8px" : "11px",
         lineHeight: "1.2"
       }}>
         <span style={{ whiteSpace: isMobile ? "nowrap" : "normal" }}>

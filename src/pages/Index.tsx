@@ -326,10 +326,10 @@ const Index = () => {
         paddingBottom: isMobile && messages.length === 0 ? "140px" : "0"
       }}>
         {messages.length === 0 ? <div className="flex flex-1 flex-col items-center justify-center px-4" style={{
-          marginTop: "-180px",
-          marginBottom: "-130px"
+          marginTop: "-220px",
+          marginBottom: "-160px"
         }}>
-            <div className="relative mb-2">
+            <div className="relative mb-1">
               <div className="absolute inset-0 rounded-full" style={{
             background: "radial-gradient(circle, #dadada 0%, rgba(218, 218, 218, 0.6) 15%, rgba(218, 218, 218, 0.3) 30%, rgba(218, 218, 218, 0.1) 50%, transparent 80%)",
             animation: "expand-gradient 6s ease-out infinite",
@@ -360,14 +360,14 @@ const Index = () => {
                 }
               }
             `}</style>
-            <h1 className="mb-2 font-normal" style={{
+            <h1 className="mb-1 font-normal" style={{
           color: "#1a1a1a",
           fontSize: isMobile ? "19px" : "24px",
           textAlign: "center"
         }}>
               AI powered procurement platform
             </h1>
-            <p className="mb-6 text-center" style={{
+            <p className="mb-4 text-center" style={{
           color: "#666666",
           maxWidth: "480px",
           fontSize: isMobile ? "10px" : "11px"
@@ -599,7 +599,7 @@ const Index = () => {
           </div>}
 
         {/* Popular Requests - shown above input */}
-        {messages.length === 0 && <div className="w-full px-4 pb-6" style={{ marginTop: "-20px" }}>
+        {messages.length === 0 && <div className="w-full px-4 pb-6" style={{ marginTop: "-40px" }}>
             <div className="mx-auto max-w-5xl">
               <h2 className="font-medium mb-4" style={{
             color: "#666666",

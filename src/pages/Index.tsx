@@ -1,5 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { Paperclip, Menu, X, FileText, FileSpreadsheet, File, Send } from "lucide-react";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -268,11 +270,10 @@ const Index = () => {
                   }}
                 >
                   <div
-                    className="rounded-2xl max-w-[80%]"
+                    className={`rounded-2xl max-w-[80%] ${msg.role === "user" ? "chat-bubble-user" : "chat-bubble-ai"}`}
                     style={{
-                      color: msg.role === "user" ? "#4a90e2" : "#ececec",
-                      background: msg.role === "user" ? "rgba(74, 144, 226, 0.15)" : "transparent",
-                      padding: msg.role === "user" ? "12px 16px" : "0"
+                      padding: "14px 18px",
+                      lineHeight: "1.6"
                     }}
                   >
                     {msg.attachments && msg.attachments.length > 0 && (
@@ -317,7 +318,40 @@ const Index = () => {
                         })}
                       </div>
                     )}
-                    <div className="whitespace-pre-wrap">{msg.content}</div>
+                    <ReactMarkdown
+                      remarkPlugins={[remarkGfm]}
+                      components={{
+                        p: ({ children }) => <p style={{ margin: "8px 0" }}>{children}</p>,
+                        strong: ({ children }) => (
+                          <strong style={{ fontWeight: 600, color: "#ffffff" }}>
+                            {children}
+                          </strong>
+                        ),
+                        ul: ({ children }) => (
+                          <ul style={{ margin: "8px 0", paddingLeft: "18px", listStyleType: "disc" }}>{children}</ul>
+                        ),
+                        li: ({ children }) => (
+                          <li style={{ lineHeight: "1.6", marginBottom: "4px" }}>{children}</li>
+                        ),
+                        h2: ({ children }) => (
+                          <h2 style={{ fontSize: "1.1rem", fontWeight: 600, marginTop: "10px" }}>
+                            {children}
+                          </h2>
+                        ),
+                        h3: ({ children }) => (
+                          <h3 style={{ fontSize: "1rem", fontWeight: 600, marginTop: "8px" }}>
+                            {children}
+                          </h3>
+                        ),
+                        a: ({ href, children }) => (
+                          <a href={href} target="_blank" rel="noopener noreferrer" style={{ color: "#5AB3FF", textDecoration: "underline" }}>
+                            {children}
+                          </a>
+                        ),
+                      }}
+                    >
+                      {msg.content}
+                    </ReactMarkdown>
                   </div>
                 </div>
               ))}

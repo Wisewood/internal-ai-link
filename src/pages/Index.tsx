@@ -332,7 +332,7 @@ const Index = () => {
             transform: "scale(1)"
           }} />
               <img src={witIcon} alt="WitAI" className="relative w-auto cursor-pointer" style={{
-            height: isMobile ? "125px" : "188px",
+            height: isMobile ? "100px" : "150px",
             transition: "transform 0.6s ease-in-out",
             transformStyle: "preserve-3d",
             transform: isLogoFlipped ? "rotateY(180deg)" : "rotateY(0deg)",
@@ -357,15 +357,15 @@ const Index = () => {
             `}</style>
             <h1 className="mb-2 font-normal" style={{
           color: "#1a1a1a",
-          fontSize: isMobile ? "24px" : "30px",
+          fontSize: isMobile ? "19px" : "24px",
           textAlign: "center"
         }}>
               AI powered procurement platform
             </h1>
-            <p className="mb-8 text-center" style={{
+            <p className="mb-6 text-center" style={{
           color: "#666666",
-          maxWidth: "600px",
-          fontSize: isMobile ? "13px" : "14px"
+          maxWidth: "480px",
+          fontSize: isMobile ? "10px" : "11px"
         }}>Request your quotation to suppliers selected from a list of over 50,000 and manage your entire order - all in one platform</p>
             
             <div className="flex flex-wrap justify-center gap-2 max-w-3xl">
@@ -373,8 +373,8 @@ const Index = () => {
             background: "#ffffff",
             border: "1px solid #e0e0e0",
             color: "#1a1a1a",
-            padding: isMobile ? "8px 12px" : "10px 20px",
-            fontSize: isMobile ? "12px" : "14px"
+            padding: isMobile ? "6px 10px" : "8px 16px",
+            fontSize: isMobile ? "10px" : "11px"
           }}>
                   {pill}
                 </button>)}

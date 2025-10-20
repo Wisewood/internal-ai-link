@@ -598,7 +598,9 @@ const Index = () => {
           </div>}
 
         {/* Popular Requests - shown above input */}
-        {messages.length === 0 && <div className="w-full px-4 pb-6">
+        {messages.length === 0 && <div className="w-full px-4 pb-6" style={{
+          marginTop: "-80px"
+        }}>
             <div className="mx-auto max-w-5xl">
               <h2 className="font-medium mb-4" style={{
             color: "#666666",

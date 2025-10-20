@@ -225,50 +225,12 @@ const Index = () => {
   return (
     <div className="flex min-h-screen flex-col" style={{ background: "#f5f5f5", color: "#1a1a1a" }}>
       {/* Header */}
-      <header className="flex items-center justify-center border-b px-4 py-3 gap-6" style={{ borderColor: "#e0e0e0", background: "#ffffff" }}>
-        {messages.length === 0 ? (
-          <>
-            <a href="https://wisewoodint.com/services" target="_blank" rel="noopener noreferrer" className="text-sm hover:underline" style={{ color: "#1a1a1a" }}>Services</a>
-            <a href="https://wisewoodint.com/brands" target="_blank" rel="noopener noreferrer" className="text-sm hover:underline" style={{ color: "#1a1a1a" }}>Brands</a>
-            <a href="https://wisewoodint.com/portfolio" target="_blank" rel="noopener noreferrer" className="text-sm hover:underline" style={{ color: "#1a1a1a" }}>Portfolio</a>
-            <a href="https://wisewoodint.com/contact" target="_blank" rel="noopener noreferrer" className="text-sm hover:underline" style={{ color: "#1a1a1a" }}>Contact</a>
-            <a href="https://wisewoodint.com/about" target="_blank" rel="noopener noreferrer" className="text-sm hover:underline" style={{ color: "#1a1a1a" }}>About</a>
-          </>
-        ) : (
-          <Sheet open={isMenuOpen} onOpenChange={setIsMenuOpen}>
-            <SheetTrigger asChild>
-              <Button 
-                variant="ghost" 
-                size="icon"
-                className="absolute left-4 hover:bg-gray-100"
-              >
-                <Menu className="h-6 w-6" style={{ color: "#1a1a1a" }} />
-              </Button>
-            </SheetTrigger>
-            <SheetContent 
-              className="border-l"
-              style={{ 
-                background: "#ffffff", 
-                borderColor: "#e0e0e0" 
-              }}
-            >
-              <nav className="flex flex-col gap-2 mt-12">
-                {menuLinks.map((link) => (
-                  <a
-                    key={link.name}
-                    href={link.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-lg px-5 py-3 rounded-xl transition-all duration-300 hover:bg-gray-100"
-                    style={{ color: "#1a1a1a" }}
-                  >
-                    {link.name}
-                  </a>
-                ))}
-              </nav>
-            </SheetContent>
-          </Sheet>
-        )}
+      <header className="flex items-center justify-center px-4 py-3 gap-6" style={{ background: "transparent" }}>
+        <a href="https://wisewoodint.com/services" target="_blank" rel="noopener noreferrer" className="text-sm hover:underline" style={{ color: "#1a1a1a" }}>Services</a>
+        <a href="https://wisewoodint.com/brands" target="_blank" rel="noopener noreferrer" className="text-sm hover:underline" style={{ color: "#1a1a1a" }}>Brands</a>
+        <a href="https://wisewoodint.com/portfolio" target="_blank" rel="noopener noreferrer" className="text-sm hover:underline" style={{ color: "#1a1a1a" }}>Portfolio</a>
+        <a href="https://wisewoodint.com/contact" target="_blank" rel="noopener noreferrer" className="text-sm hover:underline" style={{ color: "#1a1a1a" }}>Contact</a>
+        <a href="https://wisewoodint.com/about" target="_blank" rel="noopener noreferrer" className="text-sm hover:underline" style={{ color: "#1a1a1a" }}>About</a>
       </header>
 
       {/* Main Content */}

@@ -363,10 +363,10 @@ const Index = () => {
                           </em>
                         ),
                         ul: ({ children }) => (
-                          <ul style={{ margin: "8px 0", paddingLeft: "18px", listStyleType: "disc" }}>{children}</ul>
+                          <ul style={{ margin: "8px 0", paddingLeft: "18px", listStyleType: "disc", display: "block" }}>{children}</ul>
                         ),
                         li: ({ children }) => (
-                          <li style={{ lineHeight: "1.6", marginBottom: "4px" }}>{children}</li>
+                          <li style={{ lineHeight: "1.6", marginBottom: "4px", display: "list-item" }}>{children}</li>
                         ),
                         h2: ({ children }) => (
                           <h2 style={{ fontSize: "1.1rem", fontWeight: 600, marginTop: "10px", color: msg.role === "user" ? "#1a1a1a" : "#000000" }}>

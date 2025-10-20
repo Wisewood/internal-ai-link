@@ -322,12 +322,8 @@ const Index = () => {
       </header>
 
       {/* Main Content */}
-      <main className="flex flex-1 flex-col overflow-hidden" style={isMobile ? {
-        paddingBottom: "180px" // Space for fixed input + footer
-      } : {}}>
-        {messages.length === 0 ? <div className="flex flex-1 flex-col items-center justify-center px-4" style={isMobile ? {
-          paddingTop: "20px"
-        } : {}}>
+      <main className="flex flex-1 flex-col overflow-hidden">
+        {messages.length === 0 ? <div className="flex flex-1 flex-col items-center justify-center px-4">
             <div className="relative mb-2">
               <div className="absolute inset-0 rounded-full" style={{
             background: "radial-gradient(circle, #dadada 0%, rgba(218, 218, 218, 0.6) 15%, rgba(218, 218, 218, 0.3) 30%, rgba(218, 218, 218, 0.1) 50%, transparent 80%)",
@@ -336,7 +332,7 @@ const Index = () => {
             transform: "scale(1)"
           }} />
               <img src={witIcon} alt="WitAI" className="relative w-auto cursor-pointer" style={{
-            height: isMobile ? "80px" : "188px",
+            height: isMobile ? "125px" : "188px",
             transition: "transform 0.6s ease-in-out",
             transformStyle: "preserve-3d",
             transform: isLogoFlipped ? "rotateY(180deg)" : "rotateY(0deg)",
@@ -359,33 +355,26 @@ const Index = () => {
                 }
               }
             `}</style>
-            <h1 className="font-normal" style={{
+            <h1 className="mb-2 font-normal" style={{
           color: "#1a1a1a",
-          fontSize: isMobile ? "20px" : "30px",
-          textAlign: "center",
-          marginBottom: isMobile ? "8px" : "8px"
+          fontSize: isMobile ? "24px" : "30px",
+          textAlign: "center"
         }}>
               AI powered procurement platform
             </h1>
-            <p className="text-center" style={{
+            <p className="mb-8 text-center" style={{
           color: "#666666",
           maxWidth: "600px",
-          fontSize: isMobile ? "12px" : "14px",
-          marginBottom: isMobile ? "16px" : "32px",
-          paddingLeft: isMobile ? "16px" : "0",
-          paddingRight: isMobile ? "16px" : "0"
+          fontSize: isMobile ? "13px" : "14px"
         }}>Request your quotation to suppliers selected from a list of over 50,000 and manage your entire order - all in one platform</p>
             
-            <div className="flex flex-wrap justify-center gap-2 max-w-3xl" style={isMobile ? {
-              paddingLeft: "8px",
-              paddingRight: "8px"
-            } : {}}>
-              {(isMobile ? mobileSuggestionPills.slice(0, 2) : suggestionPills).map((pill, idx) => <button key={idx} onClick={() => setInput(pill)} className="rounded-full transition-all hover:shadow-md" style={{
+            <div className="flex flex-wrap justify-center gap-2 max-w-3xl">
+              {(isMobile ? mobileSuggestionPills : suggestionPills).map((pill, idx) => <button key={idx} onClick={() => setInput(pill)} className="rounded-full transition-all hover:shadow-md" style={{
             background: "#ffffff",
             border: "1px solid #e0e0e0",
             color: "#1a1a1a",
-            padding: isMobile ? "6px 10px" : "10px 20px",
-            fontSize: isMobile ? "11px" : "14px"
+            padding: isMobile ? "8px 12px" : "10px 20px",
+            fontSize: isMobile ? "12px" : "14px"
           }}>
                   {pill}
                 </button>)}
@@ -605,31 +594,56 @@ const Index = () => {
           </div>}
 
         {/* Popular Requests - shown above input */}
-        {messages.length === 0 && !isMobile && <div className="w-full px-4 pb-6">
+        {messages.length === 0 && <div className="w-full px-4 pb-6">
             <div className="mx-auto max-w-5xl">
               <h2 className="font-medium mb-4" style={{
             color: "#666666",
-            fontSize: "18px"
+            fontSize: isMobile ? "16px" : "18px"
           }}>Popular Requests</h2>
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
-                {popularRequests.map((request, idx) => <button key={idx} onClick={() => setInput(`Tell me about ${request.name}`)} className="p-6 rounded-2xl transition-all hover:shadow-lg" style={{
+              {isMobile ? <div className="flex gap-4 overflow-x-auto pb-2" style={{
+            scrollSnapType: "x mandatory",
+            WebkitOverflowScrolling: "touch",
+            scrollbarWidth: "none",
+            msOverflowStyle: "none"
+          }}>
+                  <style>{`
+                    .flex.gap-4.overflow-x-auto::-webkit-scrollbar {
+                      display: none;
+                    }
+                  `}</style>
+                  {popularRequests.map((request, idx) => <button key={idx} onClick={() => setInput(`Tell me about ${request.name}`)} className="flex-shrink-0 p-5 rounded-2xl transition-all hover:shadow-lg" style={{
+              background: "#ffffff",
+              border: "1px solid #e0e0e0",
+              width: "160px",
+              scrollSnapAlign: "start",
+              textAlign: "left"
+            }}>
+                      <request.icon className="w-7 h-7 mb-16" style={{
+                color: "#1a1a1a"
+              }} />
+                      <div className="text-sm font-medium" style={{
+                color: "#666666"
+              }}>{request.name}</div>
+                    </button>)}
+                </div> : <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+                  {popularRequests.map((request, idx) => <button key={idx} onClick={() => setInput(`Tell me about ${request.name}`)} className="p-6 rounded-2xl transition-all hover:shadow-lg" style={{
               background: "#ffffff",
               border: "1px solid #e0e0e0",
               textAlign: "left"
             }}>
-                    <request.icon className="w-8 h-8 mb-20" style={{
+                      <request.icon className="w-8 h-8 mb-20" style={{
                 color: "#1a1a1a"
               }} />
-                    <div className="text-sm font-medium" style={{
+                      <div className="text-sm font-medium" style={{
                 color: "#666666"
               }}>{request.name}</div>
-                  </button>)}
-              </div>
+                    </button>)}
+                </div>}
             </div>
           </div>}
 
         {/* Input Area */}
-        <div className="px-4 pb-6" style={isMobile ? {
+        <div className="px-4 pb-6" style={isMobile && messages.length > 0 ? {
         position: "fixed",
         bottom: 0,
         left: 0,
@@ -700,26 +714,13 @@ const Index = () => {
       </main>
 
       {/* Footer */}
-      <footer className="border-t px-4 text-center" style={isMobile ? {
-      position: "fixed",
-      bottom: 0,
-      left: 0,
-      right: 0,
-      zIndex: 39,
+      <footer className="border-t px-4 text-center" style={{
       borderColor: "#e0e0e0",
       color: "#999999",
-      background: "#f5f5f5",
-      paddingTop: "6px",
-      paddingBottom: "6px",
-      fontSize: "8px",
-      lineHeight: "1.2"
-    } : {
-      borderColor: "#e0e0e0",
-      color: "#999999",
-      background: "#ffffff",
-      paddingTop: "12px",
-      paddingBottom: "12px",
-      fontSize: "11px",
+      background: isMobile ? "transparent" : "#ffffff",
+      paddingTop: isMobile ? "8px" : "12px",
+      paddingBottom: isMobile ? "8px" : "12px",
+      fontSize: isMobile ? "8px" : "11px",
       lineHeight: "1.2"
     }}>
         <span style={{

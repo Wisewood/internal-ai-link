@@ -326,7 +326,7 @@ const Index = () => {
         paddingBottom: isMobile && messages.length === 0 ? "140px" : "0"
       }}>
         {messages.length === 0 ? <div className="flex flex-1 flex-col items-center justify-center px-4" style={{
-          marginTop: "-120px",
+          marginTop: "-180px",
           marginBottom: "-130px"
         }}>
             <div className="relative mb-2">

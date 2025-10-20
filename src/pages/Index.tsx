@@ -603,7 +603,7 @@ const Index = () => {
             <div className="mx-auto max-w-5xl">
               <h2 className="font-medium mb-4" style={{
             color: "#666666",
-            fontSize: isMobile ? "11px" : "13px"
+            fontSize: isMobile ? "17px" : "20px"
           }}>Popular Requests</h2>
               {isMobile ? <div className="flex gap-4 overflow-x-auto pb-2" style={{
             scrollSnapType: "x mandatory",

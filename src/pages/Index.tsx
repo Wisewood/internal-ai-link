@@ -27,6 +27,8 @@ const Index = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [selectedFiles, setSelectedFiles] = useState<FilePreview[]>([]);
+  const [typingMessage, setTypingMessage] = useState<string>("");
+  const [isTyping, setIsTyping] = useState(false);
   const chatEndRef = useRef<HTMLDivElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const sessionIdRef = useRef(crypto.randomUUID());
@@ -45,7 +47,24 @@ const Index = () => {
 
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages]);
+  }, [messages, typingMessage]);
+
+  const typeMessage = (fullMessage: string) => {
+    setIsTyping(true);
+    setTypingMessage("");
+    let currentIndex = 0;
+    const interval = setInterval(() => {
+      if (currentIndex < fullMessage.length) {
+        setTypingMessage(fullMessage.slice(0, currentIndex + 1));
+        currentIndex++;
+      } else {
+        clearInterval(interval);
+        setIsTyping(false);
+        setMessages(prev => [...prev, { role: "bot", content: fullMessage }]);
+        setTypingMessage("");
+      }
+    }, 33); // 30 characters per second = 1000ms / 30 ≈ 33ms per character
+  };
 
   const getFileType = (file: File): "image" | "pdf" | "doc" | "excel" | "other" => {
     if (file.type.startsWith("image/")) return "image";
@@ -176,7 +195,8 @@ const Index = () => {
 
       const data = await res.json();
       const botMessage = data.text || data.output || data.ui || "…";
-      setMessages(prev => [...prev, { role: "bot", content: botMessage }]);
+      setIsLoading(false);
+      typeMessage(botMessage);
     } catch (err) {
       console.error(err);
       toast({
@@ -184,7 +204,6 @@ const Index = () => {
         description: "There was a problem connecting to the chat.",
         variant: "destructive",
       });
-    } finally {
       setIsLoading(false);
     }
   };
@@ -391,14 +410,66 @@ const Index = () => {
                   </div>
                 </div>
               ))}
-              {isLoading && (
+              {(isLoading || isTyping) && (
                 <div>
                   <div className="text-xs font-medium mb-1" style={{ color: "#666666" }}>WIT AI</div>
-                  <div className="flex gap-1 text-left" style={{ color: "#666666" }}>
-                    <span className="animate-bounce" style={{ animationDelay: "0ms" }}>●</span>
-                    <span className="animate-bounce" style={{ animationDelay: "150ms" }}>●</span>
-                    <span className="animate-bounce" style={{ animationDelay: "300ms" }}>●</span>
-                  </div>
+                  {isLoading ? (
+                    <div className="flex gap-1 text-left" style={{ color: "#666666" }}>
+                      <span className="animate-bounce" style={{ animationDelay: "0ms" }}>●</span>
+                      <span className="animate-bounce" style={{ animationDelay: "150ms" }}>●</span>
+                      <span className="animate-bounce" style={{ animationDelay: "300ms" }}>●</span>
+                    </div>
+                  ) : isTyping && typingMessage && (
+                    <div
+                      className="chat-bubble rounded-2xl max-w-[80%]"
+                      style={{
+                        padding: "14px 18px",
+                        lineHeight: "1.6",
+                        background: "transparent",
+                        color: "#4a4a4a"
+                      }}
+                    >
+                      <ReactMarkdown
+                        remarkPlugins={[remarkGfm]}
+                        components={{
+                          p: ({ children }) => <p style={{ margin: "8px 0" }}>{children}</p>,
+                          strong: ({ children }) => (
+                            <strong style={{ fontWeight: 600, color: "#000000" }}>
+                              {children}
+                            </strong>
+                          ),
+                          em: ({ children }) => (
+                            <em style={{ color: "#999999", fontStyle: "italic" }}>
+                              {children}
+                            </em>
+                          ),
+                          ul: ({ children }) => (
+                            <ul style={{ margin: "8px 0", paddingLeft: "18px", listStyleType: "disc", display: "block" }}>{children}</ul>
+                          ),
+                          li: ({ children }) => (
+                            <li style={{ lineHeight: "1.6", marginBottom: "4px", display: "list-item" }}>{children}</li>
+                          ),
+                          h2: ({ children }) => (
+                            <h2 style={{ fontSize: "1.1rem", fontWeight: 600, marginTop: "10px", color: "#000000" }}>
+                              {children}
+                            </h2>
+                          ),
+                          h3: ({ children }) => (
+                            <h3 style={{ fontSize: "1rem", fontWeight: 600, marginTop: "8px", color: "#000000" }}>
+                              {children}
+                            </h3>
+                          ),
+                          a: ({ href, children }) => (
+                            <a href={href} target="_blank" rel="noopener noreferrer" style={{ color: "#5AB3FF", textDecoration: "underline" }}>
+                              {children}
+                            </a>
+                          ),
+                        }}
+                      >
+                        {typingMessage}
+                      </ReactMarkdown>
+                    </div>
+                  )}
                 </div>
               )}
               <div ref={chatEndRef} />

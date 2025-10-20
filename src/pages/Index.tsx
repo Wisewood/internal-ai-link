@@ -226,9 +226,8 @@ const Index = () => {
   return (
     <div className="flex min-h-screen flex-col" style={{ background: "#f5f5f5", color: "#1a1a1a" }}>
       {/* Header */}
-      <header className="flex items-center px-8 py-5" style={{ 
-        background: "transparent",
-        justifyContent: messages.length === 0 ? "space-between" : "center"
+      <header className="flex items-center px-8 py-5 relative" style={{ 
+        background: "transparent"
       }}>
         <img 
           src={witLogo} 
@@ -237,9 +236,8 @@ const Index = () => {
           style={{ 
             filter: "brightness(0)",
             position: messages.length === 0 ? "static" : "absolute",
-            left: messages.length === 0 ? "auto" : "50%",
-            transform: messages.length === 0 ? "none" : "translateX(-50%)",
-            marginLeft: messages.length === 0 ? "40px" : "0"
+            left: messages.length === 0 ? "40px" : "50%",
+            transform: messages.length === 0 ? "none" : "translateX(-50%)"
           }}
           onClick={() => {
             setMessages([]);
@@ -250,7 +248,7 @@ const Index = () => {
           }}
         />
         {messages.length === 0 && (
-          <div className="flex items-center gap-6">
+          <div className="flex items-center gap-6 absolute left-1/2 transform -translate-x-1/2">
             <a href="https://wisewoodint.com/services" target="_blank" rel="noopener noreferrer" className="text-sm hover:underline" style={{ color: "#1a1a1a" }}>Services</a>
             <a href="https://wisewoodint.com/brands" target="_blank" rel="noopener noreferrer" className="text-sm hover:underline" style={{ color: "#1a1a1a" }}>Brands</a>
             <a href="https://wisewoodint.com/portfolio" target="_blank" rel="noopener noreferrer" className="text-sm hover:underline" style={{ color: "#1a1a1a" }}>Portfolio</a>

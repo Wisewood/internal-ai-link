@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { Paperclip, Menu, X, FileText, FileSpreadsheet, File } from "lucide-react";
+import { Paperclip, Menu, X, FileText, FileSpreadsheet, File, Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -397,6 +397,14 @@ const Index = () => {
                 className="flex-1 border-0 bg-transparent p-0 text-base focus:outline-none"
                 style={{ color: "#ececec" }}
               />
+              <button
+                type="submit"
+                disabled={isLoading || (!input.trim() && selectedFiles.length === 0)}
+                className="shrink-0 rounded-full p-2 transition-all duration-300 hover:scale-110 disabled:opacity-50 disabled:cursor-not-allowed"
+                style={{ background: "#4a90e2" }}
+              >
+                <Send className="h-5 w-5" style={{ color: "#ececec" }} />
+              </button>
             </div>
           </form>
         </div>

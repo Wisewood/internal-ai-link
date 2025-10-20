@@ -189,6 +189,9 @@ const Index = () => {
       content: text || "📎 Attachments",
       attachments: attachmentUrls.length > 0 ? attachmentUrls : undefined
     }]);
+    
+    // Clear input and files immediately
+    const currentInput = text;
     setInput("");
     setSelectedFiles([]);
     if (fileInputRef.current) {
@@ -197,7 +200,7 @@ const Index = () => {
     setIsLoading(true);
     try {
       // Prepare chat input with JSON formatted attachments
-      let chatInput = text;
+      let chatInput = currentInput;
       if (attachmentUrls.length > 0) {
         const attachmentsJson = JSON.stringify({
           attachments_urls: attachmentUrls

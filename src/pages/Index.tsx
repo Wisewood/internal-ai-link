@@ -227,8 +227,10 @@ const Index = () => {
   return (
     <div className="flex min-h-screen flex-col" style={{ background: "#f5f5f5", color: "#1a1a1a" }}>
       {/* Header */}
-      <header className="flex items-center px-8 py-5 relative" style={{ 
-        background: "transparent"
+      <header className="flex items-center px-8 relative" style={{ 
+        background: "transparent",
+        paddingTop: "23px",
+        paddingBottom: "20px"
       }}>
         <div 
           className="h-8 cursor-pointer relative"
@@ -250,8 +252,9 @@ const Index = () => {
           <img 
             src={witLogo} 
             alt="WIT" 
-            className="h-8 w-auto absolute top-0 left-0" 
+            className="h-8 absolute top-0 left-0" 
             style={{ 
+              width: "auto",
               filter: "brightness(0)",
               opacity: messages.length === 0 ? 1 : 0,
               transition: "opacity 0.5s ease-in-out"
@@ -260,8 +263,9 @@ const Index = () => {
           <img 
             src={witAiLogo} 
             alt="WIT AI" 
-            className="h-8 w-auto" 
+            className="h-8" 
             style={{ 
+              width: "auto",
               filter: "brightness(0)",
               opacity: messages.length === 0 ? 0 : 1,
               transition: "opacity 0.5s ease-in-out"

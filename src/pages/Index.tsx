@@ -322,7 +322,9 @@ const Index = () => {
       </header>
 
       {/* Main Content */}
-      <main className="flex flex-1 flex-col overflow-hidden">
+      <main className="flex flex-1 flex-col overflow-hidden" style={{
+        paddingBottom: isMobile && messages.length === 0 ? "140px" : "0"
+      }}>
         {messages.length === 0 ? <div className="flex flex-1 flex-col items-center justify-center px-4">
             <div className="relative mb-2">
               <div className="absolute inset-0 rounded-full" style={{
@@ -642,8 +644,18 @@ const Index = () => {
             </div>
           </div>}
 
-        {/* Input Area */}
-        <div className="px-4 pb-6" style={isMobile && messages.length > 0 ? {
+        {/* Bottom Section Wrapper - Fixed on mobile empty state */}
+        <div style={{
+          position: isMobile && messages.length === 0 ? "fixed" : "relative",
+          bottom: isMobile && messages.length === 0 ? 0 : "auto",
+          left: isMobile && messages.length === 0 ? 0 : "auto",
+          right: isMobile && messages.length === 0 ? 0 : "auto",
+          zIndex: isMobile && messages.length === 0 ? 40 : "auto",
+          background: isMobile && messages.length === 0 ? "#f5f5f5" : "transparent",
+          width: isMobile && messages.length === 0 ? "100%" : "auto"
+        }}>
+          {/* Input Area */}
+          <div className="px-4 pb-6" style={isMobile && messages.length > 0 ? {
         position: "fixed",
         bottom: 0,
         left: 0,
@@ -711,10 +723,9 @@ const Index = () => {
             </div>
           </form>
         </div>
-      </main>
 
-      {/* Footer */}
-      <footer className="border-t px-4 text-center" style={{
+        {/* Footer */}
+        <footer className="border-t px-4 text-center" style={{
       borderColor: "#e0e0e0",
       color: "#999999",
       background: isMobile ? "transparent" : "#ffffff",
@@ -741,6 +752,8 @@ const Index = () => {
           .
         </span>
       </footer>
+        </div>
+      </main>
     </div>;
 };
 export default Index;

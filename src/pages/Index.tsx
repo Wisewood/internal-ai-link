@@ -282,13 +282,19 @@ const Index = () => {
             <div className="mx-auto max-w-3xl space-y-6">
               {messages.map((msg, idx) => (
                 <div key={idx}>
-                  <div className="text-xs font-medium mb-1" style={{ color: "#666666" }}>
+                  <div 
+                    className="text-xs font-medium mb-1" 
+                    style={{ 
+                      color: "#666666",
+                      textAlign: msg.role === "user" ? "right" : "left"
+                    }}
+                  >
                     {msg.role === "user" ? "ME" : "WIT AI"}
                   </div>
                   <div
                     style={{
                       display: "flex",
-                      justifyContent: msg.role === "user" ? "flex-start" : "flex-start"
+                      justifyContent: msg.role === "user" ? "flex-end" : "flex-start"
                     }}
                   >
                     <div
@@ -296,8 +302,8 @@ const Index = () => {
                       style={{
                         padding: "14px 18px",
                         lineHeight: "1.6",
-                        background: msg.role === "user" ? "transparent" : "#e8e8e8",
-                        color: "#1a1a1a"
+                        background: msg.role === "user" ? "#e8e8e8" : "transparent",
+                        color: msg.role === "user" ? "#1a1a1a" : "#4a4a4a"
                       }}
                     >
                     {msg.attachments && msg.attachments.length > 0 && (
@@ -347,9 +353,14 @@ const Index = () => {
                       components={{
                         p: ({ children }) => <p style={{ margin: "8px 0" }}>{children}</p>,
                         strong: ({ children }) => (
-                          <strong style={{ fontWeight: 600, color: "#ffffff" }}>
+                          <strong style={{ fontWeight: 600, color: msg.role === "user" ? "#1a1a1a" : "#000000" }}>
                             {children}
                           </strong>
+                        ),
+                        em: ({ children }) => (
+                          <em style={{ color: "#999999", fontStyle: "italic" }}>
+                            {children}
+                          </em>
                         ),
                         ul: ({ children }) => (
                           <ul style={{ margin: "8px 0", paddingLeft: "18px", listStyleType: "disc" }}>{children}</ul>
@@ -358,12 +369,12 @@ const Index = () => {
                           <li style={{ lineHeight: "1.6", marginBottom: "4px" }}>{children}</li>
                         ),
                         h2: ({ children }) => (
-                          <h2 style={{ fontSize: "1.1rem", fontWeight: 600, marginTop: "10px" }}>
+                          <h2 style={{ fontSize: "1.1rem", fontWeight: 600, marginTop: "10px", color: msg.role === "user" ? "#1a1a1a" : "#000000" }}>
                             {children}
                           </h2>
                         ),
                         h3: ({ children }) => (
-                          <h3 style={{ fontSize: "1rem", fontWeight: 600, marginTop: "8px" }}>
+                          <h3 style={{ fontSize: "1rem", fontWeight: 600, marginTop: "8px", color: msg.role === "user" ? "#1a1a1a" : "#000000" }}>
                             {children}
                           </h3>
                         ),

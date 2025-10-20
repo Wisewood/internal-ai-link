@@ -222,8 +222,8 @@ const Index = () => {
   const mobileSuggestionPills = [
     "What can you do?",
     "Help me with a quotation",
-    "how many product categories do you work with?",
-    "suggest me gadgets for my event"
+    "How many product categories do you work with?",
+    "Suggest me gadgets for my event"
   ];
 
   const popularRequests = [
@@ -345,7 +345,7 @@ const Index = () => {
               Ask your quotation to 50.000+ certified suppliers and manage your entire order from 1 platform only
             </p>
             
-            <div className="flex flex-wrap justify-center gap-3 max-w-3xl">
+            <div className="flex flex-wrap justify-center gap-2 max-w-3xl">
               {(isMobile ? mobileSuggestionPills : suggestionPills).map((pill, idx) => (
                 <button
                   key={idx}

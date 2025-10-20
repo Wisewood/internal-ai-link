@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { Paperclip, Menu, X, FileText, FileSpreadsheet, File, Send } from "lucide-react";
+import { Paperclip, Menu, X, FileText, FileSpreadsheet, File, Send, Shirt, Armchair, Flag, HardHat } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { Button } from "@/components/ui/button";
@@ -219,11 +219,20 @@ const Index = () => {
     "I want to discover products trends"
   ];
 
+  const mobileSuggestionPills = [
+    "What can you do?",
+    "Help with quotation",
+    "Product categories?",
+    "Discover trends",
+    "Source suppliers",
+    "Track my order"
+  ];
+
   const popularRequests = [
-    { name: "Retail Apparel", icon: "👕" },
-    { name: "Furniture", icon: "🪑" },
-    { name: "Flags", icon: "🚩" },
-    { name: "Construction", icon: "🏗️" }
+    { name: "Retail Apparel", icon: Shirt },
+    { name: "Furniture", icon: Armchair },
+    { name: "Flags", icon: Flag },
+    { name: "Construction", icon: HardHat }
   ];
 
   return (
@@ -263,7 +272,7 @@ const Index = () => {
             alt="WIT" 
             className="absolute top-0 left-0" 
             style={{ 
-              maxHeight: isMobile ? (messages.length === 0 ? "32px" : "24px") : (messages.length === 0 ? "42px" : "32px"),
+              maxHeight: isMobile ? (messages.length === 0 ? "64px" : "48px") : (messages.length === 0 ? "84px" : "64px"),
               width: "auto",
               filter: "brightness(0)",
               opacity: messages.length === 0 ? 1 : 0,
@@ -275,7 +284,7 @@ const Index = () => {
             alt="WIT AI" 
             className="" 
             style={{ 
-              maxHeight: isMobile ? (messages.length === 0 ? "32px" : "24px") : (messages.length === 0 ? "42px" : "32px"),
+              maxHeight: isMobile ? (messages.length === 0 ? "64px" : "48px") : (messages.length === 0 ? "84px" : "64px"),
               width: "auto",
               filter: "brightness(0)",
               opacity: messages.length === 0 ? 0 : 1,
@@ -301,12 +310,12 @@ const Index = () => {
             </SheetTrigger>
             <SheetContent side="right" className="w-64">
               <nav className="flex flex-col gap-4 mt-8">
-                <a href="https://wisewoodint.com/" target="_blank" rel="noopener noreferrer" className="text-base hover:underline" style={{ color: "#1a1a1a" }}>Home</a>
-                <a href="https://wisewoodint.com/services" target="_blank" rel="noopener noreferrer" className="text-base hover:underline" style={{ color: "#1a1a1a" }}>Services</a>
-                <a href="https://wisewoodint.com/brands" target="_blank" rel="noopener noreferrer" className="text-base hover:underline" style={{ color: "#1a1a1a" }}>Brands</a>
-                <a href="https://wisewoodint.com/portfolio" target="_blank" rel="noopener noreferrer" className="text-base hover:underline" style={{ color: "#1a1a1a" }}>Portfolio</a>
-                <a href="https://wisewoodint.com/contact" target="_blank" rel="noopener noreferrer" className="text-base hover:underline" style={{ color: "#1a1a1a" }}>Contact</a>
-                <a href="https://wisewoodint.com/about" target="_blank" rel="noopener noreferrer" className="text-base hover:underline" style={{ color: "#1a1a1a" }}>About</a>
+                <a href="https://wisewoodint.com/" target="_blank" rel="noopener noreferrer" className="text-base hover:underline" style={{ color: "#999999" }}>Home</a>
+                <a href="https://wisewoodint.com/services" target="_blank" rel="noopener noreferrer" className="text-base hover:underline" style={{ color: "#999999" }}>Services</a>
+                <a href="https://wisewoodint.com/brands" target="_blank" rel="noopener noreferrer" className="text-base hover:underline" style={{ color: "#999999" }}>Brands</a>
+                <a href="https://wisewoodint.com/portfolio" target="_blank" rel="noopener noreferrer" className="text-base hover:underline" style={{ color: "#999999" }}>Portfolio</a>
+                <a href="https://wisewoodint.com/contact" target="_blank" rel="noopener noreferrer" className="text-base hover:underline" style={{ color: "#999999" }}>Contact</a>
+                <a href="https://wisewoodint.com/about" target="_blank" rel="noopener noreferrer" className="text-base hover:underline" style={{ color: "#999999" }}>About</a>
               </nav>
             </SheetContent>
           </Sheet>
@@ -320,12 +329,13 @@ const Index = () => {
             <img 
               src={witIcon} 
               alt="WitAI" 
-              className="mb-4 w-auto" 
+              className="mb-2 w-auto" 
               style={{ height: isMobile ? "64px" : "96px" }}
             />
             <h1 className="mb-2 font-normal" style={{ 
               color: "#1a1a1a", 
-              fontSize: isMobile ? "24px" : "30px" 
+              fontSize: isMobile ? "24px" : "30px",
+              textAlign: "center"
             }}>
               AI powered procurement platform
             </h1>
@@ -338,7 +348,7 @@ const Index = () => {
             </p>
             
             <div className="flex flex-wrap justify-center gap-3 max-w-3xl">
-              {suggestionPills.map((pill, idx) => (
+              {(isMobile ? mobileSuggestionPills : suggestionPills).map((pill, idx) => (
                 <button
                   key={idx}
                   onClick={() => setInput(pill)}
@@ -575,7 +585,7 @@ const Index = () => {
                         scrollSnapAlign: "start"
                       }}
                     >
-                      <div className="text-3xl mb-2">{request.icon}</div>
+                      <request.icon className="w-8 h-8 mb-2 mx-auto" style={{ color: "#1a1a1a" }} />
                       <div className="text-sm font-medium" style={{ color: "#1a1a1a" }}>{request.name}</div>
                     </button>
                   ))}
@@ -589,7 +599,7 @@ const Index = () => {
                       className="p-6 rounded-2xl text-center transition-all hover:shadow-lg"
                       style={{ background: "#ffffff", border: "1px solid #e0e0e0" }}
                     >
-                      <div className="text-4xl mb-3">{request.icon}</div>
+                      <request.icon className="w-10 h-10 mb-3 mx-auto" style={{ color: "#1a1a1a" }} />
                       <div className="text-sm font-medium" style={{ color: "#1a1a1a" }}>{request.name}</div>
                     </button>
                   ))}

@@ -105,19 +105,19 @@ All colors MUST be HSL.
 }
 
 /* Chat bubble styles */
-.chat-bubble ul {
-  list-style-type: disc;
-  padding-left: 20px;
-  margin-top: 10px;
-  margin-bottom: 10px;
-}
-
-.chat-bubble li {
-  display: list-item !important;
-  margin-bottom: 6px;
+.chat-bubble {
+  white-space: pre-wrap; /* preserve line breaks (\n) */
   line-height: 1.6;
 }
 
-.chat-bubble p + ul {
-  margin-top: 12px;
+.chat-bubble p {
+  margin-bottom: 10px;
+}
+
+.chat-bubble strong {
+  font-weight: 600;
+}
+
+.chat-bubble::before {
+  content: none;
 }

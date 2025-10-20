@@ -189,93 +189,134 @@ const Index = () => {
     }
   };
 
-  return (
-    <div className="flex min-h-screen flex-col" style={{ background: "#212121", color: "#ececec" }}>
-      {/* Header */}
-      <header className="flex items-center justify-between border-b px-4 py-3" style={{ borderColor: "#424242" }}>
-        <div className="flex items-center gap-2">
-          <img src={logo} alt="Logo" className="h-10 w-auto" />
-        </div>
+  const suggestionPills = [
+    "What can I ask you to do?",
+    "Assist me on a quotation for my project",
+    "How many products categories do you work with?",
+    "I want to discover products trends"
+  ];
 
-        <Sheet open={isMenuOpen} onOpenChange={setIsMenuOpen}>
-          <SheetTrigger asChild>
-            <Button 
-              variant="ghost" 
-              size="icon"
-              className="relative hover:bg-white/10 transition-all duration-300"
+  const popularRequests = [
+    { name: "Retail Apparel", icon: "👕" },
+    { name: "Furniture", icon: "🪑" },
+    { name: "Flags", icon: "🚩" },
+    { name: "Construction", icon: "🏗️" }
+  ];
+
+  return (
+    <div className="flex min-h-screen flex-col" style={{ background: "#f5f5f5", color: "#1a1a1a" }}>
+      {/* Header */}
+      <header className="flex items-center justify-center border-b px-4 py-3 gap-6" style={{ borderColor: "#e0e0e0", background: "#ffffff" }}>
+        {messages.length === 0 ? (
+          <>
+            <a href="https://wisewoodint.com/services" target="_blank" rel="noopener noreferrer" className="text-sm hover:underline" style={{ color: "#1a1a1a" }}>Services</a>
+            <a href="https://wisewoodint.com/brands" target="_blank" rel="noopener noreferrer" className="text-sm hover:underline" style={{ color: "#1a1a1a" }}>Brands</a>
+            <a href="https://wisewoodint.com/portfolio" target="_blank" rel="noopener noreferrer" className="text-sm hover:underline" style={{ color: "#1a1a1a" }}>Portfolio</a>
+            <a href="https://wisewoodint.com/contact" target="_blank" rel="noopener noreferrer" className="text-sm hover:underline" style={{ color: "#1a1a1a" }}>Contact</a>
+            <a href="https://wisewoodint.com/about" target="_blank" rel="noopener noreferrer" className="text-sm hover:underline" style={{ color: "#1a1a1a" }}>About</a>
+          </>
+        ) : (
+          <Sheet open={isMenuOpen} onOpenChange={setIsMenuOpen}>
+            <SheetTrigger asChild>
+              <Button 
+                variant="ghost" 
+                size="icon"
+                className="absolute left-4 hover:bg-gray-100"
+              >
+                <Menu className="h-6 w-6" style={{ color: "#1a1a1a" }} />
+              </Button>
+            </SheetTrigger>
+            <SheetContent 
+              className="border-l"
+              style={{ 
+                background: "#ffffff", 
+                borderColor: "#e0e0e0" 
+              }}
             >
-              <Menu className="h-6 w-6 transition-transform duration-300 hover:scale-110" style={{ color: "#ececec" }} />
-            </Button>
-          </SheetTrigger>
-          <SheetContent 
-            className="border-l backdrop-blur-sm"
-            style={{ 
-              background: "linear-gradient(135deg, #2a2a2a 0%, #1f1f1f 100%)", 
-              borderColor: "#3a3a3a" 
-            }}
-          >
-            <nav className="flex flex-col gap-2 mt-12">
-              {menuLinks.map((link, index) => (
-                <a
-                  key={link.name}
-                  href={link.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group relative text-lg px-5 py-3 rounded-xl transition-all duration-300 hover:translate-x-1"
-                  style={{ 
-                    color: "#ececec",
-                    animationDelay: `${index * 50}ms`
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.background = "rgba(74, 144, 226, 0.15)";
-                    e.currentTarget.style.borderLeft = "3px solid #4a90e2";
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.background = "transparent";
-                    e.currentTarget.style.borderLeft = "3px solid transparent";
-                  }}
-                >
-                  <span className="relative z-10">{link.name}</span>
-                  <div 
-                    className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                    style={{
-                      background: "linear-gradient(90deg, rgba(74, 144, 226, 0.1) 0%, transparent 100%)"
-                    }}
-                  />
-                </a>
-              ))}
-            </nav>
-          </SheetContent>
-        </Sheet>
+              <nav className="flex flex-col gap-2 mt-12">
+                {menuLinks.map((link) => (
+                  <a
+                    key={link.name}
+                    href={link.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-lg px-5 py-3 rounded-xl transition-all duration-300 hover:bg-gray-100"
+                    style={{ color: "#1a1a1a" }}
+                  >
+                    {link.name}
+                  </a>
+                ))}
+              </nav>
+            </SheetContent>
+          </Sheet>
+        )}
       </header>
 
       {/* Main Content */}
       <main className="flex flex-1 flex-col overflow-hidden">
         {messages.length === 0 ? (
-          <div className="flex flex-1 flex-col items-center justify-center px-4">
-            <img src={witIcon} alt="WitAI" className="mb-6 h-20 w-auto" />
-            <h1 className="mb-8 text-2xl font-normal" style={{ color: "#ececec" }}>
-              What are you looking for?
+          <div className="flex flex-1 flex-col items-center justify-center px-4 pb-32">
+            <img src={witIcon} alt="WitAI" className="mb-4 h-24 w-auto" />
+            <h1 className="mb-2 text-3xl font-normal" style={{ color: "#1a1a1a" }}>
+              AI powered procurement platform
             </h1>
+            <p className="mb-8 text-center text-sm" style={{ color: "#666666", maxWidth: "600px" }}>
+              Ask your quotation to 50.000+ certified suppliers and manage your entire order from 1 platform only
+            </p>
+            
+            <div className="flex flex-wrap justify-center gap-3 mb-12 max-w-3xl">
+              {suggestionPills.map((pill, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => setInput(pill)}
+                  className="px-5 py-2.5 rounded-full text-sm transition-all hover:shadow-md"
+                  style={{ background: "#ffffff", border: "1px solid #e0e0e0", color: "#1a1a1a" }}
+                >
+                  {pill}
+                </button>
+              ))}
+            </div>
+
+            <div className="w-full max-w-5xl px-4">
+              <h2 className="text-lg font-medium mb-4" style={{ color: "#666666" }}>Popular Requests</h2>
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+                {popularRequests.map((request, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => setInput(`Tell me about ${request.name}`)}
+                    className="p-6 rounded-2xl text-center transition-all hover:shadow-lg"
+                    style={{ background: "#ffffff", border: "1px solid #e0e0e0" }}
+                  >
+                    <div className="text-4xl mb-3">{request.icon}</div>
+                    <div className="text-sm font-medium" style={{ color: "#1a1a1a" }}>{request.name}</div>
+                  </button>
+                ))}
+              </div>
+            </div>
           </div>
         ) : (
           <div className="flex-1 overflow-y-auto px-4 py-6">
             <div className="mx-auto max-w-3xl space-y-6">
               {messages.map((msg, idx) => (
-                <div
-                  key={idx}
-                  style={{
-                    display: "flex",
-                    justifyContent: msg.role === "user" ? "flex-end" : "flex-start"
-                  }}
-                >
+                <div key={idx}>
+                  <div className="text-xs font-medium mb-1" style={{ color: "#666666" }}>
+                    {msg.role === "user" ? "ME" : "WIT AI"}
+                  </div>
                   <div
-                    className={`rounded-2xl max-w-[80%] ${msg.role === "user" ? "chat-bubble-user" : "chat-bubble-ai"}`}
                     style={{
-                      padding: "14px 18px",
-                      lineHeight: "1.6"
+                      display: "flex",
+                      justifyContent: msg.role === "user" ? "flex-start" : "flex-start"
                     }}
                   >
+                    <div
+                      className="rounded-2xl max-w-[80%]"
+                      style={{
+                        padding: "14px 18px",
+                        lineHeight: "1.6",
+                        background: msg.role === "user" ? "transparent" : "#e8e8e8",
+                        color: "#1a1a1a"
+                      }}
+                    >
                     {msg.attachments && msg.attachments.length > 0 && (
                       <div className="mb-2 flex flex-wrap gap-2">
                         {msg.attachments.map((url, i) => {
@@ -352,14 +393,18 @@ const Index = () => {
                     >
                       {msg.content}
                     </ReactMarkdown>
+                    </div>
                   </div>
                 </div>
               ))}
               {isLoading && (
-                <div className="flex gap-1 text-left" style={{ color: "#ececec" }}>
-                  <span className="animate-bounce" style={{ animationDelay: "0ms" }}>●</span>
-                  <span className="animate-bounce" style={{ animationDelay: "150ms" }}>●</span>
-                  <span className="animate-bounce" style={{ animationDelay: "300ms" }}>●</span>
+                <div>
+                  <div className="text-xs font-medium mb-1" style={{ color: "#666666" }}>WIT AI</div>
+                  <div className="flex gap-1 text-left" style={{ color: "#666666" }}>
+                    <span className="animate-bounce" style={{ animationDelay: "0ms" }}>●</span>
+                    <span className="animate-bounce" style={{ animationDelay: "150ms" }}>●</span>
+                    <span className="animate-bounce" style={{ animationDelay: "300ms" }}>●</span>
+                  </div>
                 </div>
               )}
               <div ref={chatEndRef} />
@@ -384,13 +429,13 @@ const Index = () => {
                     ) : (
                       <div 
                         className="flex items-center gap-2 px-3 py-2 rounded-lg"
-                        style={{ background: "#2f2f2f", minWidth: "150px" }}
+                        style={{ background: "#f0f0f0", minWidth: "150px" }}
                       >
-                        {filePreview.type === "pdf" && <FileText className="h-5 w-5" style={{ color: "#4a90e2" }} />}
-                        {filePreview.type === "doc" && <FileText className="h-5 w-5" style={{ color: "#4a90e2" }} />}
-                        {filePreview.type === "excel" && <FileSpreadsheet className="h-5 w-5" style={{ color: "#4a90e2" }} />}
-                        {filePreview.type === "other" && <File className="h-5 w-5" style={{ color: "#4a90e2" }} />}
-                        <span className="text-sm truncate" style={{ color: "#ececec", maxWidth: "100px" }}>
+                        {filePreview.type === "pdf" && <FileText className="h-5 w-5" style={{ color: "#ff8c42" }} />}
+                        {filePreview.type === "doc" && <FileText className="h-5 w-5" style={{ color: "#ff8c42" }} />}
+                        {filePreview.type === "excel" && <FileSpreadsheet className="h-5 w-5" style={{ color: "#ff8c42" }} />}
+                        {filePreview.type === "other" && <File className="h-5 w-5" style={{ color: "#ff8c42" }} />}
+                        <span className="text-sm truncate" style={{ color: "#1a1a1a", maxWidth: "100px" }}>
                           {filePreview.file.name}
                         </span>
                       </div>
@@ -399,15 +444,15 @@ const Index = () => {
                       type="button"
                       onClick={() => removeFile(index)}
                       className="absolute -top-2 -right-2 rounded-full p-1"
-                      style={{ background: "#4a90e2" }}
+                      style={{ background: "#5271ff" }}
                     >
-                      <X className="h-4 w-4" style={{ color: "#ececec" }} />
+                      <X className="h-4 w-4" style={{ color: "#ffffff" }} />
                     </button>
                   </div>
                 ))}
               </div>
             )}
-            <div className="flex items-center gap-3 rounded-full px-4 py-3" style={{ background: "#2f2f2f", border: "1px solid #565656" }}>
+            <div className="flex items-center gap-3 rounded-full px-4 py-3" style={{ background: "#ffffff", border: "1px solid #d0d0d0" }}>
               <input
                 type="file"
                 ref={fileInputRef}
@@ -421,23 +466,23 @@ const Index = () => {
                 onClick={() => fileInputRef.current?.click()}
                 className="shrink-0"
               >
-                <Paperclip className="h-5 w-5 text-gray-400" />
+                <Paperclip className="h-5 w-5" style={{ color: "#ff8c42" }} />
               </button>
               <input
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                placeholder="Describe the product you want to source"
+                placeholder="Ask me anything about your projects"
                 disabled={isLoading}
                 className="flex-1 border-0 bg-transparent p-0 text-base focus:outline-none"
-                style={{ color: "#ececec" }}
+                style={{ color: "#1a1a1a" }}
               />
               <button
                 type="submit"
                 disabled={isLoading || (!input.trim() && selectedFiles.length === 0)}
                 className="shrink-0 rounded-full p-2 transition-all duration-300 hover:scale-110 disabled:opacity-50 disabled:cursor-not-allowed"
-                style={{ background: "#4a90e2" }}
+                style={{ background: "#5271ff" }}
               >
-                <Send className="h-5 w-5" style={{ color: "#ececec" }} />
+                <Send className="h-5 w-5" style={{ color: "#ffffff" }} />
               </button>
             </div>
           </form>
@@ -445,13 +490,13 @@ const Index = () => {
       </main>
 
       {/* Footer */}
-      <footer className="border-t px-4 py-4 text-center text-xs" style={{ borderColor: "#424242", color: "#b4b4b4" }}>
+      <footer className="border-t px-4 py-4 text-center text-xs" style={{ borderColor: "#e0e0e0", color: "#999999", background: "#ffffff" }}>
         By messaging WitAI, you agree to our{" "}
-        <a href="#" className="underline">
+        <a href="#" className="underline" style={{ color: "#5271ff" }}>
           Terms
         </a>{" "}
         and have read our{" "}
-        <a href="#" className="underline">
+        <a href="#" className="underline" style={{ color: "#5271ff" }}>
           Privacy Policy
         </a>
         .

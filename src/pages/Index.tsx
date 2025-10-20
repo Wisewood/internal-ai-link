@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { Menu, X, FileText, FileSpreadsheet, File, Send, Shirt, Armchair, Flag, HardHat } from "lucide-react";
+import { Paperclip, Menu, X, FileText, FileSpreadsheet, File, Send, Shirt, Armchair, Flag, HardHat } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { Button } from "@/components/ui/button";
@@ -11,7 +11,7 @@ import logo from "@/assets/logo.png";
 import witIcon from "@/assets/wit-embossed.png";
 import witLogo from "@/assets/wit-logo.png";
 import witAiLogo from "@/assets/wit-ai-logo.png";
-import attachmentIcon from "@/assets/attachment-icon-orange.png";
+import attachmentIcon from "@/assets/attachment-icon.png";
 
 interface Message {
   role: "user" | "bot";
@@ -715,7 +715,7 @@ const Index = () => {
                 onClick={() => fileInputRef.current?.click()}
                 className="shrink-0"
               >
-                <img src={attachmentIcon} alt="Attach" className="h-10 w-10" />
+                <img src={attachmentIcon} alt="Attach" className="h-5 w-5" />
               </button>
               <input
                 value={input}

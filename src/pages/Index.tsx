@@ -32,6 +32,7 @@ const Index = () => {
   const [selectedFiles, setSelectedFiles] = useState<FilePreview[]>([]);
   const [typingMessage, setTypingMessage] = useState<string>("");
   const [isTyping, setIsTyping] = useState(false);
+  const [isLogoFlipped, setIsLogoFlipped] = useState(false);
   const chatEndRef = useRef<HTMLDivElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const sessionIdRef = useRef(crypto.randomUUID());
@@ -327,8 +328,16 @@ const Index = () => {
             <img 
               src={witIcon} 
               alt="WitAI" 
-              className="mb-2 w-auto" 
-              style={{ height: isMobile ? "83px" : "125px" }}
+              className="mb-2 w-auto cursor-pointer" 
+              style={{ 
+                height: isMobile ? "83px" : "125px",
+                transition: "transform 0.6s ease-in-out",
+                transformStyle: "preserve-3d",
+                transform: isLogoFlipped ? "rotateY(180deg)" : "rotateY(0deg)"
+              }}
+              onClick={() => isMobile && setIsLogoFlipped(!isLogoFlipped)}
+              onMouseEnter={() => !isMobile && setIsLogoFlipped(true)}
+              onMouseLeave={() => !isMobile && setIsLogoFlipped(false)}
             />
             <h1 className="mb-2 font-normal" style={{ 
               color: "#1a1a1a", 

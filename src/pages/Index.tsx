@@ -237,7 +237,8 @@ const Index = () => {
             filter: "brightness(0)",
             position: messages.length === 0 ? "static" : "absolute",
             left: messages.length === 0 ? "40px" : "50%",
-            transform: messages.length === 0 ? "none" : "translateX(-50%)"
+            transform: messages.length === 0 ? "none" : "translateX(-50%)",
+            transition: "all 0.5s ease-in-out"
           }}
           onClick={() => {
             setMessages([]);

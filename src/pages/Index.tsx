@@ -577,16 +577,17 @@ const Index = () => {
                     <button
                       key={idx}
                       onClick={() => setInput(`Tell me about ${request.name}`)}
-                      className="flex-shrink-0 p-5 rounded-2xl text-center transition-all hover:shadow-lg"
+                      className="flex-shrink-0 p-5 rounded-2xl transition-all hover:shadow-lg"
                       style={{ 
                         background: "#ffffff", 
                         border: "1px solid #e0e0e0",
                         width: "160px",
-                        scrollSnapAlign: "start"
+                        scrollSnapAlign: "start",
+                        textAlign: "left"
                       }}
                     >
-                      <request.icon className="w-8 h-8 mb-2 mx-auto" style={{ color: "#1a1a1a" }} />
-                      <div className="text-sm font-medium" style={{ color: "#1a1a1a" }}>{request.name}</div>
+                      <request.icon className="w-7 h-7 mb-16" style={{ color: "#1a1a1a" }} />
+                      <div className="text-sm font-medium" style={{ color: "#666666" }}>{request.name}</div>
                     </button>
                   ))}
                 </div>
@@ -596,11 +597,15 @@ const Index = () => {
                     <button
                       key={idx}
                       onClick={() => setInput(`Tell me about ${request.name}`)}
-                      className="p-6 rounded-2xl text-center transition-all hover:shadow-lg"
-                      style={{ background: "#ffffff", border: "1px solid #e0e0e0" }}
+                      className="p-6 rounded-2xl transition-all hover:shadow-lg"
+                      style={{ 
+                        background: "#ffffff", 
+                        border: "1px solid #e0e0e0",
+                        textAlign: "left"
+                      }}
                     >
-                      <request.icon className="w-10 h-10 mb-3 mx-auto" style={{ color: "#1a1a1a" }} />
-                      <div className="text-sm font-medium" style={{ color: "#1a1a1a" }}>{request.name}</div>
+                      <request.icon className="w-8 h-8 mb-20" style={{ color: "#1a1a1a" }} />
+                      <div className="text-sm font-medium" style={{ color: "#666666" }}>{request.name}</div>
                     </button>
                   ))}
                 </div>

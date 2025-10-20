@@ -230,7 +230,7 @@ const Index = () => {
     }
   };
   const suggestionPills = ["What can you do?", "Help me with a quotation", "How many product categories do you work with?", "Suggest me gadgets for my event"];
-  const mobileSuggestionPills = ["What can you do?", "Help me with a quotation", "What products can i ask"];
+  const mobileSuggestionPills = ["What can you do?", "Help me with a quotation", "What products can I ask?"];
   const popularRequests = [{
     name: "Retail Apparel",
     icon: Shirt

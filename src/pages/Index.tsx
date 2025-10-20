@@ -329,10 +329,10 @@ const Index = () => {
               <div 
                 className="absolute inset-0 rounded-full"
                 style={{
-                  background: "radial-gradient(circle, rgba(200, 200, 200, 0.15) 0%, rgba(200, 200, 200, 0.08) 30%, transparent 70%)",
-                  animation: "pulse-gradient 4s ease-in-out infinite",
-                  filter: "blur(20px)",
-                  transform: "scale(1.5)"
+                  background: "radial-gradient(circle, rgba(211, 211, 211, 0.4) 0%, rgba(211, 211, 211, 0.2) 20%, rgba(211, 211, 211, 0.1) 40%, transparent 70%)",
+                  animation: "expand-gradient 6s ease-out infinite",
+                  filter: "blur(30px)",
+                  transform: "scale(1)"
                 }}
               />
               <img 
@@ -352,14 +352,18 @@ const Index = () => {
               />
             </div>
             <style>{`
-              @keyframes pulse-gradient {
-                0%, 100% { 
-                  opacity: 0.3;
-                  transform: scale(1.5);
+              @keyframes expand-gradient {
+                0% { 
+                  opacity: 0.5;
+                  transform: scale(1);
                 }
                 50% { 
-                  opacity: 0.6;
-                  transform: scale(2);
+                  opacity: 0.3;
+                  transform: scale(2.5);
+                }
+                100% { 
+                  opacity: 0.5;
+                  transform: scale(1);
                 }
               }
             `}</style>

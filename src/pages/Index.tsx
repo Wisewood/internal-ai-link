@@ -228,9 +228,14 @@ const Index = () => {
     <div className="flex min-h-screen flex-col" style={{ background: "#f5f5f5", color: "#1a1a1a" }}>
       {/* Header */}
       <header className="flex items-center px-8 relative" style={{ 
-        background: "transparent",
+        background: messages.length > 0 
+          ? "linear-gradient(to bottom, hsl(var(--background)) 0%, hsl(var(--background) / 0.9) 50%, transparent 100%)"
+          : "transparent",
         paddingTop: "23px",
-        paddingBottom: "20px"
+        paddingBottom: "20px",
+        position: messages.length > 0 ? "sticky" : "relative",
+        top: messages.length > 0 ? 0 : "auto",
+        zIndex: messages.length > 0 ? 50 : "auto"
       }}>
         <div 
           className="h-8 cursor-pointer relative"

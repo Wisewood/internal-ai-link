@@ -723,9 +723,11 @@ const Index = () => {
             }} />
               <button type="submit" disabled={isLoading || (!input.trim() && selectedFiles.length === 0)} className="shrink-0">
                 {processedSendIcon ? (
-                  <img src={processedSendIcon} alt="Send" className="h-6 w-6" />
+                  <img src={processedSendIcon} alt="Send" className="h-6 w-6" style={{
+                    filter: 'brightness(0) saturate(100%) invert(37%) sepia(92%) saturate(2463%) hue-rotate(220deg) brightness(101%) contrast(101%)'
+                  }} />
                 ) : (
-                  <Send className="h-5 w-5" style={{ color: "#ff8c42" }} />
+                  <Send className="h-5 w-5" style={{ color: "#3565ff" }} />
                 )}
               </button>
             </div>

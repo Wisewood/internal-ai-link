@@ -1,6 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { Paperclip, Menu, X, FileText, FileSpreadsheet, File, Shirt, Armchair, Flag, HardHat } from "lucide-react";
-import sendIcon from "@/assets/send-icon.png";
+import { Paperclip, Menu, X, FileText, FileSpreadsheet, File, Send, Shirt, Armchair, Flag, HardHat } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { Button } from "@/components/ui/button";
@@ -731,7 +730,7 @@ const Index = () => {
                 className="shrink-0 rounded-full p-2 transition-all duration-300 hover:scale-110 disabled:opacity-50 disabled:cursor-not-allowed"
                 style={{ background: "#5271ff" }}
               >
-                <img src={sendIcon} alt="Send" className="h-5 w-5" />
+                <Send className="h-5 w-5" style={{ color: "#5271ff" }} />
               </button>
             </div>
           </form>

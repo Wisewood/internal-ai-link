@@ -715,7 +715,7 @@ const Index = () => {
                 onClick={() => fileInputRef.current?.click()}
                 className="shrink-0"
               >
-                <img src={attachmentIcon} alt="Attach" className="h-5 w-5" />
+                <img src={attachmentIcon} alt="Attach" className="h-10 w-10" />
               </button>
               <input
                 value={input}

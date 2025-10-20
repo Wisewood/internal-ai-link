@@ -255,7 +255,7 @@ const Index = () => {
       {/* Main Content */}
       <main className="flex flex-1 flex-col overflow-hidden">
         {messages.length === 0 ? (
-          <div className="flex flex-1 flex-col items-center justify-center px-4 pb-32">
+          <div className="flex flex-1 flex-col items-center justify-center px-4">
             <img src={witIcon} alt="WitAI" className="mb-4 h-24 w-auto" />
             <h1 className="mb-2 text-3xl font-normal" style={{ color: "#1a1a1a" }}>
               AI powered procurement platform
@@ -264,7 +264,7 @@ const Index = () => {
               Ask your quotation to 50.000+ certified suppliers and manage your entire order from 1 platform only
             </p>
             
-            <div className="flex flex-wrap justify-center gap-3 mb-12 max-w-3xl">
+            <div className="flex flex-wrap justify-center gap-3 max-w-3xl">
               {suggestionPills.map((pill, idx) => (
                 <button
                   key={idx}
@@ -275,23 +275,6 @@ const Index = () => {
                   {pill}
                 </button>
               ))}
-            </div>
-
-            <div className="w-full max-w-5xl px-4">
-              <h2 className="text-lg font-medium mb-4" style={{ color: "#666666" }}>Popular Requests</h2>
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
-                {popularRequests.map((request, idx) => (
-                  <button
-                    key={idx}
-                    onClick={() => setInput(`Tell me about ${request.name}`)}
-                    className="p-6 rounded-2xl text-center transition-all hover:shadow-lg"
-                    style={{ background: "#ffffff", border: "1px solid #e0e0e0" }}
-                  >
-                    <div className="text-4xl mb-3">{request.icon}</div>
-                    <div className="text-sm font-medium" style={{ color: "#1a1a1a" }}>{request.name}</div>
-                  </button>
-                ))}
-              </div>
             </div>
           </div>
         ) : (
@@ -408,6 +391,28 @@ const Index = () => {
                 </div>
               )}
               <div ref={chatEndRef} />
+            </div>
+          </div>
+        )}
+
+        {/* Popular Requests - shown above input */}
+        {messages.length === 0 && (
+          <div className="w-full px-4 pb-6">
+            <div className="mx-auto max-w-5xl">
+              <h2 className="text-lg font-medium mb-4" style={{ color: "#666666" }}>Popular Requests</h2>
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+                {popularRequests.map((request, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => setInput(`Tell me about ${request.name}`)}
+                    className="p-6 rounded-2xl text-center transition-all hover:shadow-lg"
+                    style={{ background: "#ffffff", border: "1px solid #e0e0e0" }}
+                  >
+                    <div className="text-4xl mb-3">{request.icon}</div>
+                    <div className="text-sm font-medium" style={{ color: "#1a1a1a" }}>{request.name}</div>
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
         )}

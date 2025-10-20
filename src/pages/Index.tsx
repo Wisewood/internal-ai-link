@@ -738,16 +738,26 @@ const Index = () => {
       </main>
 
       {/* Footer */}
-      <footer className="border-t px-4 py-4 text-center text-xs" style={{ borderColor: "#e0e0e0", color: "#999999", background: "#ffffff" }}>
-        By messaging WitAI, you agree to our{" "}
-        <a href="#" className="underline" style={{ color: "#5271ff" }}>
-          Terms
-        </a>{" "}
-        and have read our{" "}
-        <a href="#" className="underline" style={{ color: "#5271ff" }}>
-          Privacy Policy
-        </a>
-        .
+      <footer className="border-t px-4 text-center" style={{ 
+        borderColor: "#e0e0e0", 
+        color: "#999999", 
+        background: isMobile ? "transparent" : "#ffffff",
+        paddingTop: isMobile ? "8px" : "12px",
+        paddingBottom: isMobile ? "8px" : "12px",
+        fontSize: isMobile ? "10px" : "11px",
+        lineHeight: "1.2"
+      }}>
+        <span style={{ whiteSpace: isMobile ? "nowrap" : "normal" }}>
+          By messaging WitAI, you agree to our{" "}
+          <a href="#" className="underline" style={{ color: "#5271ff" }}>
+            Terms
+          </a>{" "}
+          and have read our{" "}
+          <a href="#" className="underline" style={{ color: "#5271ff" }}>
+            Privacy Policy
+          </a>
+          .
+        </span>
       </footer>
     </div>
   );

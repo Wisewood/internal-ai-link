@@ -8,7 +8,7 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { supabase } from "@/integrations/supabase/client";
 import { useIsMobile } from "@/hooks/use-mobile";
 import logo from "@/assets/logo.png";
-import witIcon from "@/assets/wit-chrome.png";
+import witIcon from "@/assets/wit-gradient-icon.png";
 import witLogo from "@/assets/wit-logo.png";
 import witAiLogo from "@/assets/wit-ai-logo.png";
 
@@ -325,20 +325,44 @@ const Index = () => {
       <main className="flex flex-1 flex-col overflow-hidden">
         {messages.length === 0 ? (
           <div className="flex flex-1 flex-col items-center justify-center px-4">
-            <img 
-              src={witIcon} 
-              alt="WitAI" 
-              className="mb-2 w-auto cursor-pointer" 
-              style={{ 
-                height: isMobile ? "83px" : "125px",
-                transition: "transform 0.6s ease-in-out",
-                transformStyle: "preserve-3d",
-                transform: isLogoFlipped ? "rotateY(180deg)" : "rotateY(0deg)"
-              }}
-              onClick={() => isMobile && setIsLogoFlipped(!isLogoFlipped)}
-              onMouseEnter={() => !isMobile && setIsLogoFlipped(true)}
-              onMouseLeave={() => !isMobile && setIsLogoFlipped(false)}
-            />
+            <div className="relative mb-2">
+              <div 
+                className="absolute inset-0 rounded-full"
+                style={{
+                  background: "radial-gradient(circle, rgba(200, 200, 200, 0.15) 0%, rgba(200, 200, 200, 0.08) 30%, transparent 70%)",
+                  animation: "pulse-gradient 4s ease-in-out infinite",
+                  filter: "blur(20px)",
+                  transform: "scale(1.5)"
+                }}
+              />
+              <img 
+                src={witIcon} 
+                alt="WitAI" 
+                className="relative w-auto cursor-pointer" 
+                style={{ 
+                  height: isMobile ? "83px" : "125px",
+                  transition: "transform 0.6s ease-in-out",
+                  transformStyle: "preserve-3d",
+                  transform: isLogoFlipped ? "rotateY(180deg)" : "rotateY(0deg)",
+                  zIndex: 1
+                }}
+                onClick={() => isMobile && setIsLogoFlipped(!isLogoFlipped)}
+                onMouseEnter={() => !isMobile && setIsLogoFlipped(true)}
+                onMouseLeave={() => !isMobile && setIsLogoFlipped(false)}
+              />
+            </div>
+            <style>{`
+              @keyframes pulse-gradient {
+                0%, 100% { 
+                  opacity: 0.3;
+                  transform: scale(1.5);
+                }
+                50% { 
+                  opacity: 0.6;
+                  transform: scale(2);
+                }
+              }
+            `}</style>
             <h1 className="mb-2 font-normal" style={{ 
               color: "#1a1a1a", 
               fontSize: isMobile ? "24px" : "30px",

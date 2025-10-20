@@ -254,11 +254,11 @@ const Index = () => {
             alt="WIT" 
             className="absolute top-0 left-0" 
             style={{ 
-              maxHeight: "32px",
+              maxHeight: messages.length === 0 ? "42px" : "32px",
               width: "auto",
               filter: "brightness(0)",
               opacity: messages.length === 0 ? 1 : 0,
-              transition: "opacity 0.5s ease-in-out"
+              transition: "opacity 0.5s ease-in-out, max-height 0.3s ease-in-out"
             }}
           />
           <img 
@@ -266,11 +266,11 @@ const Index = () => {
             alt="WIT AI" 
             className="" 
             style={{ 
-              maxHeight: "32px",
+              maxHeight: messages.length === 0 ? "42px" : "32px",
               width: "auto",
               filter: "brightness(0)",
               opacity: messages.length === 0 ? 0 : 1,
-              transition: "opacity 0.5s ease-in-out"
+              transition: "opacity 0.5s ease-in-out, max-height 0.3s ease-in-out"
             }}
           />
         </div>

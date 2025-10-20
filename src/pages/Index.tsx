@@ -8,7 +8,7 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { supabase } from "@/integrations/supabase/client";
 import { useIsMobile } from "@/hooks/use-mobile";
 import logo from "@/assets/logo.png";
-import witIcon from "@/assets/wit-icon-dark.png";
+import witIcon from "@/assets/wit-embossed.png";
 import witLogo from "@/assets/wit-logo.png";
 import witAiLogo from "@/assets/wit-ai-logo.png";
 
@@ -344,8 +344,7 @@ const Index = () => {
                   transition: "transform 0.6s ease-in-out",
                   transformStyle: "preserve-3d",
                   transform: isLogoFlipped ? "rotateY(180deg)" : "rotateY(0deg)",
-                  zIndex: 1,
-                  filter: "brightness(1.5)"
+                  zIndex: 1
                 }}
                 onClick={() => isMobile && setIsLogoFlipped(!isLogoFlipped)}
                 onMouseEnter={() => !isMobile && setIsLogoFlipped(true)}

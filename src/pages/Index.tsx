@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { Paperclip, Mic, Menu, X } from "lucide-react";
+import { Paperclip, Menu, X, FileText, FileSpreadsheet, File } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -10,7 +10,13 @@ import witIcon from "@/assets/wit-icon.png";
 interface Message {
   role: "user" | "bot";
   content: string;
-  imageUrl?: string;
+  attachments?: string[];
+}
+
+interface FilePreview {
+  file: File;
+  preview: string;
+  type: "image" | "pdf" | "doc" | "excel" | "other";
 }
 
 const Index = () => {
@@ -18,8 +24,7 @@ const Index = () => {
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [selectedImage, setSelectedImage] = useState<File | null>(null);
-  const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [selectedFiles, setSelectedFiles] = useState<FilePreview[]>([]);
   const chatEndRef = useRef<HTMLDivElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const sessionIdRef = useRef(crypto.randomUUID());
@@ -40,50 +45,78 @@ const Index = () => {
     chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
-  const handleImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file && file.type.startsWith("image/")) {
-      setSelectedImage(file);
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setImagePreview(reader.result as string);
-      };
-      reader.readAsDataURL(file);
-    }
+  const getFileType = (file: File): "image" | "pdf" | "doc" | "excel" | "other" => {
+    if (file.type.startsWith("image/")) return "image";
+    if (file.type === "application/pdf") return "pdf";
+    if (file.type.includes("word")) return "doc";
+    if (file.type.includes("sheet") || file.type.includes("excel")) return "excel";
+    return "other";
   };
 
-  const uploadImage = async (file: File): Promise<string | null> => {
+  const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(e.target.files || []);
+    const newPreviews: FilePreview[] = [];
+
+    files.forEach((file) => {
+      const fileType = getFileType(file);
+      
+      if (fileType === "image") {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          newPreviews.push({
+            file,
+            preview: reader.result as string,
+            type: fileType,
+          });
+          if (newPreviews.length === files.length) {
+            setSelectedFiles((prev) => [...prev, ...newPreviews]);
+          }
+        };
+        reader.readAsDataURL(file);
+      } else {
+        newPreviews.push({
+          file,
+          preview: file.name,
+          type: fileType,
+        });
+        if (newPreviews.length === files.length) {
+          setSelectedFiles((prev) => [...prev, ...newPreviews]);
+        }
+      }
+    });
+  };
+
+  const uploadFile = async (file: File): Promise<string | null> => {
     try {
       const fileExt = file.name.split(".").pop();
       const fileName = `${crypto.randomUUID()}.${fileExt}`;
       const filePath = `${fileName}`;
 
-      const { error: uploadError, data } = await supabase.storage
-        .from("chat-images")
+      const { error: uploadError } = await supabase.storage
+        .from("chat-attachments")
         .upload(filePath, file);
 
       if (uploadError) throw uploadError;
 
       const { data: { publicUrl } } = supabase.storage
-        .from("chat-images")
+        .from("chat-attachments")
         .getPublicUrl(filePath);
 
       return publicUrl;
     } catch (error) {
-      console.error("Error uploading image:", error);
+      console.error("Error uploading file:", error);
       toast({
         title: "Upload Error",
-        description: "Failed to upload image",
+        description: "Failed to upload file",
         variant: "destructive",
       });
       return null;
     }
   };
 
-  const removeImage = () => {
-    setSelectedImage(null);
-    setImagePreview(null);
-    if (fileInputRef.current) {
+  const removeFile = (index: number) => {
+    setSelectedFiles((prev) => prev.filter((_, i) => i !== index));
+    if (fileInputRef.current && selectedFiles.length === 1) {
       fileInputRef.current.value = "";
     }
   };
@@ -91,27 +124,42 @@ const Index = () => {
   const sendMessage = async (e: React.FormEvent) => {
     e.preventDefault();
     const text = input.trim();
-    if ((!text && !selectedImage) || isLoading) return;
+    if ((!text && selectedFiles.length === 0) || isLoading) return;
 
-    let imageUrl: string | null = null;
+    const attachmentUrls: string[] = [];
     
-    // Upload image if selected
-    if (selectedImage) {
-      imageUrl = await uploadImage(selectedImage);
-      if (!imageUrl) return; // Stop if upload failed
+    // Upload all files if selected
+    if (selectedFiles.length > 0) {
+      for (const filePreview of selectedFiles) {
+        const url = await uploadFile(filePreview.file);
+        if (url) {
+          attachmentUrls.push(url);
+        }
+      }
+      if (attachmentUrls.length === 0) return; // Stop if all uploads failed
     }
 
-    // Add user message with image
-    setMessages(prev => [...prev, { role: "user", content: text || "📷 Image", imageUrl: imageUrl || undefined }]);
+    // Add user message with attachments
+    setMessages(prev => [...prev, { 
+      role: "user", 
+      content: text || "📎 Attachments", 
+      attachments: attachmentUrls.length > 0 ? attachmentUrls : undefined 
+    }]);
     setInput("");
-    removeImage();
+    setSelectedFiles([]);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
     setIsLoading(true);
 
     try {
-      // Prepare chat input with hidden image URL
+      // Prepare chat input with JSON formatted attachments
       let chatInput = text;
-      if (imageUrl) {
-        chatInput = text ? `${text}\n[Image: ${imageUrl}]` : `[Image: ${imageUrl}]`;
+      if (attachmentUrls.length > 0) {
+        const attachmentsJson = JSON.stringify({
+          attachments_urls: attachmentUrls
+        });
+        chatInput = text ? `${text}\n${attachmentsJson}` : attachmentsJson;
       }
 
       const res = await fetch(API_URL, {
@@ -227,13 +275,47 @@ const Index = () => {
                       padding: msg.role === "user" ? "12px 16px" : "0"
                     }}
                   >
-                    {msg.imageUrl && (
-                      <img 
-                        src={msg.imageUrl} 
-                        alt="Uploaded" 
-                        className="rounded-lg mb-2 max-w-full"
-                        style={{ maxHeight: "200px" }}
-                      />
+                    {msg.attachments && msg.attachments.length > 0 && (
+                      <div className="mb-2 flex flex-wrap gap-2">
+                        {msg.attachments.map((url, i) => {
+                          const isImage = url.match(/\.(jpg|jpeg|png|gif|webp)$/i);
+                          const isPdf = url.match(/\.pdf$/i);
+                          const isDoc = url.match(/\.(doc|docx)$/i);
+                          const isExcel = url.match(/\.(xls|xlsx)$/i);
+                          
+                          if (isImage) {
+                            return (
+                              <img 
+                                key={i}
+                                src={url} 
+                                alt="Attachment" 
+                                className="rounded-lg max-w-full cursor-pointer"
+                                style={{ maxHeight: "200px" }}
+                                onClick={() => window.open(url, '_blank')}
+                              />
+                            );
+                          }
+                          
+                          return (
+                            <a
+                              key={i}
+                              href={url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="flex items-center gap-2 px-3 py-2 rounded-lg"
+                              style={{ background: "rgba(74, 144, 226, 0.2)" }}
+                            >
+                              {isPdf && <FileText className="h-5 w-5" />}
+                              {isDoc && <FileText className="h-5 w-5" />}
+                              {isExcel && <FileSpreadsheet className="h-5 w-5" />}
+                              {!isPdf && !isDoc && !isExcel && <File className="h-5 w-5" />}
+                              <span className="text-sm">
+                                {url.split('/').pop()?.substring(0, 20) || 'File'}
+                              </span>
+                            </a>
+                          );
+                        })}
+                      </div>
                     )}
                     <div className="whitespace-pre-wrap">{msg.content}</div>
                   </div>
@@ -254,30 +336,50 @@ const Index = () => {
         {/* Input Area */}
         <div className="px-4 pb-6">
           <form onSubmit={sendMessage} className="mx-auto max-w-3xl">
-            {imagePreview && (
-              <div className="mb-2 relative inline-block">
-                <img 
-                  src={imagePreview} 
-                  alt="Preview" 
-                  className="rounded-lg"
-                  style={{ maxHeight: "100px", maxWidth: "100px" }}
-                />
-                <button
-                  type="button"
-                  onClick={removeImage}
-                  className="absolute -top-2 -right-2 rounded-full p-1"
-                  style={{ background: "#4a90e2" }}
-                >
-                  <X className="h-4 w-4" style={{ color: "#ececec" }} />
-                </button>
+            {selectedFiles.length > 0 && (
+              <div className="mb-2 flex flex-wrap gap-2">
+                {selectedFiles.map((filePreview, index) => (
+                  <div key={index} className="relative">
+                    {filePreview.type === "image" ? (
+                      <img 
+                        src={filePreview.preview} 
+                        alt="Preview" 
+                        className="rounded-lg"
+                        style={{ maxHeight: "100px", maxWidth: "100px" }}
+                      />
+                    ) : (
+                      <div 
+                        className="flex items-center gap-2 px-3 py-2 rounded-lg"
+                        style={{ background: "#2f2f2f", minWidth: "150px" }}
+                      >
+                        {filePreview.type === "pdf" && <FileText className="h-5 w-5" style={{ color: "#4a90e2" }} />}
+                        {filePreview.type === "doc" && <FileText className="h-5 w-5" style={{ color: "#4a90e2" }} />}
+                        {filePreview.type === "excel" && <FileSpreadsheet className="h-5 w-5" style={{ color: "#4a90e2" }} />}
+                        {filePreview.type === "other" && <File className="h-5 w-5" style={{ color: "#4a90e2" }} />}
+                        <span className="text-sm truncate" style={{ color: "#ececec", maxWidth: "100px" }}>
+                          {filePreview.file.name}
+                        </span>
+                      </div>
+                    )}
+                    <button
+                      type="button"
+                      onClick={() => removeFile(index)}
+                      className="absolute -top-2 -right-2 rounded-full p-1"
+                      style={{ background: "#4a90e2" }}
+                    >
+                      <X className="h-4 w-4" style={{ color: "#ececec" }} />
+                    </button>
+                  </div>
+                ))}
               </div>
             )}
             <div className="flex items-center gap-3 rounded-full px-4 py-3" style={{ background: "#2f2f2f", border: "1px solid #565656" }}>
               <input
                 type="file"
                 ref={fileInputRef}
-                onChange={handleImageSelect}
-                accept="image/*"
+                onChange={handleFileSelect}
+                accept="image/*,.pdf,.doc,.docx,.xls,.xlsx"
+                multiple
                 className="hidden"
               />
               <button

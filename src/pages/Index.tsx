@@ -271,7 +271,7 @@ const Index = () => {
             alt="WIT" 
             className="absolute top-0 left-0" 
             style={{ 
-              maxHeight: isMobile ? (messages.length === 0 ? "64px" : "48px") : (messages.length === 0 ? "84px" : "64px"),
+              maxHeight: isMobile ? (messages.length === 0 ? "64px" : "48px") : (messages.length === 0 ? "59px" : "45px"),
               width: "auto",
               filter: "brightness(0)",
               opacity: messages.length === 0 ? 1 : 0,
@@ -283,7 +283,7 @@ const Index = () => {
             alt="WIT AI" 
             className="" 
             style={{ 
-              maxHeight: isMobile ? (messages.length === 0 ? "64px" : "48px") : (messages.length === 0 ? "84px" : "64px"),
+              maxHeight: isMobile ? (messages.length === 0 ? "64px" : "48px") : (messages.length === 0 ? "59px" : "45px"),
               width: "auto",
               filter: "brightness(0)",
               opacity: messages.length === 0 ? 0 : 1,

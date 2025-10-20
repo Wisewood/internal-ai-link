@@ -12,7 +12,6 @@ import witIcon from "@/assets/wit-embossed.png";
 import witLogo from "@/assets/wit-logo.png";
 import witAiLogo from "@/assets/wit-ai-logo.png";
 import sendButton from "@/assets/send-button.png";
-import { removeBackground, loadImage } from "@/utils/removeBackground";
 interface Message {
   role: "user" | "bot";
   content: string;
@@ -32,7 +31,6 @@ const Index = () => {
   const [typingMessage, setTypingMessage] = useState<string>("");
   const [isTyping, setIsTyping] = useState(false);
   const [isLogoFlipped, setIsLogoFlipped] = useState(false);
-  const [processedSendIcon, setProcessedSendIcon] = useState<string>("");
   const chatEndRef = useRef<HTMLDivElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const sessionIdRef = useRef(crypto.randomUUID());
@@ -65,22 +63,6 @@ const Index = () => {
       behavior: "smooth"
     });
   }, [messages, typingMessage]);
-  useEffect(() => {
-    const processSendIcon = async () => {
-      try {
-        const response = await fetch(sendButton);
-        const blob = await response.blob();
-        const img = await loadImage(blob);
-        const processedBlob = await removeBackground(img);
-        const url = URL.createObjectURL(processedBlob);
-        setProcessedSendIcon(url);
-      } catch (error) {
-        console.error('Error processing send icon:', error);
-        setProcessedSendIcon(sendButton);
-      }
-    };
-    processSendIcon();
-  }, []);
   const typeMessage = (fullMessage: string) => {
     setIsTyping(true);
     setTypingMessage("");
@@ -722,13 +704,9 @@ const Index = () => {
               color: "#1a1a1a"
             }} />
               <button type="submit" disabled={isLoading || (!input.trim() && selectedFiles.length === 0)} className="shrink-0">
-                {processedSendIcon ? (
-                  <img src={processedSendIcon} alt="Send" className="h-6 w-6" style={{
-                    filter: 'brightness(0) saturate(100%) invert(37%) sepia(92%) saturate(2463%) hue-rotate(220deg) brightness(101%) contrast(101%)'
-                  }} />
-                ) : (
-                  <Send className="h-5 w-5" style={{ color: "#3565ff" }} />
-                )}
+                <img src={sendButton} alt="Send" className="h-6 w-6" style={{
+                  filter: 'brightness(0) saturate(100%) invert(37%) sepia(92%) saturate(2463%) hue-rotate(220deg) brightness(101%) contrast(101%)'
+                }} />
               </button>
             </div>
           </form>

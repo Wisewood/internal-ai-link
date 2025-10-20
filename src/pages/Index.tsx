@@ -344,7 +344,8 @@ const Index = () => {
                   transition: "transform 0.6s ease-in-out",
                   transformStyle: "preserve-3d",
                   transform: isLogoFlipped ? "rotateY(180deg)" : "rotateY(0deg)",
-                  zIndex: 1
+                  zIndex: 1,
+                  filter: "brightness(1.5)"
                 }}
                 onClick={() => isMobile && setIsLogoFlipped(!isLogoFlipped)}
                 onMouseEnter={() => !isMobile && setIsLogoFlipped(true)}

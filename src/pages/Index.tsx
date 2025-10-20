@@ -63,7 +63,7 @@ const Index = () => {
         setMessages(prev => [...prev, { role: "bot", content: fullMessage }]);
         setTypingMessage("");
       }
-    }, 33); // 30 characters per second = 1000ms / 30 ≈ 33ms per character
+    }, 20); // 50 characters per second = 1000ms / 50 = 20ms per character
   };
 
   const getFileType = (file: File): "image" | "pdf" | "doc" | "excel" | "other" => {

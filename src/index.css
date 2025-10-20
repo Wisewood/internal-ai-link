@@ -103,3 +103,21 @@ All colors MUST be HSL.
     @apply bg-background text-foreground;
   }
 }
+
+/* Chat bubble styles */
+.chat-bubble ul {
+  list-style-type: disc;
+  padding-left: 20px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.chat-bubble li {
+  display: list-item !important;
+  margin-bottom: 6px;
+  line-height: 1.6;
+}
+
+.chat-bubble p + ul {
+  margin-top: 12px;
+}

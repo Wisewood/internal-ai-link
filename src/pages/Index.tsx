@@ -298,7 +298,7 @@ const Index = () => {
                     }}
                   >
                     <div
-                      className="rounded-2xl max-w-[80%]"
+                      className="chat-bubble rounded-2xl max-w-[80%]"
                       style={{
                         padding: "14px 18px",
                         lineHeight: "1.6",

@@ -221,11 +221,9 @@ const Index = () => {
 
   const mobileSuggestionPills = [
     "What can you do?",
-    "Help with quotation",
-    "Product categories?",
-    "Discover trends",
-    "Source suppliers",
-    "Track my order"
+    "Help me with a quotation",
+    "how many product categories do you work with?",
+    "suggest me gadgets for my event"
   ];
 
   const popularRequests = [

@@ -74,7 +74,7 @@ const Thank = () => {
     // Send notification to webhook
     if (action === 'proceed' && sessionId) {
       setStatus('loading');
-      fetch('https://witai.app.n8n.cloud/webhook/notify', {
+      fetch('https://witai.app.n8n.cloud/webhook-test/59c0e31d-8160-439a-918d-12ad00a405d4', {
         method: 'POST',
         headers: { 
           'Content-Type': 'application/json',

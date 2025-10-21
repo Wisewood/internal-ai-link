@@ -772,13 +772,13 @@ const Index = () => {
         whiteSpace: isMobile ? "nowrap" : "normal"
       }}>
           By messaging WitAI, you agree to our{" "}
-          <a href="#" className="underline" style={{
+          <a href="/terms" className="underline" style={{
           color: "#5271ff"
         }}>
             Terms
           </a>{" "}
           and have read our{" "}
-          <a href="#" className="underline" style={{
+          <a href="/privacy" className="underline" style={{
           color: "#5271ff"
         }}>
             Privacy Policy

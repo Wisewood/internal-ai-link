@@ -96,7 +96,7 @@ const Index = () => {
         }]);
         setTypingMessage("");
       }
-    }, 20); // 50 characters per second = 1000ms / 50 = 20ms per character
+    }, 10); // 100 characters per second = 1000ms / 100 = 10ms per character
   };
   const getFileType = (file: File): "image" | "pdf" | "doc" | "excel" | "other" => {
     if (file.type.startsWith("image/")) return "image";

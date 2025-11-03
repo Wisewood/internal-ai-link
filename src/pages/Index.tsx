@@ -33,6 +33,7 @@ const Index = () => {
   const [isLogoFlipped, setIsLogoFlipped] = useState(false);
   const [isLandscape, setIsLandscape] = useState(false);
   const [isTextareaMaxHeight, setIsTextareaMaxHeight] = useState(false);
+  const [isTextareaScrolled, setIsTextareaScrolled] = useState(false);
   const chatEndRef = useRef<HTMLDivElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -755,7 +756,7 @@ const Index = () => {
                 }} />
               </button>
               <div className="flex-1 relative">
-                {isTextareaMaxHeight && (
+                {isTextareaMaxHeight && isTextareaScrolled && (
                   <div 
                     className="absolute top-0 left-0 right-0 pointer-events-none" 
                     style={{
@@ -768,7 +769,11 @@ const Index = () => {
                 <textarea 
                   ref={textareaRef}
                   value={input} 
-                  onChange={e => setInput(e.target.value)} 
+                  onChange={e => setInput(e.target.value)}
+                  onScroll={e => {
+                    const target = e.target as HTMLTextAreaElement;
+                    setIsTextareaScrolled(target.scrollTop > 0);
+                  }}
                   onKeyDown={e => {
                     if (e.key === 'Enter' && !e.shiftKey) {
                       e.preventDefault();

@@ -69,7 +69,8 @@ const Index = () => {
   useEffect(() => {
     if (textareaRef.current) {
       textareaRef.current.style.height = 'auto';
-      textareaRef.current.style.height = textareaRef.current.scrollHeight + 'px';
+      const newHeight = Math.min(textareaRef.current.scrollHeight, 200);
+      textareaRef.current.style.height = newHeight + 'px';
     }
   }, [input]);
   useEffect(() => {
@@ -740,12 +741,13 @@ const Index = () => {
                     </button>
                   </div>)}
               </div>}
-            <div className="flex items-center gap-3 rounded-full px-4 py-3" style={{
+            <div className="flex items-end gap-3 px-4 py-3" style={{
               background: "#ffffff",
-              border: "1px solid #d0d0d0"
+              border: "1px solid #d0d0d0",
+              borderRadius: "16px"
             }}>
               <input type="file" ref={fileInputRef} onChange={handleFileSelect} accept="image/*,.pdf,.doc,.docx,.xls,.xlsx" multiple className="hidden" />
-              <button type="button" onClick={() => fileInputRef.current?.click()} className="shrink-0">
+              <button type="button" onClick={() => fileInputRef.current?.click()} className="shrink-0 mb-0.5">
                 <Paperclip className="h-5 w-5" style={{
                   color: "#ff8c42"
                 }} />
@@ -762,15 +764,16 @@ const Index = () => {
                 }}
                 placeholder={isMobile ? "What's your project?" : "Ask me anything about your projects"} 
                 disabled={isLoading} 
-                className="flex-1 border-0 bg-transparent p-0 text-base focus:outline-none resize-none overflow-hidden" 
+                className="flex-1 border-0 bg-transparent p-0 text-base focus:outline-none resize-none" 
                 rows={1}
                 style={{
                   color: "#1a1a1a",
                   minHeight: "24px",
-                  maxHeight: "200px"
+                  maxHeight: "200px",
+                  overflowY: "auto"
                 }} 
               />
-              <button type="submit" disabled={isLoading || !input.trim() && selectedFiles.length === 0} className="shrink-0">
+              <button type="submit" disabled={isLoading || !input.trim() && selectedFiles.length === 0} className="shrink-0 mb-0.5">
                 <img src={sendButton} alt="Send" className="h-6 w-6" style={{
                   filter: 'brightness(0) saturate(100%) invert(37%) sepia(92%) saturate(2463%) hue-rotate(220deg) brightness(101%) contrast(101%)'
                 }} />

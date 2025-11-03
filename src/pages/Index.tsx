@@ -64,16 +64,13 @@ const Index = () => {
       behavior: "smooth"
     });
   }, [messages, typingMessage]);
-
   useEffect(() => {
     const checkOrientation = () => {
       setIsLandscape(window.innerWidth > window.innerHeight && isMobile);
     };
-    
     checkOrientation();
     window.addEventListener('resize', checkOrientation);
     window.addEventListener('orientationchange', checkOrientation);
-    
     return () => {
       window.removeEventListener('resize', checkOrientation);
       window.removeEventListener('orientationchange', checkOrientation);
@@ -170,17 +167,15 @@ const Index = () => {
     e.preventDefault();
     const text = input.trim();
     if (!text && selectedFiles.length === 0 || isLoading) return;
-    
+
     // Capture values and clear UI immediately
     const messagesToSend = text;
     const filesToUpload = [...selectedFiles];
-    
     setInput("");
     setSelectedFiles([]);
     if (fileInputRef.current) {
       fileInputRef.current.value = "";
     }
-    
     const attachmentUrls: string[] = [];
 
     // Upload all files if selected
@@ -205,7 +200,6 @@ const Index = () => {
       content: messagesToSend || "📎 Attachments",
       attachments: attachmentUrls.length > 0 ? attachmentUrls : undefined
     }]);
-    
     setIsLoading(true);
     try {
       // Prepare chat input with JSON formatted attachments
@@ -351,12 +345,12 @@ const Index = () => {
 
       {/* Main Content */}
       <main className="flex flex-1 flex-col overflow-hidden" style={{
-        paddingBottom: isMobile && messages.length === 0 ? "140px" : "0"
-      }}>
+      paddingBottom: isMobile && messages.length === 0 ? "140px" : "0"
+    }}>
         {messages.length === 0 ? <div className="flex flex-1 flex-col items-center justify-center px-4" style={{
-          marginTop: isLandscape ? "-100px" : "-260px",
-          marginBottom: isLandscape ? "-50px" : "-180px"
-        }}>
+        marginTop: isLandscape ? "-100px" : "-260px",
+        marginBottom: isLandscape ? "-50px" : "-180px"
+      }}>
             <div className="relative mb-0">
               <div className="absolute inset-0 rounded-full" style={{
             background: "radial-gradient(circle, #dadada 0%, rgba(218, 218, 218, 0.6) 15%, rgba(218, 218, 218, 0.3) 30%, rgba(218, 218, 218, 0.1) 50%, transparent 80%)",
@@ -392,9 +386,7 @@ const Index = () => {
           color: "#1a1a1a",
           fontSize: isLandscape ? "18px" : isMobile ? "25px" : "32px",
           textAlign: "center"
-        }}>
-              AI powered procurement platform
-            </h1>
+        }}>AI-powered procurement platform</h1>
             {!isLandscape && <p className="mb-3 text-center" style={{
           color: "#666666",
           maxWidth: "480px",
@@ -402,8 +394,8 @@ const Index = () => {
         }}>Request your quotation to suppliers selected from a list of over 50,000 and manage your entire order - all in one platform</p>}
             
             <div className="flex flex-wrap justify-center gap-2 max-w-3xl" style={{
-              marginTop: isLandscape ? "8px" : "0"
-            }}>
+          marginTop: isLandscape ? "8px" : "0"
+        }}>
               {(isMobile ? mobileSuggestionPills : suggestionPills).map((pill, idx) => <button key={idx} onClick={() => setInput(pill)} className="rounded-full transition-all hover:shadow-md" style={{
             background: "#ffffff",
             border: "1px solid #e0e0e0",
@@ -629,7 +621,10 @@ const Index = () => {
           </div>}
 
         {/* Popular Requests - shown above input */}
-        {messages.length === 0 && !isLandscape && <div className="w-full px-4 pb-6" style={{ marginTop: "-60px", marginBottom: "50px" }}>
+        {messages.length === 0 && !isLandscape && <div className="w-full px-4 pb-6" style={{
+        marginTop: "-60px",
+        marginBottom: "50px"
+      }}>
             <div className="mx-auto max-w-5xl">
               <h2 className="font-medium mb-4" style={{
             color: "#666666",
@@ -680,76 +675,76 @@ const Index = () => {
 
         {/* Bottom Section Wrapper - Fixed on mobile empty state */}
         <div style={{
-          position: isMobile && messages.length === 0 ? "fixed" : "relative",
-          bottom: isMobile && messages.length === 0 ? 0 : "auto",
-          left: isMobile && messages.length === 0 ? 0 : "auto",
-          right: isMobile && messages.length === 0 ? 0 : "auto",
-          zIndex: isMobile && messages.length === 0 ? 40 : "auto",
-          background: isMobile && messages.length === 0 ? "#f5f5f5" : "transparent",
-          width: isMobile && messages.length === 0 ? "100%" : "auto"
-        }}>
+        position: isMobile && messages.length === 0 ? "fixed" : "relative",
+        bottom: isMobile && messages.length === 0 ? 0 : "auto",
+        left: isMobile && messages.length === 0 ? 0 : "auto",
+        right: isMobile && messages.length === 0 ? 0 : "auto",
+        zIndex: isMobile && messages.length === 0 ? 40 : "auto",
+        background: isMobile && messages.length === 0 ? "#f5f5f5" : "transparent",
+        width: isMobile && messages.length === 0 ? "100%" : "auto"
+      }}>
           {/* Input Area */}
           <div className="px-4 pb-6" style={isMobile && messages.length > 0 ? {
-        position: "fixed",
-        bottom: 0,
-        left: 0,
-        right: 0,
-        zIndex: 40,
-        background: "#f5f5f5",
-        paddingTop: "12px"
-      } : {}}>
+          position: "fixed",
+          bottom: 0,
+          left: 0,
+          right: 0,
+          zIndex: 40,
+          background: "#f5f5f5",
+          paddingTop: "12px"
+        } : {}}>
           <form onSubmit={sendMessage} className="mx-auto max-w-3xl">
             {selectedFiles.length > 0 && <div className="mb-2 flex flex-wrap gap-2">
                 {selectedFiles.map((filePreview, index) => <div key={index} className="relative">
                     {filePreview.type === "image" ? <img src={filePreview.preview} alt="Preview" className="rounded-lg" style={{
-                maxHeight: "100px",
-                maxWidth: "100px"
-              }} /> : <div className="flex items-center gap-2 px-3 py-2 rounded-lg" style={{
-                background: "#f0f0f0",
-                minWidth: "150px"
-              }}>
-                        {filePreview.type === "pdf" && <FileText className="h-5 w-5" style={{
-                  color: "#ff8c42"
-                }} />}
-                        {filePreview.type === "doc" && <FileText className="h-5 w-5" style={{
-                  color: "#ff8c42"
-                }} />}
-                        {filePreview.type === "excel" && <FileSpreadsheet className="h-5 w-5" style={{
-                  color: "#ff8c42"
-                }} />}
-                        {filePreview.type === "other" && <File className="h-5 w-5" style={{
-                  color: "#ff8c42"
-                }} />}
-                        <span className="text-sm truncate" style={{
-                  color: "#1a1a1a",
+                  maxHeight: "100px",
                   maxWidth: "100px"
+                }} /> : <div className="flex items-center gap-2 px-3 py-2 rounded-lg" style={{
+                  background: "#f0f0f0",
+                  minWidth: "150px"
                 }}>
+                        {filePreview.type === "pdf" && <FileText className="h-5 w-5" style={{
+                    color: "#ff8c42"
+                  }} />}
+                        {filePreview.type === "doc" && <FileText className="h-5 w-5" style={{
+                    color: "#ff8c42"
+                  }} />}
+                        {filePreview.type === "excel" && <FileSpreadsheet className="h-5 w-5" style={{
+                    color: "#ff8c42"
+                  }} />}
+                        {filePreview.type === "other" && <File className="h-5 w-5" style={{
+                    color: "#ff8c42"
+                  }} />}
+                        <span className="text-sm truncate" style={{
+                    color: "#1a1a1a",
+                    maxWidth: "100px"
+                  }}>
                           {filePreview.file.name}
                         </span>
                       </div>}
                     <button type="button" onClick={() => removeFile(index)} className="absolute -top-2 -right-2 rounded-full p-1" style={{
-                background: "#5271ff"
-              }}>
+                  background: "#5271ff"
+                }}>
                       <X className="h-4 w-4" style={{
-                  color: "#ffffff"
-                }} />
+                    color: "#ffffff"
+                  }} />
                     </button>
                   </div>)}
               </div>}
             <div className="flex items-center gap-3 rounded-full px-4 py-3" style={{
-            background: "#ffffff",
-            border: "1px solid #d0d0d0"
-          }}>
+              background: "#ffffff",
+              border: "1px solid #d0d0d0"
+            }}>
               <input type="file" ref={fileInputRef} onChange={handleFileSelect} accept="image/*,.pdf,.doc,.docx,.xls,.xlsx" multiple className="hidden" />
               <button type="button" onClick={() => fileInputRef.current?.click()} className="shrink-0">
                 <Paperclip className="h-5 w-5" style={{
-                color: "#ff8c42"
-              }} />
+                  color: "#ff8c42"
+                }} />
               </button>
               <input value={input} onChange={e => setInput(e.target.value)} placeholder={isMobile ? "What's your project?" : "Ask me anything about your projects"} disabled={isLoading} className="flex-1 border-0 bg-transparent p-0 text-base focus:outline-none" style={{
-              color: "#1a1a1a"
-            }} />
-              <button type="submit" disabled={isLoading || (!input.trim() && selectedFiles.length === 0)} className="shrink-0">
+                color: "#1a1a1a"
+              }} />
+              <button type="submit" disabled={isLoading || !input.trim() && selectedFiles.length === 0} className="shrink-0">
                 <img src={sendButton} alt="Send" className="h-6 w-6" style={{
                   filter: 'brightness(0) saturate(100%) invert(37%) sepia(92%) saturate(2463%) hue-rotate(220deg) brightness(101%) contrast(101%)'
                 }} />
@@ -760,27 +755,27 @@ const Index = () => {
 
         {/* Footer */}
         <footer className="border-t px-4 text-center" style={{
-      borderColor: "#e0e0e0",
-      color: "#999999",
-      background: isMobile ? "transparent" : "#ffffff",
-      paddingTop: isMobile ? "8px" : "12px",
-      paddingBottom: isMobile ? "8px" : "12px",
-      fontSize: isMobile ? "8px" : "11px",
-      lineHeight: "1.2"
-    }}>
+          borderColor: "#e0e0e0",
+          color: "#999999",
+          background: isMobile ? "transparent" : "#ffffff",
+          paddingTop: isMobile ? "8px" : "12px",
+          paddingBottom: isMobile ? "8px" : "12px",
+          fontSize: isMobile ? "8px" : "11px",
+          lineHeight: "1.2"
+        }}>
         <span style={{
-        whiteSpace: isMobile ? "nowrap" : "normal"
-      }}>
+            whiteSpace: isMobile ? "nowrap" : "normal"
+          }}>
           By messaging WitAI, you agree to our{" "}
           <a href="/terms" className="underline" style={{
-          color: "#5271ff"
-        }}>
+              color: "#5271ff"
+            }}>
             Terms
           </a>{" "}
           and have read our{" "}
           <a href="/privacy" className="underline" style={{
-          color: "#5271ff"
-        }}>
+              color: "#5271ff"
+            }}>
             Privacy Policy
           </a>
           .

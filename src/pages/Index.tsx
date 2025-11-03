@@ -460,8 +460,9 @@ const Index = () => {
                   strong: ({
                     children
                   }) => <strong style={{
-                    fontWeight: 600,
-                    color: msg.role === "user" ? "#1a1a1a" : "#000000"
+                    fontWeight: 700,
+                    color: msg.role === "user" ? "#1a1a1a" : "#000000",
+                    display: "inline-block"
                   }}>
                             {children}
                           </strong>,
@@ -484,8 +485,8 @@ const Index = () => {
                   li: ({
                     children
                   }) => <li style={{
-                    lineHeight: "1.6",
-                    marginBottom: "4px",
+                    lineHeight: "1.8",
+                    marginBottom: "16px",
                     display: "list-item"
                   }}>{children}</li>,
                   h2: ({

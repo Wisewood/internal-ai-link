@@ -34,6 +34,7 @@ const Index = () => {
   const [isLandscape, setIsLandscape] = useState(false);
   const chatEndRef = useRef<HTMLDivElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
   const sessionIdRef = useRef(crypto.randomUUID());
   const {
     toast
@@ -64,6 +65,13 @@ const Index = () => {
       behavior: "smooth"
     });
   }, [messages, typingMessage]);
+
+  useEffect(() => {
+    if (textareaRef.current) {
+      textareaRef.current.style.height = 'auto';
+      textareaRef.current.style.height = textareaRef.current.scrollHeight + 'px';
+    }
+  }, [input]);
   useEffect(() => {
     const checkOrientation = () => {
       setIsLandscape(window.innerWidth > window.innerHeight && isMobile);
@@ -742,9 +750,26 @@ const Index = () => {
                   color: "#ff8c42"
                 }} />
               </button>
-              <input value={input} onChange={e => setInput(e.target.value)} placeholder={isMobile ? "What's your project?" : "Ask me anything about your projects"} disabled={isLoading} className="flex-1 border-0 bg-transparent p-0 text-base focus:outline-none" style={{
-                color: "#1a1a1a"
-              }} />
+              <textarea 
+                ref={textareaRef}
+                value={input} 
+                onChange={e => setInput(e.target.value)} 
+                onKeyDown={e => {
+                  if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    sendMessage(e as any);
+                  }
+                }}
+                placeholder={isMobile ? "What's your project?" : "Ask me anything about your projects"} 
+                disabled={isLoading} 
+                className="flex-1 border-0 bg-transparent p-0 text-base focus:outline-none resize-none overflow-hidden" 
+                rows={1}
+                style={{
+                  color: "#1a1a1a",
+                  minHeight: "24px",
+                  maxHeight: "200px"
+                }} 
+              />
               <button type="submit" disabled={isLoading || !input.trim() && selectedFiles.length === 0} className="shrink-0">
                 <img src={sendButton} alt="Send" className="h-6 w-6" style={{
                   filter: 'brightness(0) saturate(100%) invert(37%) sepia(92%) saturate(2463%) hue-rotate(220deg) brightness(101%) contrast(101%)'

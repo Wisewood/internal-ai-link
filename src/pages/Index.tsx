@@ -32,6 +32,7 @@ const Index = () => {
   const [isTyping, setIsTyping] = useState(false);
   const [isLogoFlipped, setIsLogoFlipped] = useState(false);
   const [isLandscape, setIsLandscape] = useState(false);
+  const [isTextareaMaxHeight, setIsTextareaMaxHeight] = useState(false);
   const chatEndRef = useRef<HTMLDivElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -71,6 +72,7 @@ const Index = () => {
       textareaRef.current.style.height = 'auto';
       const newHeight = Math.min(textareaRef.current.scrollHeight, 200);
       textareaRef.current.style.height = newHeight + 'px';
+      setIsTextareaMaxHeight(textareaRef.current.scrollHeight > 200);
     }
   }, [input]);
   useEffect(() => {
@@ -741,7 +743,7 @@ const Index = () => {
                     </button>
                   </div>)}
               </div>}
-            <div className="flex items-end gap-3 px-4 py-3" style={{
+            <div className="flex items-end gap-3 px-4 py-3 relative" style={{
               background: "#ffffff",
               border: "1px solid #d0d0d0",
               borderRadius: "16px"
@@ -752,27 +754,39 @@ const Index = () => {
                   color: "#ff8c42"
                 }} />
               </button>
-              <textarea 
-                ref={textareaRef}
-                value={input} 
-                onChange={e => setInput(e.target.value)} 
-                onKeyDown={e => {
-                  if (e.key === 'Enter' && !e.shiftKey) {
-                    e.preventDefault();
-                    sendMessage(e as any);
-                  }
-                }}
-                placeholder={isMobile ? "What's your project?" : "Ask me anything about your projects"} 
-                disabled={isLoading} 
-                className="flex-1 border-0 bg-transparent p-0 text-base focus:outline-none resize-none" 
-                rows={1}
-                style={{
-                  color: "#1a1a1a",
-                  minHeight: "24px",
-                  maxHeight: "200px",
-                  overflowY: "auto"
-                }} 
-              />
+              <div className="flex-1 relative">
+                {isTextareaMaxHeight && (
+                  <div 
+                    className="absolute top-0 left-0 right-0 pointer-events-none" 
+                    style={{
+                      height: "30px",
+                      background: "linear-gradient(to bottom, #ffffff 0%, rgba(255, 255, 255, 0) 100%)",
+                      zIndex: 1
+                    }}
+                  />
+                )}
+                <textarea 
+                  ref={textareaRef}
+                  value={input} 
+                  onChange={e => setInput(e.target.value)} 
+                  onKeyDown={e => {
+                    if (e.key === 'Enter' && !e.shiftKey) {
+                      e.preventDefault();
+                      sendMessage(e as any);
+                    }
+                  }}
+                  placeholder={isMobile ? "What's your project?" : "Ask me anything about your projects"} 
+                  disabled={isLoading} 
+                  className="flex-1 border-0 bg-transparent p-0 text-base focus:outline-none resize-none w-full" 
+                  rows={1}
+                  style={{
+                    color: "#1a1a1a",
+                    minHeight: "24px",
+                    maxHeight: "200px",
+                    overflowY: "auto"
+                  }} 
+                />
+              </div>
               <button type="submit" disabled={isLoading || !input.trim() && selectedFiles.length === 0} className="shrink-0 mb-0.5">
                 <img src={sendButton} alt="Send" className="h-6 w-6" style={{
                   filter: 'brightness(0) saturate(100%) invert(37%) sepia(92%) saturate(2463%) hue-rotate(220deg) brightness(101%) contrast(101%)'

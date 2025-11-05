@@ -437,7 +437,8 @@ const Index = () => {
                 padding: "10px 14px",
                 lineHeight: "1.5",
                 background: msg.role === "user" ? "#e8e8e8" : "transparent",
-                color: msg.role === "user" ? "#1a1a1a" : "#4a4a4a"
+                color: msg.role === "user" ? "#1a1a1a" : "#4a4a4a",
+                textAlign: "left"
               }}>
                     {msg.attachments && msg.attachments.length > 0 && <div className="mb-2 flex flex-wrap gap-2">
                         {msg.attachments.map((url, i) => {
@@ -489,7 +490,7 @@ const Index = () => {
                   ul: ({
                     children
                   }) => <ul style={{
-                    margin: "4px 0",
+                    margin: "2px 0",
                     paddingLeft: "16px",
                     listStyleType: "disc",
                     display: "block"
@@ -497,8 +498,8 @@ const Index = () => {
                   li: ({
                     children
                   }) => <li style={{
-                    lineHeight: "1.6",
-                    marginBottom: "6px",
+                    lineHeight: "1.4",
+                    marginBottom: "2px",
                     display: "list-item"
                   }}>{children}</li>,
                   h2: ({

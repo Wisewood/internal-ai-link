@@ -556,22 +556,24 @@ const Index = () => {
                 animationDelay: "300ms"
               }}>●</span>
                     </div> : isTyping && typingMessage && <div className="chat-bubble rounded-2xl max-w-[80%]" style={{
-              padding: "14px 18px",
-              lineHeight: "1.6",
+              padding: "10px 14px",
+              lineHeight: "1.5",
               background: "transparent",
-              color: "#4a4a4a"
+              color: "#4a4a4a",
+              textAlign: "left"
             }}>
                       <ReactMarkdown remarkPlugins={[remarkGfm]} components={{
                 p: ({
                   children
                 }) => <p style={{
-                  margin: "8px 0"
+                  margin: "4px 0"
                 }}>{children}</p>,
                 strong: ({
                   children
                 }) => <strong style={{
-                  fontWeight: 600,
-                  color: "#000000"
+                  fontWeight: 700,
+                  color: "#000000",
+                  display: "inline-block"
                 }}>
                               {children}
                             </strong>,
@@ -586,16 +588,16 @@ const Index = () => {
                 ul: ({
                   children
                 }) => <ul style={{
-                  margin: "8px 0",
-                  paddingLeft: "18px",
+                  margin: "2px 0",
+                  paddingLeft: "16px",
                   listStyleType: "disc",
                   display: "block"
                 }}>{children}</ul>,
                 li: ({
                   children
                 }) => <li style={{
-                  lineHeight: "1.6",
-                  marginBottom: "4px",
+                  lineHeight: "1.4",
+                  marginBottom: "2px",
                   display: "list-item"
                 }}>{children}</li>,
                 h2: ({
@@ -603,7 +605,8 @@ const Index = () => {
                 }) => <h2 style={{
                   fontSize: "1.1rem",
                   fontWeight: 600,
-                  marginTop: "10px",
+                  marginTop: "6px",
+                  marginBottom: "4px",
                   color: "#000000"
                 }}>
                               {children}
@@ -613,7 +616,8 @@ const Index = () => {
                 }) => <h3 style={{
                   fontSize: "1rem",
                   fontWeight: 600,
-                  marginTop: "8px",
+                  marginTop: "6px",
+                  marginBottom: "4px",
                   color: "#000000"
                 }}>
                               {children}

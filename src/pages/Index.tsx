@@ -749,7 +749,7 @@ const Index = () => {
               border: "1px solid #d0d0d0",
               borderRadius: "16px"
             }}>
-              <input type="file" ref={fileInputRef} onChange={handleFileSelect} accept="image/*,.pdf,.doc,.docx,.xls,.xlsx" multiple className="hidden" />
+              <input type="file" ref={fileInputRef} onChange={handleFileSelect} accept="image/*" multiple className="hidden" />
               <button type="button" onClick={() => fileInputRef.current?.click()} className="shrink-0 mb-0.5">
                 <Paperclip className="h-5 w-5" style={{
                   color: "#ff8c42"

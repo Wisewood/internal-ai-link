@@ -421,9 +421,9 @@ const Index = () => {
           </div> : <div className="flex-1 overflow-y-auto px-4 py-6" style={{
         paddingBottom: isMobile ? "120px" : "24px"
       }}>
-            <div className="mx-auto max-w-3xl space-y-6">
+            <div className="mx-auto max-w-3xl space-y-3">
               {messages.map((msg, idx) => <div key={idx}>
-                  <div className="text-xs font-medium mb-1" style={{
+                  <div className="text-xs font-medium mb-0.5" style={{
               color: "#666666",
               textAlign: msg.role === "user" ? "right" : "left"
             }}>
@@ -434,8 +434,8 @@ const Index = () => {
               justifyContent: msg.role === "user" ? "flex-end" : "flex-start"
             }}>
                     <div className="chat-bubble rounded-2xl max-w-[80%]" style={{
-                padding: "14px 18px",
-                lineHeight: "1.6",
+                padding: "10px 14px",
+                lineHeight: "1.5",
                 background: msg.role === "user" ? "#e8e8e8" : "transparent",
                 color: msg.role === "user" ? "#1a1a1a" : "#4a4a4a"
               }}>
@@ -467,7 +467,7 @@ const Index = () => {
                   p: ({
                     children
                   }) => <p style={{
-                    margin: "8px 0"
+                    margin: "4px 0"
                   }}>{children}</p>,
                   strong: ({
                     children
@@ -489,16 +489,16 @@ const Index = () => {
                   ul: ({
                     children
                   }) => <ul style={{
-                    margin: "8px 0",
-                    paddingLeft: "18px",
+                    margin: "4px 0",
+                    paddingLeft: "16px",
                     listStyleType: "disc",
                     display: "block"
                   }}>{children}</ul>,
                   li: ({
                     children
                   }) => <li style={{
-                    lineHeight: "1.8",
-                    marginBottom: "16px",
+                    lineHeight: "1.6",
+                    marginBottom: "6px",
                     display: "list-item"
                   }}>{children}</li>,
                   h2: ({
@@ -506,7 +506,8 @@ const Index = () => {
                   }) => <h2 style={{
                     fontSize: "1.1rem",
                     fontWeight: 600,
-                    marginTop: "10px",
+                    marginTop: "6px",
+                    marginBottom: "4px",
                     color: msg.role === "user" ? "#1a1a1a" : "#000000"
                   }}>
                             {children}
@@ -516,7 +517,8 @@ const Index = () => {
                   }) => <h3 style={{
                     fontSize: "1rem",
                     fontWeight: 600,
-                    marginTop: "8px",
+                    marginTop: "6px",
+                    marginBottom: "4px",
                     color: msg.role === "user" ? "#1a1a1a" : "#000000"
                   }}>
                             {children}

@@ -69,11 +69,14 @@ const Index = () => {
   }, [messages, typingMessage]);
 
   useEffect(() => {
-    if (textareaRef.current) {
+    if (textareaRef.current && input) {
       textareaRef.current.style.height = 'auto';
       const newHeight = Math.min(textareaRef.current.scrollHeight, 200);
       textareaRef.current.style.height = newHeight + 'px';
       setIsTextareaMaxHeight(textareaRef.current.scrollHeight > 200);
+    } else if (textareaRef.current && !input) {
+      textareaRef.current.style.height = '24px';
+      setIsTextareaMaxHeight(false);
     }
   }, [input]);
   useEffect(() => {

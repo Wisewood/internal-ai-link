@@ -357,11 +357,11 @@ const Index = () => {
 
       {/* Main Content */}
       <main className="flex flex-1 flex-col overflow-hidden" style={{
-      paddingBottom: isMobile && messages.length === 0 ? "140px" : "0"
+      paddingBottom: isMobile && messages.length === 0 ? "180px" : "0"
     }}>
         {messages.length === 0 ? <div className="flex flex-1 flex-col items-center justify-center px-4" style={{
-        marginTop: isLandscape ? "-100px" : "-260px",
-        marginBottom: isLandscape ? "-50px" : "-180px"
+        marginTop: isLandscape ? "-100px" : isMobile ? "-180px" : "-260px",
+        marginBottom: isLandscape ? "-50px" : isMobile ? "-120px" : "-180px"
       }}>
             <div className="relative mb-0">
               <div className="absolute inset-0 rounded-full" style={{
@@ -394,15 +394,17 @@ const Index = () => {
                 }
               }
             `}</style>
-            <h1 className="mb-0.5 font-normal" style={{
+            <h1 className="font-normal" style={{
           color: "#1a1a1a",
           fontSize: isLandscape ? "18px" : isMobile ? "25px" : "32px",
-          textAlign: "center"
+          textAlign: "center",
+          marginBottom: isMobile ? "12px" : "0.5"
         }}>AI-powered procurement platform</h1>
-            {!isLandscape && <p className="mb-3 text-center" style={{
+            {!isLandscape && <p className="text-center" style={{
           color: "#666666",
           maxWidth: "480px",
-          fontSize: isMobile ? "13px" : "14px"
+          fontSize: isMobile ? "13px" : "14px",
+          marginBottom: isMobile ? "20px" : "12px"
         }}>Request your quotation to suppliers selected from a list of over 50,000 and manage your entire order - all in one platform</p>}
             
             <div className="flex flex-wrap justify-center gap-2 max-w-3xl" style={{
@@ -642,8 +644,8 @@ const Index = () => {
 
         {/* Popular Requests - shown above input */}
         {messages.length === 0 && !isLandscape && <div className="w-full px-4 pb-6" style={{
-        marginTop: "-60px",
-        marginBottom: "50px"
+        marginTop: isMobile ? "-20px" : "-60px",
+        marginBottom: isMobile ? "30px" : "50px"
       }}>
             <div className="mx-auto max-w-5xl">
               <h2 className="font-medium mb-4" style={{

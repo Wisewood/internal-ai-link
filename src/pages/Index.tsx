@@ -795,9 +795,11 @@ const Index = () => {
                   rows={1}
                   style={{
                     color: "#1a1a1a",
+                    height: input ? "auto" : "24px",
                     minHeight: "24px",
                     maxHeight: "200px",
-                    overflowY: "auto"
+                    overflowY: input ? "auto" : "hidden",
+                    lineHeight: "24px"
                   }} 
                 />
               </div>

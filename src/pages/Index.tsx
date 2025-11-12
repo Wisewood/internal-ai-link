@@ -178,9 +178,9 @@ const Index = () => {
       fileInputRef.current.value = "";
     }
   };
-  const sendMessage = async (e: React.FormEvent) => {
-    e.preventDefault();
-    const text = input.trim();
+  const sendMessage = async (e?: React.FormEvent, customMessage?: string) => {
+    if (e) e.preventDefault();
+    const text = customMessage || input.trim();
     if (!text && selectedFiles.length === 0 || isLoading) return;
 
     // Capture values and clear UI immediately
@@ -666,7 +666,7 @@ const Index = () => {
                       display: none;
                     }
                   `}</style>
-                  {popularRequests.map((request, idx) => <button key={idx} onClick={() => setInput(`Tell me about ${request.name}`)} className="flex-shrink-0 p-4 rounded-2xl transition-all hover:shadow-lg" style={{
+                  {popularRequests.map((request, idx) => <button key={idx} onClick={() => sendMessage(undefined, `Tell me about ${request.name}`)} className="flex-shrink-0 p-4 rounded-2xl transition-all hover:shadow-lg" style={{
               background: "#ffffff",
               border: "1px solid #e0e0e0",
               width: "134px",
@@ -681,7 +681,7 @@ const Index = () => {
               }}>{request.name}</div>
                     </button>)}
                 </div> : <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
-                  {popularRequests.map((request, idx) => <button key={idx} onClick={() => setInput(`Tell me about ${request.name}`)} className="p-4 rounded-2xl transition-all hover:shadow-lg" style={{
+                  {popularRequests.map((request, idx) => <button key={idx} onClick={() => sendMessage(undefined, `Tell me about ${request.name}`)} className="p-4 rounded-2xl transition-all hover:shadow-lg" style={{
               background: "#ffffff",
               border: "1px solid #e0e0e0",
               textAlign: "left",

@@ -383,7 +383,7 @@ const Index = () => {
       overflow: messages.length > 0 ? "auto" : "hidden"
     }}>
         {messages.length === 0 ? <div className="flex flex-1 flex-col items-center justify-center px-4" style={{
-        marginTop: isLandscape ? "-100px" : isMobile ? "-180px" : "-260px",
+        marginTop: isLandscape ? "-80px" : isMobile ? "-100px" : "-260px",
         marginBottom: isLandscape ? "-50px" : isMobile ? "-120px" : "-180px"
       }}>
             <div className="relative mb-0">

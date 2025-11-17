@@ -379,7 +379,7 @@ const Index = () => {
 
       {/* Main Content */}
       <main className="flex flex-1 flex-col" style={{
-      paddingBottom: isMobile && messages.length === 0 ? "180px" : "0",
+      paddingBottom: isMobile && messages.length === 0 ? "clamp(140px, 25vh, 180px)" : "0",
       overflow: messages.length > 0 ? "auto" : "hidden"
     }}>
         {messages.length === 0 ? <div className="flex flex-1 flex-col items-center justify-center px-4" style={{
@@ -431,7 +431,8 @@ const Index = () => {
         }}>Request your quotation to suppliers selected from a list of over 50,000 and manage your entire order - all in one platform</p>}
             
             <div className="flex flex-wrap justify-center gap-2 max-w-3xl" style={{
-          marginTop: isLandscape ? "8px" : "0"
+          marginTop: isLandscape ? "var(--space-sm)" : "0",
+          marginBottom: isMobile ? "clamp(16px, 4vh, 32px)" : "clamp(12px, 2vh, 24px)"
         }}>
               {(isMobile ? mobileSuggestionPills : suggestionPills).map((pill, idx) => <button key={idx} onClick={() => sendMessage(undefined, pill)} className="rounded-full transition-all hover:shadow-md" style={{
             background: "#ffffff",
@@ -668,13 +669,14 @@ const Index = () => {
 
         {/* Popular Requests - shown above input */}
         {messages.length === 0 && !isLandscape && <div className="w-full px-4 pb-6" style={{
-        marginTop: isMobile ? "-20px" : "-60px",
-        marginBottom: isMobile ? "30px" : "50px"
+        marginTop: isMobile ? "clamp(-30px, -3vh, -20px)" : "-60px",
+        marginBottom: isMobile ? "clamp(20px, 5vh, 30px)" : "50px"
       }}>
             <div className="mx-auto max-w-5xl">
               <h2 className="font-medium mb-4" style={{
             color: "#666666",
-            fontSize: isMobile ? "17px" : "20px"
+            fontSize: isMobile ? "clamp(14px, 3.5vw, 17px)" : "20px",
+            marginBottom: isMobile ? "clamp(12px, 2.5vh, 16px)" : "var(--space-md)"
           }}>Popular Requests</h2>
               {isMobile ? <div className="flex gap-4 overflow-x-auto pb-2" style={{
             scrollSnapType: "x mandatory",

@@ -225,6 +225,11 @@ const Index = () => {
         });
         chatInput = messagesToSend ? `${messagesToSend}\n${attachmentsJson}` : attachmentsJson;
       }
+      
+      // Add timeout to prevent indefinite loading
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 30000); // 30 second timeout
+      
       const res = await fetch(API_URL, {
         method: "POST",
         headers: {
@@ -234,17 +239,29 @@ const Index = () => {
           sessionId: sessionIdRef.current,
           action: "sendMessage",
           chatInput: chatInput
-        })
+        }),
+        signal: controller.signal
       });
+      
+      clearTimeout(timeoutId);
+      
+      if (!res.ok) {
+        throw new Error(`API error: ${res.status}`);
+      }
+      
       const data = await res.json();
       const botMessage = data.text || data.output || data.ui || "…";
       setIsLoading(false);
       typeMessage(botMessage);
     } catch (err) {
-      console.error(err);
+      console.error("Chat error:", err);
+      const errorMessage = err instanceof Error && err.name === 'AbortError' 
+        ? "Request timed out. Please try again."
+        : "There was a problem connecting to the chat.";
+      
       toast({
         title: "Connection Error",
-        description: "There was a problem connecting to the chat.",
+        description: errorMessage,
         variant: "destructive"
       });
       setIsLoading(false);

@@ -376,8 +376,9 @@ const Index = () => {
       </header>
 
       {/* Main Content */}
-      <main className="flex flex-1 flex-col overflow-hidden" style={{
-      paddingBottom: isMobile && messages.length === 0 ? "180px" : "0"
+      <main className="flex flex-1 flex-col" style={{
+      paddingBottom: isMobile && messages.length === 0 ? "180px" : "0",
+      overflow: messages.length > 0 ? "auto" : "hidden"
     }}>
         {messages.length === 0 ? <div className="flex flex-1 flex-col items-center justify-center px-4" style={{
         marginTop: isLandscape ? "-100px" : isMobile ? "-180px" : "-260px",
@@ -441,7 +442,7 @@ const Index = () => {
                 </button>)}
             </div>
           </div> : <div className="flex-1 overflow-y-auto px-4 py-6" style={{
-        paddingBottom: isMobile ? "120px" : "24px"
+        paddingBottom: isMobile ? "160px" : "24px"
       }}>
             <div className="mx-auto max-w-3xl space-y-3">
               {messages.map((msg, idx) => <div key={idx}>

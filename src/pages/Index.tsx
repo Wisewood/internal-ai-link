@@ -413,7 +413,7 @@ const Index = () => {
             <div className="flex flex-wrap justify-center gap-2 max-w-3xl" style={{
           marginTop: isLandscape ? "8px" : "0"
         }}>
-              {(isMobile ? mobileSuggestionPills : suggestionPills).map((pill, idx) => <button key={idx} onClick={() => setInput(pill)} className="rounded-full transition-all hover:shadow-md" style={{
+              {(isMobile ? mobileSuggestionPills : suggestionPills).map((pill, idx) => <button key={idx} onClick={() => sendMessage(undefined, pill)} className="rounded-full transition-all hover:shadow-md" style={{
             background: "#ffffff",
             border: "1px solid #e0e0e0",
             color: "#1a1a1a",

@@ -434,7 +434,7 @@ const Index = () => {
             background: "#ffffff",
             border: "1px solid #e0e0e0",
             color: "#1a1a1a",
-            padding: isLandscape ? "5px 10px" : isMobile ? "7px 13px" : "11px 21px",
+            padding: isLandscape ? "5px 10px" : isMobile ? "8px 13px" : "12px 21px",
             fontSize: isLandscape ? "11px" : isMobile ? "13px" : "14px"
           }}>
                   {pill}

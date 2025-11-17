@@ -785,7 +785,43 @@ const Index = () => {
                 }} />
               </button>
               <div className="flex-1 relative">
-...
+                {isTextareaMaxHeight && isTextareaScrolled && (
+                  <div 
+                    className="absolute top-0 left-0 right-0 pointer-events-none" 
+                    style={{
+                      height: "30px",
+                      background: "linear-gradient(to bottom, #ffffff 0%, rgba(255, 255, 255, 0) 100%)",
+                      zIndex: 1
+                    }}
+                  />
+                )}
+                <textarea 
+                  ref={textareaRef}
+                  value={input} 
+                  onChange={e => setInput(e.target.value)}
+                  onScroll={e => {
+                    const target = e.target as HTMLTextAreaElement;
+                    setIsTextareaScrolled(target.scrollTop > 0);
+                  }}
+                  onKeyDown={e => {
+                    if (e.key === 'Enter' && !e.shiftKey) {
+                      e.preventDefault();
+                      sendMessage(e as any);
+                    }
+                  }}
+                  placeholder={isMobile ? "What's your project?" : "Ask me anything about your projects"} 
+                  disabled={isLoading} 
+                  className="flex-1 border-0 bg-transparent p-0 text-base focus:outline-none resize-none w-full" 
+                  rows={1}
+                  style={{
+                    color: "#1a1a1a",
+                    height: input ? "auto" : "24px",
+                    minHeight: "24px",
+                    maxHeight: "200px",
+                    overflowY: input ? "auto" : "hidden",
+                    lineHeight: "24px"
+                  }} 
+                />
               </div>
               <button type="submit" disabled={isLoading || !input.trim() && selectedFiles.length === 0} className="shrink-0">
                 <img src={sendButton} alt="Send" className="h-6 w-6" style={{

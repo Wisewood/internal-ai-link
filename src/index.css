@@ -53,6 +53,46 @@ All colors MUST be HSL.
     --sidebar-border: 220 13% 91%;
 
     --sidebar-ring: 217.2 91.2% 59.8%;
+
+    /* Responsive scaling variables */
+    --font-size-base: clamp(14px, 2vw, 16px);
+    
+    /* Icon sizes scale proportionally */
+    --icon-sm: clamp(16px, 3vw, 20px);
+    --icon-md: clamp(20px, 4vw, 24px);
+    --icon-lg: clamp(24px, 5vw, 32px);
+    
+    /* Spacing scales */
+    --space-xs: clamp(4px, 1vw, 8px);
+    --space-sm: clamp(8px, 2vw, 12px);
+    --space-md: clamp(12px, 3vw, 16px);
+    --space-lg: clamp(16px, 4vw, 24px);
+    --space-xl: clamp(24px, 5vw, 32px);
+    
+    /* Logo scales */
+    --logo-height: clamp(40px, 8vw, 64px);
+    --logo-height-active: clamp(32px, 6vw, 48px);
+    --logo-width: clamp(90px, 16vw, 145px);
+    --logo-width-active: clamp(72px, 13vw, 109px);
+    
+    /* Touch target minimum */
+    --touch-target: max(44px, 7vw);
+    
+    /* Typography scales */
+    --text-heading: clamp(20px, 5vw, 28px);
+    --text-subheading: clamp(12px, 2.5vw, 14px);
+    --text-body: clamp(14px, 2vw, 16px);
+    --text-footer: clamp(10px, 1.5vw, 11px);
+    --text-pill: clamp(12px, 2vw, 14px);
+    
+    /* Border radius scales */
+    --radius-sm: clamp(8px, 1.5vw, 12px);
+    --radius-md: clamp(12px, 2vw, 16px);
+    --radius-lg: clamp(16px, 3vw, 24px);
+    
+    /* Input area scales */
+    --input-padding: clamp(12px, 2.5vw, 16px);
+    --input-border-radius: clamp(20px, 4vw, 26px);
   }
 
   .dark {

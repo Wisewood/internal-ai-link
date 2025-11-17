@@ -311,14 +311,14 @@ const Index = () => {
         setIsTyping(false);
       }}>
           <img src={witLogo} alt="WIT" className="absolute top-0 left-0" style={{
-          maxHeight: isMobile ? messages.length === 0 ? "64px" : "48px" : messages.length === 0 ? "59px" : "45px",
+          maxHeight: messages.length === 0 ? "var(--logo-height)" : "var(--logo-height-active)",
           width: "auto",
           filter: "brightness(0)",
           opacity: messages.length === 0 ? 1 : 0,
           transition: "opacity 0.5s ease-in-out, max-height 0.3s ease-in-out"
         }} />
           <img src={witAiLogo} alt="WIT AI" className="" style={{
-          maxHeight: isMobile ? messages.length === 0 ? "64px" : "48px" : messages.length === 0 ? "59px" : "45px",
+          maxHeight: messages.length === 0 ? "var(--logo-height)" : "var(--logo-height-active)",
           width: "auto",
           filter: "brightness(0)",
           opacity: messages.length === 0 ? 0 : 1,
@@ -345,8 +345,10 @@ const Index = () => {
         {messages.length === 0 && isMobile && <Sheet open={isMenuOpen} onOpenChange={setIsMenuOpen}>
             <SheetTrigger asChild>
               <button className="absolute right-4 top-1/2 -translate-y-1/2 p-2">
-                <Menu className="h-6 w-6" style={{
-              color: "#1a1a1a"
+                <Menu style={{
+              color: "#1a1a1a",
+              width: "var(--icon-md)",
+              height: "var(--icon-md)"
             }} />
               </button>
             </SheetTrigger>
@@ -392,7 +394,7 @@ const Index = () => {
             transform: "scale(1)"
           }} />
               <img src={witIcon} alt="WitAI" className="relative w-auto cursor-pointer" style={{
-            height: isLandscape ? "60px" : isMobile ? "91px" : "136px",
+            height: isLandscape ? "clamp(50px, 8vw, 60px)" : "clamp(70px, 12vw, 136px)",
             transition: "transform 0.6s ease-in-out",
             transformStyle: "preserve-3d",
             transform: isLogoFlipped ? "rotateY(180deg)" : "rotateY(0deg)",
@@ -417,15 +419,15 @@ const Index = () => {
             `}</style>
             <h1 className="font-normal" style={{
           color: "#1a1a1a",
-          fontSize: isLandscape ? "18px" : isMobile ? "25px" : "32px",
+          fontSize: isLandscape ? "clamp(16px, 3vw, 18px)" : "var(--text-heading)",
           textAlign: "center",
-          marginBottom: isMobile ? "12px" : "0.5"
+          marginBottom: "var(--space-sm)"
         }}>AI-powered procurement platform</h1>
             {!isLandscape && <p className="text-center" style={{
           color: "#666666",
           maxWidth: "480px",
-          fontSize: isMobile ? "13px" : "14px",
-          marginBottom: isMobile ? "20px" : "12px"
+          fontSize: "var(--text-subheading)",
+          marginBottom: "var(--space-md)"
         }}>Request your quotation to suppliers selected from a list of over 50,000 and manage your entire order - all in one platform</p>}
             
             <div className="flex flex-wrap justify-center gap-2 max-w-3xl" style={{
@@ -435,8 +437,9 @@ const Index = () => {
             background: "#ffffff",
             border: "1px solid #e0e0e0",
             color: "#1a1a1a",
-            padding: isLandscape ? "5px 10px" : isMobile ? "8px 13px" : "12px 21px",
-            fontSize: isLandscape ? "11px" : isMobile ? "13px" : "14px"
+            padding: isLandscape ? "clamp(4px, 1vw, 5px) clamp(8px, 2vw, 10px)" : "var(--space-sm) var(--space-md)",
+            fontSize: isLandscape ? "clamp(10px, 1.5vw, 11px)" : "var(--text-pill)",
+            borderRadius: "var(--radius-lg)"
           }}>
                   {pill}
                 </button>)}
@@ -699,17 +702,23 @@ const Index = () => {
               }}>{request.name}</div>
                     </button>)}
                 </div> : <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
-                  {popularRequests.map((request, idx) => <button key={idx} onClick={() => sendMessage(undefined, `Tell me about ${request.name}`)} className="p-4 rounded-2xl transition-all hover:shadow-lg" style={{
+                  {popularRequests.map((request, idx) => <button key={idx} onClick={() => sendMessage(undefined, `Tell me about ${request.name}`)} className="transition-all hover:shadow-lg" style={{
               background: "#ffffff",
               border: "1px solid #e0e0e0",
               textAlign: "left",
-              minWidth: "180px"
+              minWidth: "clamp(140px, 30vw, 180px)",
+              padding: "var(--space-md)",
+              borderRadius: "var(--radius-md)"
             }}>
-                      <request.icon className="w-6 h-6 mb-14" style={{
-                color: "#1a1a1a"
+                      <request.icon style={{
+                color: "#1a1a1a",
+                width: "var(--icon-lg)",
+                height: "var(--icon-lg)",
+                marginBottom: "clamp(40px, 8vw, 56px)"
               }} />
-                      <div className="text-xs font-medium" style={{
-                color: "#666666"
+                      <div className="font-medium" style={{
+                color: "#666666",
+                fontSize: "var(--text-subheading)"
               }}>{request.name}</div>
                     </button>)}
                 </div>}
@@ -746,17 +755,25 @@ const Index = () => {
                   background: "#f0f0f0",
                   minWidth: "150px"
                 }}>
-                        {filePreview.type === "pdf" && <FileText className="h-5 w-5" style={{
-                    color: "#ff8c42"
+                        {filePreview.type === "pdf" && <FileText style={{
+                    color: "#ff8c42",
+                    width: "var(--icon-sm)",
+                    height: "var(--icon-sm)"
                   }} />}
-                        {filePreview.type === "doc" && <FileText className="h-5 w-5" style={{
-                    color: "#ff8c42"
+                        {filePreview.type === "doc" && <FileText style={{
+                    color: "#ff8c42",
+                    width: "var(--icon-sm)",
+                    height: "var(--icon-sm)"
                   }} />}
-                        {filePreview.type === "excel" && <FileSpreadsheet className="h-5 w-5" style={{
-                    color: "#ff8c42"
+                        {filePreview.type === "excel" && <FileSpreadsheet style={{
+                    color: "#ff8c42",
+                    width: "var(--icon-sm)",
+                    height: "var(--icon-sm)"
                   }} />}
-                        {filePreview.type === "other" && <File className="h-5 w-5" style={{
-                    color: "#ff8c42"
+                        {filePreview.type === "other" && <File style={{
+                    color: "#ff8c42",
+                    width: "var(--icon-sm)",
+                    height: "var(--icon-sm)"
                   }} />}
                         <span className="text-sm truncate" style={{
                     color: "#1a1a1a",
@@ -768,21 +785,27 @@ const Index = () => {
                     <button type="button" onClick={() => removeFile(index)} className="absolute -top-2 -right-2 rounded-full p-1" style={{
                   background: "#5271ff"
                 }}>
-                      <X className="h-4 w-4" style={{
-                    color: "#ffffff"
+                      <X style={{
+                    color: "#ffffff",
+                    width: "var(--icon-sm)",
+                    height: "var(--icon-sm)"
                   }} />
                     </button>
                   </div>)}
               </div>}
-            <div className="flex items-center gap-3 px-4 py-3 relative" style={{
+            <div className="flex items-center relative" style={{
               background: "#ffffff",
               border: "1px solid #d0d0d0",
-              borderRadius: "16px"
+              borderRadius: "var(--input-border-radius)",
+              padding: "var(--input-padding)",
+              gap: "var(--space-sm)"
             }}>
               <input type="file" ref={fileInputRef} onChange={handleFileSelect} accept="image/*" multiple className="hidden" />
               <button type="button" onClick={() => fileInputRef.current?.click()} className="shrink-0">
-                <Paperclip className="h-5 w-5" style={{
-                  color: "#ff8c42"
+                <Paperclip style={{
+                  color: "#ff8c42",
+                  width: "var(--icon-md)",
+                  height: "var(--icon-md)"
                 }} />
               </button>
               <div className="flex-1 relative">
@@ -812,10 +835,11 @@ const Index = () => {
                   }}
                   placeholder={isMobile ? "What's your project?" : "Ask me anything about your projects"} 
                   disabled={isLoading} 
-                  className="flex-1 border-0 bg-transparent p-0 text-base focus:outline-none resize-none w-full" 
+                  className="flex-1 border-0 bg-transparent p-0 focus:outline-none resize-none w-full" 
                   rows={1}
                   style={{
                     color: "#1a1a1a",
+                    fontSize: "var(--text-body)",
                     height: input ? "auto" : "24px",
                     minHeight: "24px",
                     maxHeight: "200px",
@@ -825,7 +849,9 @@ const Index = () => {
                 />
               </div>
               <button type="submit" disabled={isLoading || !input.trim() && selectedFiles.length === 0} className="shrink-0">
-                <img src={sendButton} alt="Send" className="h-6 w-6" style={{
+                <img src={sendButton} alt="Send" style={{
+                  width: "var(--icon-md)",
+                  height: "var(--icon-md)",
                   filter: 'brightness(0) saturate(100%) invert(37%) sepia(92%) saturate(2463%) hue-rotate(220deg) brightness(101%) contrast(101%)'
                 }} />
               </button>
@@ -838,10 +864,10 @@ const Index = () => {
           borderColor: "#e0e0e0",
           color: "#999999",
           background: isMobile ? "transparent" : "#ffffff",
-          paddingTop: isMobile ? "8px" : "12px",
-          paddingBottom: isMobile ? "8px" : "12px",
-          fontSize: isMobile ? "8px" : "11px",
-          lineHeight: "1.2"
+          paddingTop: "var(--space-sm)",
+          paddingBottom: "var(--space-sm)",
+          fontSize: "var(--text-footer)",
+          lineHeight: "1.4"
         }}>
         <span style={{
             whiteSpace: isMobile ? "nowrap" : "normal"

@@ -61,7 +61,13 @@ const Index = () => {
     name: "About",
     url: "https://wisewoodint.com/about"
   }];
-  const API_URL = "https://witai.app.n8n.cloud/webhook/242b2e77-081b-4961-ba8e-4c21bb5d1bb5/chat";
+  // WitAI public demo chat — points at dealflow-wisely's `ai-chat-demo` edge function.
+  // Anon key is public by design; CORS is open; backend rate-limits by IP.
+  const WITAI_SUPABASE_URL = "https://kgrlqsdltjjdykceovrt.supabase.co";
+  const WITAI_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imtncmxxc2RsdGpqZHlrY2VvdnJ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njc2OTI4MDMsImV4cCI6MjA4MzI2ODgwM30.zfKlCAgsIzsoe962-VeUDuFVYvSTbRZpz0ttR19gegA";
+  const API_URL = `${WITAI_SUPABASE_URL}/functions/v1/ai-chat-demo`;
+  const SIGNUP_URL = "https://platform.wisewoodint.com/login";
+  const SIGNUP_PITCH_MD = `\n\n---\n\n**Want the full picture?** [Create a free WitAI account](${SIGNUP_URL}) to see exact pricing, save this conversation, and request quotes from 50,000+ suppliers.`;
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({
       behavior: "smooth"
@@ -217,40 +223,77 @@ const Index = () => {
     }]);
     setIsLoading(true);
     try {
-      // Prepare chat input with JSON formatted attachments
+      // Compose message with attachments inline (ai-chat-demo accepts a single message string).
       let chatInput = messagesToSend;
       if (attachmentUrls.length > 0) {
-        const attachmentsJson = JSON.stringify({
-          attachments_urls: attachmentUrls
-        });
-        chatInput = messagesToSend ? `${messagesToSend}\n${attachmentsJson}` : attachmentsJson;
+        const attachmentList = attachmentUrls.map(u => `- ${u}`).join("\n");
+        chatInput = messagesToSend
+          ? `${messagesToSend}\n\nAttachments:\n${attachmentList}`
+          : `Attachments:\n${attachmentList}`;
       }
-      
-      // Add timeout to prevent indefinite loading
+
+      // Build conversation history for context (last 10 turns).
+      const conversationHistory = messages.slice(-10).map(m => ({
+        role: m.role === "bot" ? "assistant" : "user",
+        content: m.content,
+      }));
+
       const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 30000); // 30 second timeout
-      
+      const timeoutId = setTimeout(() => controller.abort(), 30000);
+
       const res = await fetch(API_URL, {
         method: "POST",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${WITAI_ANON_KEY}`,
+          "apikey": WITAI_ANON_KEY,
         },
         body: JSON.stringify({
-          sessionId: sessionIdRef.current,
-          action: "sendMessage",
-          chatInput: chatInput
+          message: chatInput,
+          mode: "explore",
+          conversationHistory,
         }),
-        signal: controller.signal
+        signal: controller.signal,
       });
-      
+
       clearTimeout(timeoutId);
-      
-      if (!res.ok) {
-        throw new Error(`API error: ${res.status}`);
-      }
-      
+
       const data = await res.json();
-      const botMessage = data.text || data.output || data.ui || "…";
+
+      // Rate limit — push account creation as the way forward.
+      if (data?.error === "rate_limited") {
+        setIsLoading(false);
+        typeMessage(
+          (data.ui_message || "You've reached the free demo limit.") +
+            `\n\n**[Create a free WitAI account](${SIGNUP_URL})** to keep chatting and unlock full pricing, quotes, and supplier access.`
+        );
+        return;
+      }
+
+      if (!res.ok || data?.error) {
+        throw new Error(data?.error || `API error: ${res.status}`);
+      }
+
+      let botMessage: string = data.ui_message || "…";
+
+      // If the AI surfaced products, turn them into the account-creation hook —
+      // the public demo hides prices; the signed-in experience shows them.
+      if (Array.isArray(data.products) && data.products.length > 0) {
+        const preview = data.products
+          .slice(0, 4)
+          .map((p: { name?: string; category?: string }) =>
+            `- **${p.name || "Product"}**${p.category ? ` _(${p.category})_` : ""}`
+          )
+          .join("\n");
+        botMessage += `\n\n**Matches from our 50,000-supplier catalog:**\n${preview}`;
+        if (data.savings_message) {
+          botMessage += `\n\n_${data.savings_message}_`;
+        }
+        botMessage += SIGNUP_PITCH_MD;
+      } else if (data.lead_capture_prompt) {
+        botMessage += SIGNUP_PITCH_MD;
+      }
+
       setIsLoading(false);
       typeMessage(botMessage);
     } catch (err) {
@@ -342,6 +385,20 @@ const Index = () => {
           color: "#1a1a1a"
         }}>About</a>
           </div>}
+        {!isMobile && <a
+          href={SIGNUP_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="absolute right-8 top-1/2 -translate-y-1/2 text-sm font-medium rounded-full px-4 py-2 transition-colors"
+          style={{
+            background: "#1a1a1a",
+            color: "#ffffff",
+          }}
+          onMouseEnter={(e) => { e.currentTarget.style.background = "#333"; }}
+          onMouseLeave={(e) => { e.currentTarget.style.background = "#1a1a1a"; }}
+        >
+          Sign up — it's free
+        </a>}
         {messages.length === 0 && isMobile && <Sheet open={isMenuOpen} onOpenChange={setIsMenuOpen}>
             <SheetTrigger asChild>
               <button className="absolute right-4 top-1/2 -translate-y-1/2 p-2">
@@ -354,6 +411,15 @@ const Index = () => {
             </SheetTrigger>
             <SheetContent side="right" className="w-64">
               <nav className="flex flex-col gap-4 mt-8">
+                <a
+                  href={SIGNUP_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-base font-medium rounded-full px-4 py-2 text-center"
+                  style={{ background: "#1a1a1a", color: "#ffffff" }}
+                >
+                  Sign up — it's free
+                </a>
                 <a href="https://wisewoodint.com/" target="_blank" rel="noopener noreferrer" className="text-base hover:underline" style={{
               color: "#999999"
             }}>Home</a>

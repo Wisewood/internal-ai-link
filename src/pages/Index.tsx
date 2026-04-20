@@ -12,10 +12,12 @@ import witIcon from "@/assets/wit-embossed.png";
 import witLogo from "@/assets/wit-logo.png";
 import witAiLogo from "@/assets/wit-ai-logo.png";
 import sendButton from "@/assets/send-button.png";
+import { DemoProductCard, type DemoProduct } from "@/components/DemoProductCard";
 interface Message {
   role: "user" | "bot";
   content: string;
   attachments?: string[];
+  products?: DemoProduct[];
 }
 interface FilePreview {
   file: File;
@@ -98,7 +100,7 @@ const Index = () => {
       window.removeEventListener('orientationchange', checkOrientation);
     };
   }, [isMobile]);
-  const typeMessage = (fullMessage: string) => {
+  const typeMessage = (fullMessage: string, products?: DemoProduct[]) => {
     setIsTyping(true);
     setTypingMessage("");
     let currentIndex = 0;
@@ -111,7 +113,8 @@ const Index = () => {
         setIsTyping(false);
         setMessages(prev => [...prev, {
           role: "bot",
-          content: fullMessage
+          content: fullMessage,
+          products: products && products.length > 0 ? products : undefined,
         }]);
         setTypingMessage("");
       }
@@ -276,17 +279,17 @@ const Index = () => {
       }
 
       let botMessage: string = data.ui_message || "…";
+      const products: DemoProduct[] | undefined = Array.isArray(data.products) && data.products.length > 0
+        ? data.products.map((p: DemoProduct) => ({
+            ref: p.ref,
+            name: p.name,
+            image: p.image,
+            category: p.category,
+            quantity: p.quantity,
+          }))
+        : undefined;
 
-      // If the AI surfaced products, turn them into the account-creation hook —
-      // the public demo hides prices; the signed-in experience shows them.
-      if (Array.isArray(data.products) && data.products.length > 0) {
-        const preview = data.products
-          .slice(0, 4)
-          .map((p: { name?: string; category?: string }) =>
-            `- **${p.name || "Product"}**${p.category ? ` _(${p.category})_` : ""}`
-          )
-          .join("\n");
-        botMessage += `\n\n**Matches from our 50,000-supplier catalog:**\n${preview}`;
+      if (products) {
         if (data.savings_message) {
           botMessage += `\n\n_${data.savings_message}_`;
         }
@@ -296,7 +299,7 @@ const Index = () => {
       }
 
       setIsLoading(false);
-      typeMessage(botMessage);
+      typeMessage(botMessage, products);
     } catch (err) {
       console.error("Chat error:", err);
       const errorMessage = err instanceof Error && err.name === 'AbortError' 
@@ -626,6 +629,13 @@ const Index = () => {
                 }}>
                       {msg.content}
                     </ReactMarkdown>
+                    {msg.role === "bot" && msg.products && msg.products.length > 0 && (
+                      <div className="mt-3 flex gap-3 overflow-x-auto pb-2 -mx-1 px-1">
+                        {msg.products.map((product) => (
+                          <DemoProductCard key={product.ref} product={product} />
+                        ))}
+                      </div>
+                    )}
                     </div>
                   </div>
                 </div>)}

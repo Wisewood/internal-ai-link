@@ -66,8 +66,9 @@ const Index = () => {
   const WITAI_SUPABASE_URL = "https://kgrlqsdltjjdykceovrt.supabase.co";
   const WITAI_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imtncmxxc2RsdGpqZHlrY2VvdnJ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njc2OTI4MDMsImV4cCI6MjA4MzI2ODgwM30.zfKlCAgsIzsoe962-VeUDuFVYvSTbRZpz0ttR19gegA";
   const API_URL = `${WITAI_SUPABASE_URL}/functions/v1/ai-chat-demo`;
-  const SIGNUP_URL = "https://platform.wisewoodint.com/login";
-  const SIGNUP_PITCH_MD = `\n\n---\n\n**Want the full picture?** [Create a free WitAI account](${SIGNUP_URL}) to see exact pricing, save this conversation, and request quotes from 50,000+ suppliers.`;
+  // Internal route — a form goes through manual team review, no auto-signup.
+  const SIGNUP_URL = "/request-account";
+  const SIGNUP_PITCH_MD = `\n\n---\n\n**Want the full picture?** [Request a free WitAI account](${SIGNUP_URL}) — our team will set you up with pricing, quotes, and supplier access within a business day.`;
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({
       behavior: "smooth"
@@ -265,7 +266,7 @@ const Index = () => {
         setIsLoading(false);
         typeMessage(
           (data.ui_message || "You've reached the free demo limit.") +
-            `\n\n**[Create a free WitAI account](${SIGNUP_URL})** to keep chatting and unlock full pricing, quotes, and supplier access.`
+            `\n\n**[Request a free WitAI account](${SIGNUP_URL})** and our team will set you up with full pricing, quotes, and supplier access within a business day.`
         );
         return;
       }
@@ -387,8 +388,6 @@ const Index = () => {
           </div>}
         {!isMobile && <a
           href={SIGNUP_URL}
-          target="_blank"
-          rel="noopener noreferrer"
           className="absolute right-8 top-1/2 -translate-y-1/2 text-sm font-medium rounded-full px-4 py-2 transition-colors"
           style={{
             background: "#1a1a1a",
@@ -397,7 +396,7 @@ const Index = () => {
           onMouseEnter={(e) => { e.currentTarget.style.background = "#333"; }}
           onMouseLeave={(e) => { e.currentTarget.style.background = "#1a1a1a"; }}
         >
-          Sign up — it's free
+          Request account
         </a>}
         {messages.length === 0 && isMobile && <Sheet open={isMenuOpen} onOpenChange={setIsMenuOpen}>
             <SheetTrigger asChild>
@@ -413,12 +412,10 @@ const Index = () => {
               <nav className="flex flex-col gap-4 mt-8">
                 <a
                   href={SIGNUP_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
                   className="text-base font-medium rounded-full px-4 py-2 text-center"
                   style={{ background: "#1a1a1a", color: "#ffffff" }}
                 >
-                  Sign up — it's free
+                  Request account
                 </a>
                 <a href="https://wisewoodint.com/" target="_blank" rel="noopener noreferrer" className="text-base hover:underline" style={{
               color: "#999999"

@@ -70,8 +70,8 @@ All colors MUST be HSL.
     --space-xl: clamp(24px, 5vw, 32px);
     
     /* Logo scales */
-    --logo-height: clamp(40px, 8vw, 64px);
-    --logo-height-active: clamp(32px, 6vw, 48px);
+    --logo-height: clamp(56px, 9vw, 80px);
+    --logo-height-active: clamp(40px, 6vw, 56px);
     --logo-width: clamp(90px, 16vw, 145px);
     --logo-width-active: clamp(72px, 13vw, 109px);
     

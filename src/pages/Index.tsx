@@ -9,7 +9,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useIsMobile } from "@/hooks/use-mobile";
 import logo from "@/assets/logo.png";
 import witIcon from "@/assets/wit-embossed.png";
-import witLogo from "@/assets/wit-logo.png";
+import witLogo from "@/assets/wit-corporate-logo.png";
 import witAiLogo from "@/assets/wit-ai-logo.png";
 import sendButton from "@/assets/send-button.png";
 import { DemoProductCard, type DemoProduct } from "@/components/DemoProductCard";
@@ -44,25 +44,16 @@ const Index = () => {
     toast
   } = useToast();
   const isMobile = useIsMobile();
-  const menuLinks = [{
-    name: "Home",
-    url: "https://wisewoodint.com/"
-  }, {
-    name: "Services",
-    url: "https://wisewoodint.com/services"
-  }, {
-    name: "Brands",
-    url: "https://wisewoodint.com/brands"
-  }, {
-    name: "Portfolio",
-    url: "https://wisewoodint.com/portfolio"
-  }, {
-    name: "Contact",
-    url: "https://wisewoodint.com/contact"
-  }, {
-    name: "About",
-    url: "https://wisewoodint.com/about"
-  }];
+  const menuLinks = [
+    { name: "Clients", url: "https://wisewoodint.com/en/projects" },
+    { name: "Services", url: "https://wisewoodint.com/en/services" },
+    { name: "About", url: "https://wisewoodint.com/en/about" },
+    { name: "witAI", url: "https://wisewoodint.com/en/witai" },
+    { name: "Team", url: "https://wisewoodint.com/en/team" },
+    { name: "Journal", url: "https://wisewoodint.com/en/journal" },
+    { name: "FAQ", url: "https://wisewoodint.com/en/faq" },
+    { name: "Contact", url: "https://wisewoodint.com/en/contact" },
+  ];
   // WitAI public demo chat — points at dealflow-wisely's `ai-chat-demo` edge function.
   // Anon key is public by design; CORS is open; backend rate-limits by IP.
   const WITAI_SUPABASE_URL = "https://kgrlqsdltjjdykceovrt.supabase.co";
@@ -372,35 +363,40 @@ const Index = () => {
           transition: "opacity 0.5s ease-in-out, max-height 0.3s ease-in-out"
         }} />
         </div>
-        {messages.length === 0 && !isMobile && <div className="flex items-center gap-6 absolute left-1/2 transform -translate-x-1/2">
-            <a href="https://wisewoodint.com/services" target="_blank" rel="noopener noreferrer" className="text-sm hover:underline" style={{
-          color: "#1a1a1a"
-        }}>Services</a>
-            <a href="https://wisewoodint.com/brands" target="_blank" rel="noopener noreferrer" className="text-sm hover:underline" style={{
-          color: "#1a1a1a"
-        }}>Brands</a>
-            <a href="https://wisewoodint.com/portfolio" target="_blank" rel="noopener noreferrer" className="text-sm hover:underline" style={{
-          color: "#1a1a1a"
-        }}>Portfolio</a>
-            <a href="https://wisewoodint.com/contact" target="_blank" rel="noopener noreferrer" className="text-sm hover:underline" style={{
-          color: "#1a1a1a"
-        }}>Contact</a>
-            <a href="https://wisewoodint.com/about" target="_blank" rel="noopener noreferrer" className="text-sm hover:underline" style={{
-          color: "#1a1a1a"
-        }}>About</a>
-          </div>}
-        {!isMobile && <a
-          href={SIGNUP_URL}
-          className="absolute right-8 top-1/2 -translate-y-1/2 text-sm font-medium rounded-full px-4 py-2 transition-colors"
-          style={{
-            background: "#1a1a1a",
-            color: "#ffffff",
-          }}
-          onMouseEnter={(e) => { e.currentTarget.style.background = "#333"; }}
-          onMouseLeave={(e) => { e.currentTarget.style.background = "#1a1a1a"; }}
-        >
-          Request account
-        </a>}
+        {messages.length === 0 && !isMobile && <nav className="flex items-center gap-8 absolute left-1/2 transform -translate-x-1/2">
+            {menuLinks.map((link) => (
+              <a
+                key={link.name}
+                href={link.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-xs font-medium uppercase tracking-[0.12em] opacity-70 hover:opacity-100 transition-opacity"
+                style={{ color: "#111111" }}
+              >
+                {link.name}
+              </a>
+            ))}
+          </nav>}
+        {!isMobile && <div className="absolute right-8 top-1/2 -translate-y-1/2 flex items-center gap-3">
+          <a
+            href="https://wisewoodint.com/it/witai"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="rounded-full border px-3 py-1.5 text-[0.65rem] font-medium uppercase tracking-wider transition-all hover:border-black/40 hover:text-black"
+            style={{ borderColor: "rgba(0,0,0,0.15)", color: "rgba(0,0,0,0.6)" }}
+          >
+            Italiano
+          </a>
+          <a
+            href={SIGNUP_URL}
+            className="text-sm font-medium rounded-full px-4 py-2 transition-colors"
+            style={{ background: "#1a1a1a", color: "#ffffff" }}
+            onMouseEnter={(e) => { e.currentTarget.style.background = "#333"; }}
+            onMouseLeave={(e) => { e.currentTarget.style.background = "#1a1a1a"; }}
+          >
+            Request account
+          </a>
+        </div>}
         {messages.length === 0 && isMobile && <Sheet open={isMenuOpen} onOpenChange={setIsMenuOpen}>
             <SheetTrigger asChild>
               <button className="absolute right-4 top-1/2 -translate-y-1/2 p-2">
@@ -420,24 +416,27 @@ const Index = () => {
                 >
                   Request account
                 </a>
-                <a href="https://wisewoodint.com/" target="_blank" rel="noopener noreferrer" className="text-base hover:underline" style={{
-              color: "#999999"
-            }}>Home</a>
-                <a href="https://wisewoodint.com/services" target="_blank" rel="noopener noreferrer" className="text-base hover:underline" style={{
-              color: "#999999"
-            }}>Services</a>
-                <a href="https://wisewoodint.com/brands" target="_blank" rel="noopener noreferrer" className="text-base hover:underline" style={{
-              color: "#999999"
-            }}>Brands</a>
-                <a href="https://wisewoodint.com/portfolio" target="_blank" rel="noopener noreferrer" className="text-base hover:underline" style={{
-              color: "#999999"
-            }}>Portfolio</a>
-                <a href="https://wisewoodint.com/contact" target="_blank" rel="noopener noreferrer" className="text-base hover:underline" style={{
-              color: "#999999"
-            }}>Contact</a>
-                <a href="https://wisewoodint.com/about" target="_blank" rel="noopener noreferrer" className="text-base hover:underline" style={{
-              color: "#999999"
-            }}>About</a>
+                {menuLinks.map((link) => (
+                  <a
+                    key={link.name}
+                    href={link.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-sm font-medium uppercase tracking-[0.12em] hover:opacity-100 opacity-70"
+                    style={{ color: "#111111" }}
+                  >
+                    {link.name}
+                  </a>
+                ))}
+                <a
+                  href="https://wisewoodint.com/it/witai"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-4 self-start rounded-full border px-3 py-1.5 text-[0.65rem] font-medium uppercase tracking-wider"
+                  style={{ borderColor: "rgba(0,0,0,0.15)", color: "rgba(0,0,0,0.6)" }}
+                >
+                  Italiano
+                </a>
               </nav>
             </SheetContent>
           </Sheet>}

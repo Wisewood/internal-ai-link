@@ -9,7 +9,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useIsMobile } from "@/hooks/use-mobile";
 import logo from "@/assets/logo.png";
 import witIcon from "@/assets/wit-embossed.png";
-import witLogo from "@/assets/wit-corporate-logo.png";
+import witLogo from "@/assets/wit-corporate-logo-white.png";
 import witAiLogo from "@/assets/wit-ai-logo.png";
 import sendButton from "@/assets/send-button.png";
 import { DemoProductCard, type DemoProduct } from "@/components/DemoProductCard";
@@ -321,12 +321,13 @@ const Index = () => {
     icon: HardHat
   }];
   return <div className="flex min-h-screen flex-col" style={{
-    background: "#f5f5f5",
-    color: "#1a1a1a"
+    background: "#0a0a0a",
+    color: "#ffffff"
   }}>
       {/* Header */}
       <header className="flex items-center relative" style={{
-      background: messages.length > 0 ? "linear-gradient(to bottom, rgb(255, 255, 255) 0%, rgba(255, 255, 255, 0.9) 50%, transparent 100%)" : "transparent",
+      background: messages.length > 0 ? "linear-gradient(to bottom, rgba(10,10,10,0.95) 0%, rgba(10,10,10,0.85) 50%, transparent 100%)" : "transparent",
+      backdropFilter: messages.length > 0 ? "blur(12px)" : "none",
       paddingTop: "23px",
       paddingBottom: "20px",
       paddingLeft: isMobile ? "16px" : "32px",
@@ -351,14 +352,13 @@ const Index = () => {
           <img src={witLogo} alt="WIT" className="absolute top-0 left-0" style={{
           maxHeight: messages.length === 0 ? "var(--logo-height)" : "var(--logo-height-active)",
           width: "auto",
-          filter: "brightness(0)",
           opacity: messages.length === 0 ? 1 : 0,
           transition: "opacity 0.5s ease-in-out, max-height 0.3s ease-in-out"
         }} />
           <img src={witAiLogo} alt="WIT AI" className="" style={{
           maxHeight: messages.length === 0 ? "var(--logo-height)" : "var(--logo-height-active)",
           width: "auto",
-          filter: "brightness(0)",
+          filter: "brightness(0) invert(1)",
           opacity: messages.length === 0 ? 0 : 1,
           transition: "opacity 0.5s ease-in-out, max-height 0.3s ease-in-out"
         }} />
@@ -371,7 +371,7 @@ const Index = () => {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-xs font-medium uppercase tracking-[0.12em] opacity-70 hover:opacity-100 transition-opacity"
-                style={{ color: "#111111" }}
+                style={{ color: "#ffffff" }}
               >
                 {link.name}
               </a>
@@ -382,17 +382,19 @@ const Index = () => {
             href="https://wisewoodint.com/it/witai"
             target="_blank"
             rel="noopener noreferrer"
-            className="rounded-full border px-3 py-1.5 text-[0.65rem] font-medium uppercase tracking-wider transition-all hover:border-black/40 hover:text-black"
-            style={{ borderColor: "rgba(0,0,0,0.15)", color: "rgba(0,0,0,0.6)" }}
+            className="rounded-full border px-3 py-1.5 text-[0.65rem] font-medium uppercase tracking-wider transition-all"
+            style={{ borderColor: "rgba(255,255,255,0.2)", color: "rgba(255,255,255,0.7)" }}
+            onMouseEnter={(e) => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.4)"; e.currentTarget.style.color = "#ffffff"; }}
+            onMouseLeave={(e) => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.2)"; e.currentTarget.style.color = "rgba(255,255,255,0.7)"; }}
           >
             Italiano
           </a>
           <a
             href={SIGNUP_URL}
-            className="text-sm font-medium rounded-full px-4 py-2 transition-colors"
-            style={{ background: "#1a1a1a", color: "#ffffff" }}
-            onMouseEnter={(e) => { e.currentTarget.style.background = "#333"; }}
-            onMouseLeave={(e) => { e.currentTarget.style.background = "#1a1a1a"; }}
+            className="text-sm font-semibold rounded-full px-4 py-2 transition-colors"
+            style={{ background: "#ffffff", color: "#0a0a0a" }}
+            onMouseEnter={(e) => { e.currentTarget.style.background = "rgba(255,255,255,0.9)"; }}
+            onMouseLeave={(e) => { e.currentTarget.style.background = "#ffffff"; }}
           >
             Request account
           </a>
@@ -401,18 +403,18 @@ const Index = () => {
             <SheetTrigger asChild>
               <button className="absolute right-4 top-1/2 -translate-y-1/2 p-2">
                 <Menu style={{
-              color: "#1a1a1a",
+              color: "#ffffff",
               width: "var(--icon-md)",
               height: "var(--icon-md)"
             }} />
               </button>
             </SheetTrigger>
-            <SheetContent side="right" className="w-64">
+            <SheetContent side="right" className="w-64 border-white/10" style={{ background: "#0a0a0a" }}>
               <nav className="flex flex-col gap-4 mt-8">
                 <a
                   href={SIGNUP_URL}
-                  className="text-base font-medium rounded-full px-4 py-2 text-center"
-                  style={{ background: "#1a1a1a", color: "#ffffff" }}
+                  className="text-base font-semibold rounded-full px-4 py-2 text-center"
+                  style={{ background: "#ffffff", color: "#0a0a0a" }}
                 >
                   Request account
                 </a>
@@ -423,7 +425,7 @@ const Index = () => {
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-sm font-medium uppercase tracking-[0.12em] hover:opacity-100 opacity-70"
-                    style={{ color: "#111111" }}
+                    style={{ color: "#ffffff" }}
                   >
                     {link.name}
                   </a>
@@ -433,7 +435,7 @@ const Index = () => {
                   target="_blank"
                   rel="noopener noreferrer"
                   className="mt-4 self-start rounded-full border px-3 py-1.5 text-[0.65rem] font-medium uppercase tracking-wider"
-                  style={{ borderColor: "rgba(0,0,0,0.15)", color: "rgba(0,0,0,0.6)" }}
+                  style={{ borderColor: "rgba(255,255,255,0.2)", color: "rgba(255,255,255,0.7)" }}
                 >
                   Italiano
                 </a>
@@ -453,9 +455,9 @@ const Index = () => {
       }}>
             <div className="relative mb-0">
               <div className="absolute inset-0 rounded-full" style={{
-            background: "radial-gradient(circle, #dadada 0%, rgba(218, 218, 218, 0.6) 15%, rgba(218, 218, 218, 0.3) 30%, rgba(218, 218, 218, 0.1) 50%, transparent 80%)",
+            background: "radial-gradient(circle, rgba(6,182,212,0.45) 0%, rgba(139,92,246,0.25) 35%, rgba(139,92,246,0.1) 55%, transparent 80%)",
             animation: "expand-gradient 6s ease-out infinite",
-            filter: "blur(40px)",
+            filter: "blur(60px)",
             transform: "scale(1)"
           }} />
               <img src={witIcon} alt="WitAI" className="relative w-auto cursor-pointer" style={{
@@ -463,6 +465,7 @@ const Index = () => {
             transition: "transform 0.6s ease-in-out",
             transformStyle: "preserve-3d",
             transform: isLogoFlipped ? "rotateY(180deg)" : "rotateY(0deg)",
+            filter: "brightness(0) invert(1)",
             zIndex: 1
           }} onClick={() => isMobile && setIsLogoFlipped(!isLogoFlipped)} onMouseEnter={() => !isMobile && setIsLogoFlipped(true)} onMouseLeave={() => !isMobile && setIsLogoFlipped(false)} />
             </div>
@@ -482,14 +485,14 @@ const Index = () => {
                 }
               }
             `}</style>
-            <h1 className="font-normal" style={{
-          color: "#1a1a1a",
+            <h1 className="font-light tracking-tight" style={{
+          color: "#ffffff",
           fontSize: isLandscape ? "clamp(16px, 3vw, 18px)" : "var(--text-heading)",
           textAlign: "center",
           marginBottom: "var(--space-sm)"
         }}>AI-powered procurement platform</h1>
             {!isLandscape && <p className="text-center" style={{
-          color: "#666666",
+          color: "rgba(255,255,255,0.6)",
           maxWidth: "480px",
           fontSize: "var(--text-subheading)",
           marginBottom: "var(--space-md)"
@@ -499,10 +502,11 @@ const Index = () => {
           marginTop: isLandscape ? "var(--space-sm)" : "0",
           marginBottom: isMobile ? "clamp(16px, 4vh, 32px)" : "clamp(12px, 2vh, 24px)"
         }}>
-              {(isMobile ? mobileSuggestionPills : suggestionPills).map((pill, idx) => <button key={idx} onClick={() => sendMessage(undefined, pill)} className="rounded-full transition-all hover:shadow-md" style={{
-            background: "#ffffff",
-            border: "1px solid #e0e0e0",
-            color: "#1a1a1a",
+              {(isMobile ? mobileSuggestionPills : suggestionPills).map((pill, idx) => <button key={idx} onClick={() => sendMessage(undefined, pill)} className="rounded-full transition-all hover:bg-white/10" style={{
+            background: "rgba(255,255,255,0.05)",
+            border: "1px solid rgba(255,255,255,0.15)",
+            color: "rgba(255,255,255,0.85)",
+            backdropFilter: "blur(8px)",
             padding: isLandscape ? "clamp(4px, 1vw, 5px) clamp(8px, 2vw, 10px)" : "var(--space-sm) var(--space-md)",
             fontSize: isLandscape ? "clamp(10px, 1.5vw, 11px)" : "var(--text-pill)",
             borderRadius: "var(--radius-lg)"
@@ -515,8 +519,8 @@ const Index = () => {
       }}>
             <div className="mx-auto max-w-3xl space-y-3">
               {messages.map((msg, idx) => <div key={idx}>
-                  <div className="text-xs font-medium mb-0.5" style={{
-              color: "#666666",
+                  <div className="text-xs font-semibold uppercase tracking-[0.2em] mb-0.5" style={{
+              color: msg.role === "user" ? "rgba(255,255,255,0.5)" : "#06B6D4",
               textAlign: msg.role === "user" ? "right" : "left"
             }}>
                     {msg.role === "user" ? "ME" : "WIT AI"}
@@ -528,8 +532,9 @@ const Index = () => {
                     <div className="chat-bubble rounded-2xl max-w-[80%]" style={{
                 padding: "10px 14px",
                 lineHeight: "1.5",
-                background: msg.role === "user" ? "#e8e8e8" : "transparent",
-                color: msg.role === "user" ? "#1a1a1a" : "#4a4a4a",
+                background: msg.role === "user" ? "rgba(255,255,255,0.08)" : "transparent",
+                border: msg.role === "user" ? "1px solid rgba(255,255,255,0.1)" : "none",
+                color: msg.role === "user" ? "#ffffff" : "rgba(255,255,255,0.85)",
                 textAlign: "left"
               }}>
                     {msg.attachments && msg.attachments.length > 0 && <div className="mb-2 flex flex-wrap gap-2">
@@ -544,7 +549,9 @@ const Index = () => {
                       }} onClick={() => window.open(url, '_blank')} />;
                     }
                     return <a key={i} href={url} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 px-3 py-2 rounded-lg" style={{
-                      background: "rgba(74, 144, 226, 0.2)"
+                      background: "rgba(6,182,212,0.15)",
+                      border: "1px solid rgba(6,182,212,0.3)",
+                      color: "#ffffff"
                     }}>
                               {isPdf && <FileText className="h-5 w-5" />}
                               {isDoc && <FileText className="h-5 w-5" />}
@@ -566,7 +573,7 @@ const Index = () => {
                     children
                   }) => <strong style={{
                     fontWeight: 700,
-                    color: msg.role === "user" ? "#1a1a1a" : "#000000",
+                    color: "#ffffff",
                     display: "inline-block"
                   }}>
                             {children}
@@ -574,7 +581,7 @@ const Index = () => {
                   em: ({
                     children
                   }) => <em style={{
-                    color: "#999999",
+                    color: "rgba(255,255,255,0.5)",
                     fontStyle: "italic"
                   }}>
                             {children}
@@ -601,7 +608,7 @@ const Index = () => {
                     fontWeight: 600,
                     marginTop: "6px",
                     marginBottom: "4px",
-                    color: msg.role === "user" ? "#1a1a1a" : "#000000"
+                    color: "#ffffff"
                   }}>
                             {children}
                           </h2>,
@@ -612,7 +619,7 @@ const Index = () => {
                     fontWeight: 600,
                     marginTop: "6px",
                     marginBottom: "4px",
-                    color: msg.role === "user" ? "#1a1a1a" : "#000000"
+                    color: "#ffffff"
                   }}>
                             {children}
                           </h3>,
@@ -620,7 +627,7 @@ const Index = () => {
                     href,
                     children
                   }) => <a href={href} target="_blank" rel="noopener noreferrer" style={{
-                    color: "#5AB3FF",
+                    color: "#06B6D4",
                     textDecoration: "underline"
                   }}>
                             {children}
@@ -639,11 +646,11 @@ const Index = () => {
                   </div>
                 </div>)}
               {(isLoading || isTyping) && <div>
-                  <div className="text-xs font-medium mb-1" style={{
-              color: "#666666"
+                  <div className="text-xs font-semibold uppercase tracking-[0.2em] mb-1" style={{
+              color: "#06B6D4"
             }}>WIT AI</div>
                   {isLoading ? <div className="flex gap-1 text-left" style={{
-              color: "#666666"
+              color: "rgba(255,255,255,0.6)"
             }}>
                       <span className="animate-bounce" style={{
                 animationDelay: "0ms"
@@ -658,7 +665,7 @@ const Index = () => {
               padding: "10px 14px",
               lineHeight: "1.5",
               background: "transparent",
-              color: "#4a4a4a",
+              color: "rgba(255,255,255,0.85)",
               textAlign: "left"
             }}>
                       <ReactMarkdown remarkPlugins={[remarkGfm]} components={{
@@ -745,9 +752,9 @@ const Index = () => {
         marginBottom: isMobile ? "clamp(20px, 5vh, 30px)" : "50px"
       }}>
             <div className="mx-auto max-w-5xl">
-              <h2 className="font-medium mb-4" style={{
-            color: "#666666",
-            fontSize: isMobile ? "clamp(14px, 3.5vw, 17px)" : "20px",
+              <h2 className="font-semibold uppercase tracking-[0.25em] mb-4" style={{
+            color: "#06B6D4",
+            fontSize: isMobile ? "clamp(11px, 2.5vw, 12px)" : "12px",
             marginBottom: isMobile ? "clamp(12px, 2.5vh, 16px)" : "var(--space-md)"
           }}>Popular Requests</h2>
               {isMobile ? <div className="flex gap-4 overflow-x-auto pb-2" style={{
@@ -761,37 +768,37 @@ const Index = () => {
                       display: none;
                     }
                   `}</style>
-                  {popularRequests.map((request, idx) => <button key={idx} onClick={() => sendMessage(undefined, `Tell me about ${request.name}`)} className="flex-shrink-0 p-4 rounded-2xl transition-all hover:shadow-lg" style={{
-              background: "#ffffff",
-              border: "1px solid #e0e0e0",
+                  {popularRequests.map((request, idx) => <button key={idx} onClick={() => sendMessage(undefined, `Tell me about ${request.name}`)} className="flex-shrink-0 p-4 rounded-2xl transition-all hover:border-white/20" style={{
+              background: "rgba(255,255,255,0.02)",
+              border: "1px solid rgba(255,255,255,0.1)",
               width: "134px",
               scrollSnapAlign: "start",
               textAlign: "left"
             }}>
                       <request.icon className="w-5 h-5 mb-11" style={{
-                color: "#1a1a1a"
+                color: "#06B6D4"
               }} />
                       <div className="text-xs font-medium" style={{
-                color: "#666666"
+                color: "rgba(255,255,255,0.85)"
               }}>{request.name}</div>
                     </button>)}
                 </div> : <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
-                  {popularRequests.map((request, idx) => <button key={idx} onClick={() => sendMessage(undefined, `Tell me about ${request.name}`)} className="transition-all hover:shadow-lg" style={{
-              background: "#ffffff",
-              border: "1px solid #e0e0e0",
+                  {popularRequests.map((request, idx) => <button key={idx} onClick={() => sendMessage(undefined, `Tell me about ${request.name}`)} className="transition-all hover:border-white/20" style={{
+              background: "rgba(255,255,255,0.02)",
+              border: "1px solid rgba(255,255,255,0.1)",
               textAlign: "left",
               minWidth: "clamp(140px, 30vw, 180px)",
               padding: "var(--space-md)",
               borderRadius: "var(--radius-md)"
             }}>
                       <request.icon style={{
-                color: "#1a1a1a",
+                color: "#06B6D4",
                 width: "var(--icon-lg)",
                 height: "var(--icon-lg)",
                 marginBottom: "clamp(40px, 8vw, 56px)"
               }} />
                       <div className="font-medium" style={{
-                color: "#666666",
+                color: "rgba(255,255,255,0.85)",
                 fontSize: "var(--text-subheading)"
               }}>{request.name}</div>
                     </button>)}
@@ -806,7 +813,7 @@ const Index = () => {
         left: isMobile && messages.length === 0 ? 0 : "auto",
         right: isMobile && messages.length === 0 ? 0 : "auto",
         zIndex: isMobile && messages.length === 0 ? 40 : "auto",
-        background: isMobile && messages.length === 0 ? "#f5f5f5" : "transparent",
+        background: isMobile && messages.length === 0 ? "#0a0a0a" : "transparent",
         width: isMobile && messages.length === 0 ? "100%" : "auto"
       }}>
           {/* Input Area */}
@@ -816,7 +823,7 @@ const Index = () => {
           left: 0,
           right: 0,
           zIndex: 40,
-          background: "#f5f5f5",
+          background: "#0a0a0a",
           paddingTop: "12px"
         } : {}}>
           <form onSubmit={sendMessage} className="mx-auto max-w-3xl">
@@ -826,38 +833,39 @@ const Index = () => {
                   maxHeight: "100px",
                   maxWidth: "100px"
                 }} /> : <div className="flex items-center gap-2 px-3 py-2 rounded-lg" style={{
-                  background: "#f0f0f0",
+                  background: "rgba(255,255,255,0.08)",
+                  border: "1px solid rgba(255,255,255,0.12)",
                   minWidth: "150px"
                 }}>
                         {filePreview.type === "pdf" && <FileText style={{
-                    color: "#ff8c42",
+                    color: "#06B6D4",
                     width: "var(--icon-sm)",
                     height: "var(--icon-sm)"
                   }} />}
                         {filePreview.type === "doc" && <FileText style={{
-                    color: "#ff8c42",
+                    color: "#06B6D4",
                     width: "var(--icon-sm)",
                     height: "var(--icon-sm)"
                   }} />}
                         {filePreview.type === "excel" && <FileSpreadsheet style={{
-                    color: "#ff8c42",
+                    color: "#06B6D4",
                     width: "var(--icon-sm)",
                     height: "var(--icon-sm)"
                   }} />}
                         {filePreview.type === "other" && <File style={{
-                    color: "#ff8c42",
+                    color: "#06B6D4",
                     width: "var(--icon-sm)",
                     height: "var(--icon-sm)"
                   }} />}
                         <span className="text-sm truncate" style={{
-                    color: "#1a1a1a",
+                    color: "#ffffff",
                     maxWidth: "100px"
                   }}>
                           {filePreview.file.name}
                         </span>
                       </div>}
                     <button type="button" onClick={() => removeFile(index)} className="absolute -top-2 -right-2 rounded-full p-1" style={{
-                  background: "#5271ff"
+                  background: "#06B6D4"
                 }}>
                       <X style={{
                     color: "#ffffff",
@@ -868,27 +876,28 @@ const Index = () => {
                   </div>)}
               </div>}
             <div className="flex items-center relative" style={{
-              background: "#ffffff",
-              border: "1px solid #d0d0d0",
+              background: "rgba(255,255,255,0.05)",
+              border: "1px solid rgba(255,255,255,0.15)",
               borderRadius: "var(--input-border-radius)",
               padding: "var(--input-padding)",
+              backdropFilter: "blur(12px)",
               gap: "var(--space-sm)"
             }}>
               <input type="file" ref={fileInputRef} onChange={handleFileSelect} accept="image/*" multiple className="hidden" />
               <button type="button" onClick={() => fileInputRef.current?.click()} className="shrink-0">
                 <Paperclip style={{
-                  color: "#ff8c42",
+                  color: "#06B6D4",
                   width: "var(--icon-md)",
                   height: "var(--icon-md)"
                 }} />
               </button>
               <div className="flex-1 relative">
                 {isTextareaMaxHeight && isTextareaScrolled && (
-                  <div 
-                    className="absolute top-0 left-0 right-0 pointer-events-none" 
+                  <div
+                    className="absolute top-0 left-0 right-0 pointer-events-none"
                     style={{
                       height: "30px",
-                      background: "linear-gradient(to bottom, #ffffff 0%, rgba(255, 255, 255, 0) 100%)",
+                      background: "linear-gradient(to bottom, rgba(20,20,20,0.95) 0%, rgba(20,20,20,0) 100%)",
                       zIndex: 1
                     }}
                   />
@@ -907,12 +916,12 @@ const Index = () => {
                       sendMessage(e as any);
                     }
                   }}
-                  placeholder={isMobile ? "What's your project?" : "Ask me anything about your projects"} 
-                  disabled={isLoading} 
-                  className="flex-1 border-0 bg-transparent p-0 focus:outline-none resize-none w-full" 
+                  placeholder={isMobile ? "What's your project?" : "Ask me anything about your projects"}
+                  disabled={isLoading}
+                  className="flex-1 border-0 bg-transparent p-0 focus:outline-none resize-none w-full placeholder:text-white/40"
                   rows={1}
                   style={{
-                    color: "#1a1a1a",
+                    color: "#ffffff",
                     fontSize: "var(--text-body)",
                     height: input ? "auto" : "24px",
                     minHeight: "24px",
@@ -926,7 +935,7 @@ const Index = () => {
                 <img src={sendButton} alt="Send" style={{
                   width: "var(--icon-md)",
                   height: "var(--icon-md)",
-                  filter: 'brightness(0) saturate(100%) invert(37%) sepia(92%) saturate(2463%) hue-rotate(220deg) brightness(101%) contrast(101%)'
+                  filter: 'brightness(0) saturate(100%) invert(67%) sepia(82%) saturate(2647%) hue-rotate(155deg) brightness(95%) contrast(101%)'
                 }} />
               </button>
             </div>
@@ -935,9 +944,9 @@ const Index = () => {
 
         {/* Footer */}
         <footer className="border-t px-4 text-center" style={{
-          borderColor: "#e0e0e0",
-          color: "#999999",
-          background: isMobile ? "transparent" : "#ffffff",
+          borderColor: "rgba(255,255,255,0.08)",
+          color: "rgba(255,255,255,0.4)",
+          background: "transparent",
           paddingTop: "var(--space-sm)",
           paddingBottom: "var(--space-sm)",
           fontSize: "var(--text-footer)",
@@ -948,13 +957,13 @@ const Index = () => {
           }}>
           By messaging WitAI, you agree to our{" "}
           <a href="/terms" className="underline" style={{
-              color: "#5271ff"
+              color: "#06B6D4"
             }}>
             Terms
           </a>{" "}
           and have read our{" "}
           <a href="/privacy" className="underline" style={{
-              color: "#5271ff"
+              color: "#06B6D4"
             }}>
             Privacy Policy
           </a>
